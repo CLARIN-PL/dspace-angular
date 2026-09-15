@@ -1,5 +1,16 @@
 debug: false
 
+# Polish is the primary repository language; English remains available to
+# international depositors and users.
+defaultLanguage: pl
+languages:
+  - code: pl
+    label: Polski
+    active: true
+  - code: en
+    label: English
+    active: true
+
 ui:
   ssl: false
   host: 0.0.0.0

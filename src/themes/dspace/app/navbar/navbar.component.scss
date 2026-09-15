@@ -1,6 +1,35 @@
 :host {
-  .clarin-logo {
-    height: var(--ds-login-logo-height);
-    width: var(--ds-login-logo-width);
-  }
+  display: block;
+}
+
+.clarin-mobile-nav {
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem 0 2rem;
+}
+
+.clarin-mobile-nav__primary {
+  display: flex;
+  min-height: 52px;
+  align-items: center;
+  border-bottom: 1px solid rgba(0,0,39,.12);
+  color: #000027;
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.clarin-mobile-nav__primary:hover,
+.clarin-mobile-nav__primary:focus-visible {
+  color: #006f4d;
+  text-decoration: none;
+}
+
+.clarin-mobile-nav__system {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 3px solid #00dc82;
+}
+
+.clarin-mobile-nav__system ::ng-deep .ds-menu-item {
+  color: #000027;
 }

@@ -3,18 +3,18 @@
 :root {
 
   @include media-breakpoint-up(md) {
-    --ds-header-logo-height: 40px;
-    --ds-header-height: 80px;
+    --ds-header-logo-height: 52px;
+    --ds-header-height: 116px;
   }
   @include media-breakpoint-down(sm) {
-    --ds-header-logo-height: 50px;
-    --ds-header-height: 90px;
+    --ds-header-logo-height: 44px;
+    --ds-header-height: 106px;
   }
 
   --ds-banner-text-background: rgba(0, 0, 0, 0.58);
   --ds-banner-background-gradient-width: 300px;
 
-  --ds-header-navbar-border-bottom-height: 5px;
+  --ds-header-navbar-border-bottom-height: 0;
 
   /* set the next two properties as `--ds-header-navbar-border-bottom-*`
   in order to keep the bottom border of the header when navbar is expanded */

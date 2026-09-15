@@ -2131,15 +2131,13 @@
   "cookies.consent.save": "Zapisz",
 
   // "cookies.consent.content-notice.title": "Cookie Consent",
-  "cookies.consent.content-notice.title": "Zgoda na ciasteczka",
+  "cookies.consent.content-notice.title": "Zgoda na pliki cookie",
 
   // "cookies.consent.content-notice.description": "We collect and process your personal information for the following purposes: <strong>Authentication, Preferences, Acknowledgement and Statistics</strong>. <br/> To learn more, please read our {privacyPolicy}.",
-  // TODO New key - Add a translation
-  "cookies.consent.content-notice.description": "We collect and process your personal information for the following purposes: <strong>Authentication, Preferences, Acknowledgement and Statistics</strong>. <br/> To learn more, please read our {privacyPolicy}.",
+  "cookies.consent.content-notice.description": "Zbieramy i przetwarzamy informacje w następujących celach: <strong>uwierzytelnianie, preferencje, zgody i statystyki</strong>. <br/> Więcej informacji zawiera nasza {privacyPolicy}.",
 
   // "cookies.consent.content-notice.description.no-privacy": "We collect and process your personal information for the following purposes: <strong>Authentication, Preferences, Acknowledgement and Statistics</strong>.",
-  // TODO New key - Add a translation
-  "cookies.consent.content-notice.description.no-privacy": "We collect and process your personal information for the following purposes: <strong>Authentication, Preferences, Acknowledgement and Statistics</strong>.",
+  "cookies.consent.content-notice.description.no-privacy": "Zbieramy i przetwarzamy informacje w następujących celach: <strong>uwierzytelnianie, preferencje, zgody i statystyki</strong>.",
 
   // "cookies.consent.content-notice.learnMore": "Customize",
   "cookies.consent.content-notice.learnMore": "Dostosuj",
@@ -2163,12 +2161,10 @@
   "cookies.consent.content-modal.service": "usługa",
 
   // "cookies.consent.app.title.accessibility": "Accessibility Settings",
-  // TODO New key - Add a translation
-  "cookies.consent.app.title.accessibility": "Accessibility Settings",
+  "cookies.consent.app.title.accessibility": "Ustawienia dostępności",
 
   // "cookies.consent.app.description.accessibility": "Required for saving your accessibility settings locally",
-  // TODO New key - Add a translation
-  "cookies.consent.app.description.accessibility": "Required for saving your accessibility settings locally",
+  "cookies.consent.app.description.accessibility": "Wymagane do lokalnego zapisania ustawień dostępności",
 
   // "cookies.consent.app.title.authentication": "Authentication",
   "cookies.consent.app.title.authentication": "Logowanie",
@@ -5722,7 +5718,7 @@
 
   // "repository.title.prefix": "DSpace Repository :: ",
   // TODO New key - Add a translation
-  "repository.title.prefix": "DSpace Repository :: ",
+  "repository.title.prefix": "Repozytorium CLARIN-PL",
 
   // "resource-policies.add.button": "Add",
   "resource-policies.add.button": "Dodaj",
@@ -8513,6 +8509,69 @@
   // "metadata-export-search.submit.error.limit-exceeded": "Only the first {{limit}} items will be exported",
   // TODO New key - Add a translation
   "metadata-export-search.submit.error.limit-exceeded": "Only the first {{limit}} items will be exported",
+
+  "language.polish": "Polski",
+  "clarin.header.home_label": "Strona główna Repozytorium CLARIN-PL",
+  "clarin.header.repository": "Repozytorium Zasobów Językowych",
+  "clarin.header.catalogue": "Katalog",
+  "clarin.header.collections": "Kolekcje",
+  "clarin.header.deposit": "Deponowanie",
+  "clarin.header.policies": "Polityki",
+  "clarin.header.clarin_site": "Strona CLARIN-PL",
+  "clarin.header.helpdesk": "Pomoc",
+  "clarin.header.network": "Część europejskiej infrastruktury badawczej CLARIN",
+  "clarin.header.language": "Język interfejsu",
+  "clarin.home.eyebrow": "Zaufany dostęp do polskich zasobów językowych",
+  "clarin.home.title": "Dane językowe gotowe do badań",
+  "clarin.home.lead": "Odkrywaj, cytuj i deponuj polskie zasoby oraz narzędzia językowe. Zapewniamy im długoterminową ochronę i odpowiedzialne udostępnianie.",
+  "clarin.home.search_placeholder": "Szukaj zbiorów, korpusów, narzędzi i publikacji",
+  "clarin.home.advanced_search": "Przeglądaj katalog",
+  "clarin.home.deposit_guide": "Jak zdeponować",
+  "clarin.home.trust_label": "Zobowiązania repozytorium",
+  "clarin.home.trust_title": "Godne zaufania repozytorium badawcze",
+  "clarin.home.trust.pid_title": "Trwałe identyfikatory",
+  "clarin.home.trust.pid_text": "Stabilne identyfikatory Handle wspierają cytowanie.",
+  "clarin.home.trust.curation_title": "Opieka ekspercka",
+  "clarin.home.trust.curation_text": "Każdy depozyt przechodzi kontrolę przed publikacją.",
+  "clarin.home.trust.metadata_title": "Interoperacyjne metadane",
+  "clarin.home.trust.metadata_text": "Bogate opisy ułatwiają odnajdywanie i ponowne użycie.",
+  "clarin.home.trust.preservation_title": "Długoterminowa ochrona",
+  "clarin.home.trust.preservation_text": "Monitorujemy pliki, ich integralność i dostępność.",
+  "clarin.home.quick_label": "Zacznij tutaj",
+  "clarin.home.quick_title": "Skorzystaj z repozytorium",
+  "clarin.home.browse_collections": "Przeglądaj wszystkie kolekcje",
+  "clarin.home.action.deposit_title": "Zdeponuj zasób",
+  "clarin.home.action.deposit_text": "Zaloguj się i przekaż dane do opieki kuratorskiej.",
+  "clarin.home.action.policies_title": "Misja i polityki",
+  "clarin.home.action.policies_text": "Sprawdź, jak zarządzamy, chronimy i udostępniamy zasoby.",
+  "clarin.home.action.lifecycle_title": "Cykl życia zasobu",
+  "clarin.home.action.lifecycle_text": "Poznaj drogę depozytu od zgłoszenia do trwałego dostępu.",
+  "clarin.home.discover_label": "Odkrywaj",
+  "clarin.home.discover_title": "Przeglądaj kolekcję",
+  "clarin.home.search_all": "Przeszukaj wszystkie zasoby",
+  "clarin.home.resources_label": "Ostatnio dodane",
+  "clarin.home.popular_label": "Najczęściej oglądane",
+  "clarin.home.confidence_label": "Zaufanie i transparentność",
+  "clarin.home.confidence_title": "Odpowiedzialny, długoterminowy dostęp",
+  "clarin.home.confidence_text": "Nasze procedury obejmują ocenę depozytów, integralność danych, trwałą identyfikację, dostęp, ochronę i ciągłość działania. Ocena CoreTrustSeal przyznana 17 grudnia 2019 r. dokumentuje weryfikację tych zobowiązań według wymagań 2017–2019.",
+  "clarin.home.confidence_link": "Zobacz deklarację zaufania",
+  "clarin.home.partners_label": "Konsorcjum",
+  "clarin.home.partners_title": "Sześć instytucji, jedna infrastruktura",
+  "clarin.home.partners_link": "O CLARIN-PL",
+  "clarin.footer.description": "Repozytorium Zasobów Językowych CLARIN-PL zapewnia trwały dostęp do polskich danych językowych, narzędzi i wyników badań.",
+  "clarin.footer.repository": "Repozytorium",
+  "clarin.footer.deposit": "Zdeponuj zasób",
+  "clarin.footer.lifecycle": "Cykl życia zasobu",
+  "clarin.footer.policies": "Informacje i polityki",
+  "clarin.footer.about_policies": "Misja i polityki",
+  "clarin.footer.metadata": "Metadane",
+  "clarin.footer.citing": "Jak cytować",
+  "clarin.footer.terms": "Warunki korzystania",
+  "clarin.footer.trust": "Deklaracja zaufania",
+  "clarin.footer.standards": "Standardy i sieci",
+  "clarin.footer.cts_alt": "Ocena CoreTrustSeal przyznana w 2019 roku",
+  "clarin.footer.assessment": "Ocena CoreTrustSeal przyznana 17 grudnia 2019 r. według wymagań 2017–2019.",
+  "clarin.footer.in_clarin": "Usługa europejskiej infrastruktury badawczej CLARIN",
 
 
 }

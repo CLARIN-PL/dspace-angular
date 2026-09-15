@@ -771,3 +771,172 @@
   letter-spacing: 0.01em;
 }
 
+
+/* CLARIN-PL identity layer */
+:host {
+  display: block;
+}
+
+.clarin-pl-header {
+  color: #fff;
+  background: #000027;
+}
+
+.clarin-pl-header__main {
+  border-bottom: 1px solid rgba(255,255,255,.14);
+}
+
+.clarin-pl-header__inner {
+  display: flex;
+  min-height: 80px;
+  align-items: center;
+  gap: clamp(1rem, 2.4vw, 2.5rem);
+}
+
+.clarin-pl-brand {
+  display: inline-flex;
+  min-width: 0;
+  align-items: center;
+  gap: 1rem;
+  color: #fff;
+  text-decoration: none;
+}
+
+.clarin-pl-brand:hover,
+.clarin-pl-brand:focus-visible {
+  color: #fff;
+  text-decoration: none;
+}
+
+.clarin-pl-brand img {
+  width: clamp(160px, 18vw, 220px);
+  max-height: 54px;
+}
+
+.clarin-pl-brand span {
+  max-width: 9rem;
+  padding-left: 1rem;
+  border-left: 1px solid rgba(255,255,255,.32);
+  color: rgba(255,255,255,.72);
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  line-height: 1.25;
+  text-transform: uppercase;
+}
+
+.clarin-pl-navigation {
+  align-self: stretch;
+  align-items: stretch;
+  margin-left: auto;
+}
+
+.clarin-pl-navigation a {
+  display: inline-flex;
+  position: relative;
+  align-items: center;
+  padding: 0 clamp(.55rem, 1vw, 1rem);
+  color: rgba(255,255,255,.86);
+  font-size: .86rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.clarin-pl-navigation a::after {
+  position: absolute;
+  right: .8rem;
+  bottom: 0;
+  left: .8rem;
+  height: 3px;
+  transform: scaleX(0);
+  transform-origin: left;
+  background: #00dc82;
+  content: "";
+  transition: transform .2s ease;
+}
+
+.clarin-pl-navigation a:hover,
+.clarin-pl-navigation a:focus-visible,
+.clarin-pl-navigation a.active {
+  color: #fff;
+  text-decoration: none;
+}
+
+.clarin-pl-navigation a:hover::after,
+.clarin-pl-navigation a:focus-visible::after,
+.clarin-pl-navigation a.active::after {
+  transform: scaleX(1);
+}
+
+.clarin-pl-header__actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.clarin-pl-header__external,
+.clarin-pl-header__help {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: .45rem;
+  color: rgba(255,255,255,.76);
+  font-size: .8rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.clarin-pl-header__external:hover,
+.clarin-pl-header__external:focus-visible,
+.clarin-pl-header__help:hover,
+.clarin-pl-header__help:focus-visible {
+  color: #00dc82;
+  text-decoration: none;
+}
+
+.clarin-pl-menu-toggle {
+  display: none;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border: 1px solid rgba(255,255,255,.3);
+  border-radius: 3px;
+  color: #fff;
+  background: transparent;
+}
+
+.clarin-pl-menu-toggle:hover,
+.clarin-pl-menu-toggle:focus-visible {
+  border-color: #00dc82;
+  color: #000027;
+  background: #00dc82;
+}
+
+@media (max-width: 767.98px) {
+  .clarin-pl-header__inner {
+    min-height: 70px;
+  }
+
+  .clarin-pl-brand span {
+    display: none;
+  }
+
+  .clarin-pl-brand img {
+    width: 168px;
+  }
+
+  .clarin-pl-header__actions {
+    margin-left: auto;
+  }
+
+  .clarin-pl-menu-toggle {
+    display: grid;
+    flex: 0 0 auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .clarin-pl-navigation a::after {
+    transition: none;
+  }
+}

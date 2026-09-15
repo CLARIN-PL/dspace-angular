@@ -1,3 +1,11 @@
-/**
-File for styling the `static-page` component.
- */
+:host {
+  display: block;
+  min-height: 45vh;
+  background: #f5f6f2;
+}
+
+:host > .container {
+  max-width: 1180px;
+  padding-top: clamp(2rem, 5vw, 4.5rem);
+  padding-bottom: clamp(3rem, 6vw, 6rem);
+}

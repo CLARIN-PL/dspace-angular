@@ -1,22 +1,49 @@
-<div id="faq-like">
+<div id="faq-like" class="policy-page">
 
-     <h2>Deposited Item Lifecycle</h2>
-
+     <h2>Deposited Item Lifecycle (ver. 1.01)</h2>
+     <div>
+      <p>References documentation: <a href="https://files.clarin-pl.eu/api/public/dl/8k0_w59k">Editor Manual</a></p>
+     </div>
      <hr />
      <ul id="faqs-list">
-         <li><a href="static/item-lifecycle#submitted-item">Submitted Item</a></li>
-         <li><a href="static/item-lifecycle#edited-item">Edited Item</a></li>
-         <li><a href="static/item-lifecycle#published-item">Published Item</a></li>
-         <li><a href="static/item-lifecycle#modifying-item">Deleting and Modifying of Published Item</a></li>
-         <li><a href="static/item-lifecycle#restricted-submissions">Restricted submissions</a></li>
+         <li><a href="#submitted-item">Submitted Item</a></li>
+         <li><a href="#validated-item">Validated Item</a></li>
+         <li><a href="#curated-item">Curated Item</a></li>
+         <li><a href="#edited-item">Edited Item</a></li>
+         <li><a href="#published-item">Published Item</a></li>
+         <li><a href="#deleting-item">Deleting of Published Item</a></li>
+         <li><a href="#modifying-item">Modifying of Published Item</a></li>
+         <li><a href="#newverisom">Submitting a new version of an Item</a></li>
+         <li><a href="#integrity">Integrity and authenticity</a></li>
+         <li><a href="#restricted-submissions">Restricted submissions</a></li>
      </ul>
      <hr />
 
     <div>
       <h3 id="submitted-item">Submitted Item</h3>
-	      <p>After you <a href="static/deposit">deposit</a> a submission it will be inserted into a
+      <p>After you <a href="deposit">deposit</a> a submission it will be inserted into a
       pool of submitted items. The item is not publicly available and waits for an editor
       to approve (or reject) it.
+      </p>
+    </div>
+
+    <div>
+      <h3 id="validated-item">Validated Item</h3>
+      <ul>
+        <li>Automatic validation of file formats and integrity</li>
+        <li>Manual validation of non-standard formats</li>
+      </ul>
+      <p>Once a data producer submits an item to the repository it is first being automatically validated.
+        Specifically, when the dataset is created, the data files are stored on our cluster.
+        Their MD5 checksums are calculated and corrupted files are immediately repaired using redundant data</p>
+    </div>
+
+     <div>
+      <h3 id="curated-item">Curated Item</h3>
+      <p>Next, the item is curated by a data steward. The task of the data curator is to verify whether the submission
+        meets our requirements with respect to metadata quality and completeness, bitstream consistency and IPR.
+        The curator can return the submission to the data depositor describing the needed changes. This step is repeated until the curator
+        approves the item. The approved item becomes a published item.
       </p>
     </div>
 
@@ -29,10 +56,10 @@
       </p>
     </div>
 
-    <div>
+     <div>
       <h3 id="published-item">Published Item</h3>
       <p>A published item obtains a PID (persistent identifier) which should be used for referencing and citing e.g.,
-      <strong>http://hdl.handle.net/11858/00-097C-0000-0022-F59C-8</strong>. The LINDAT repository will ensure that
+      <strong>http://hdl.handle.net/11858/00-097C-0000-0022-F59C-8</strong>. The CLARIN-PL repository will ensure that
       the PID (more precisely, we use http handle proxy of the PID) will be resolved into a working web page (even if the current
           server infrastructure changes or is moved)
       describing your resource.
@@ -42,36 +69,81 @@
       Published items are available through our search interface, browsing mode. Metadata of all items are submitted to
       search engines and are available through OAI-PMH protocol (several institutes harvest our repository for item's metadata
       e.g., <a href="http://catalog.clarin.eu/vlo/">http://catalog.clarin.eu/vlo/</a>). Bitstreams of public submissions
-          (see <a href="static/item-lifecycle#restricted-submissions">Restricted Submissions</a>) are also available through OAI-ORE protocol.
+          (see <a href="#restricted-submissions">Restricted Submissions</a>) are also available through OAI-ORE protocol.
       </p>
     </div>
 
-
     <div>
-      <h3 id="modifying-item">Deleting and Modifying of Published Item</h3>
-      <p>Anybody can request deletion of published items; however, these will be evaluated on case-by-case basis.
-      Furthermore, we reserve the right to keep the metadata of published submissions available
-      in case there is no specific reason why to delete the metadata. The reason is that it is against
+      <h3 id="deleteing-item">Deleting Published Item</h3>
+      <p>Anybody can request deletion of published data (bitstreams) through our <a class="helpdesk-tolink" href="mailto:dspace@clarin-pl.eu">Help Desk</a>.
+      However, these will be evaluated on case-by-case basis. Furthermore, we reserve the right to keep the metadata of published
+      submissions available in case there is no specific reason why to delete the metadata. The reason is that it is against
       the concept of PIDs (<strong>persistent</strong> identifiers).
       All PIDs are available through OAI-PMH interface even if only to inform that the item
       has been deleted.
       </p>
+    </div>
 
-      <p>We allow for minor edits of the submission (e.g., typos) through our <strong>Help Desk</strong>. These are also
-          evaluated on case-by-case basis. For major changes, the user is requested to submit a
-          <a href="https://github.com/ufal/clarin-dspace/wiki/New-Version-Guide">new version</a>
-          of that item and we will indicate in the metadata that it is replaced by a newer version.
+    <div>
+    <h3 id="modifying-item">Modifying a Published Item</h3>
+      <p>We allow for minor edits of the submission (e.g., typos) through our <a class="helpdesk-tolink" href="mailto:dspace@clarin-pl.eu">Help Desk</a>.
+      We also allow certain additions to the metadata or data, e.g. adding keywords, adding information on a new publication
+      about the submission or adding new bitstreams which are derived from existing ones, i.e. making the same data
+      available in additional formats. Suggestions for such edits are also evaluated on case-by-case basis. In cases of more
+      substantial changes, the user must make a new version of the entry, and the metadata will show that the entry has been
+      superseeded by a newer version. Note also that the repository editors might make small changes to the metadata in well
+      defined circumstances (i.e. correcting typos, removing URLs that no longer work, or unifying keywords) even after
+      the item has been published.
+      </p>
+    </div>
+
+    <div>
+      <h3 id="newverisom">Submitting a new version of an Item</h3>
+      <p>If a new version of a resource was created, you need to create a new submission. However, you do not
+        (in fact, should not) create a new submission from scratch, but follow the following procedure:</p>
+
+      <ol>
+        <li>Log in and go to the list of your existing Submissions. You can only create a new version from your previous submission, not from somebody else's – to do it yourself, you have to ask them to perform steps 1 – 3 in this list and Save and Share the entry with you, and then you will be able to finish it.</li>
+        <li>Scroll down to Archived Submissions, tick the select box of the record you want to create a new version of, and select "Add new version".</li>
+        <li>This creates a cloned record for you, just as if you created a new submission. This new submission has all the metadata from the previous one already copied. Click "Resume". Now you are in the submission workflow.</li>
+        <li>Modify the metadata you want changed. You should at least modify the title by deleting the automatically generated date, giving it a new version number, and, at the end of the description, briefly describing the differences to the previous version. If the size of the resource has changed, you should also modify the size information.</li>
+        <li>Upload the data of the new version and finish the submission as usual.</li>
+      </ol>
+      <p>Once the submission is finished, the old and new versions are automatically connected, so that the users can see that newer / older version(s) of the resource exists.</p>
+      <p>A more detailed description, together with screenshots is availble from the <a href="https://github.com/ufal/clarin-dspace/wiki/New-Version-Guide">GitHub
+	  CLARIN-DSPACE</a> site.</p>
+    </div>
+
+     <div>
+      <h3 id="integrity">Integrity and authenticity of the archived data</h3>
+      <p>
+      We verify the integrity and authenticity of the archived data at all stages of the item’s lifecycle, both automatically and manually.
+      The depositor’s identity is verified either through a local account or via a Shibboleth account, which provides verified personal
+      attributes such as name and email address. Each deposited item is linked to the Data Producer’s account, and only the
+      Data Producer is authorized to edit, manage, and submit changes to their item prior to deposition.
+      </p>
+      <p>
+      After the review and acceptance by the data curator, the item is published, and its version becomes fixed — the content of the published
+      bitstreams is immutable. Minor post-publication modifications (e.g., correction of typos, addition of keywords, or inclusion of derived
+      data formats) may be made upon justified request via the <a class="helpdesk-tolink" href="mailto:dspace@clarin-pl.eu">Help Desk</a> and are evaluated
+      on a case-by-case basis. In cases of more substantial revisions, a new version of the item must be created, and the metadata will
+      indicate that the earlier version has been superseded.
+      </p>
+      <p>
+        The repository also maintains provenance data and audit trails to ensure traceability and transparency.
+        Logged-in users have access to detailed information about all changes related to a submitted item, available in
+        the metadata field dc.description.provenance. This information can be viewed in the full metadata
+        description mode (e.g., <a href="https://clarin-pl.eu/dspace/handle/11321/741?show=full">see here</a>).
       </p>
     </div>
 
     <div>
       <h3 id="restricted-submissions">Restricted Submissions</h3>
-      <p>First of all, all metadata are always publicly available. We
-      support open access submissions; however, we also support
+      <p>First of all, all metadata are always publicly available. We support open access submissions; however, we also support
       <strong>restrictive licences</strong> for bitstreams which require e-signing before downloading the bitstreams.
       We keep track of these e-signatures in case there are IPR infringements.</p>
 
-       <p><a href="licenses">See currently available licenses</a> or <a class="helpdesk-tolink" href="#">ask us</a>
+       <p><a href="/licenses">See currently available licenses</a> or <a class="helpdesk-tolink" href="mailto:dspace-pl.eu">ask us</a>
       to add a specific one.</p>
 
       <p>We also support putting embargo on bitstreams which means that the bitstreams become publicly available

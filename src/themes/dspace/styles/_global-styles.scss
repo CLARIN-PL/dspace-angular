@@ -58,3 +58,237 @@ header {
   background-color: #428bca !important;
   border-color: #428bca !important;
 }
+
+/* CLARIN-PL shared visual language */
+body {
+  color: #14152f;
+  background: #fff;
+  font-family: Inter, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid #00dc82;
+  outline-offset: 3px;
+}
+
+.btn-primary {
+  border-color: #000027;
+  color: #fff;
+  background-color: #000027;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  border-color: #006f4d;
+  color: #000027;
+  background-color: #00dc82;
+}
+
+.policy-page {
+  position: relative;
+  padding: clamp(1.5rem, 4vw, 3.5rem);
+  border-top: 5px solid #00dc82;
+  color: #26283a;
+  background: #fff;
+  box-shadow: 0 1.25rem 4rem rgba(0,0,39,.08);
+}
+
+.policy-page::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: min(24vw, 240px);
+  height: min(24vw, 240px);
+  opacity: .07;
+  background-image:
+    linear-gradient(#000027 1px, transparent 1px),
+    linear-gradient(90deg, #000027 1px, transparent 1px);
+  background-size: 24px 24px;
+  content: "";
+  pointer-events: none;
+}
+
+.policy-page__eyebrow {
+  margin: 0 0 .8rem;
+  color: #007f57;
+  font-size: .75rem;
+  font-weight: 800;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.policy-page > h1,
+.policy-page > h2:first-of-type {
+  position: relative;
+  max-width: 18ch;
+  margin: 0 0 1.4rem;
+  color: #000027;
+  font-size: clamp(2.2rem, 5vw, 4.4rem);
+  font-weight: 800;
+  letter-spacing: -.045em;
+  line-height: 1.02;
+}
+
+.policy-page__lead {
+  max-width: 75ch;
+  margin-bottom: 2rem;
+  color: #5e6172;
+  font-size: 1.08rem;
+  line-height: 1.75;
+}
+
+.policy-page__toc {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: .55rem;
+  margin: 2rem 0 3rem;
+  padding: 1rem;
+  border: 1px solid rgba(0,0,39,.12);
+  background: #f5f6f2;
+  list-style: none;
+}
+
+.policy-page__toc a {
+  display: block;
+  padding: .7rem .8rem;
+  color: #000027;
+  font-weight: 700;
+}
+
+.policy-page__toc a:hover,
+.policy-page__toc a:focus-visible {
+  color: #006f4d;
+  background: #fff;
+  text-decoration: none;
+}
+
+.policy-section {
+  max-width: 82ch;
+  padding: 2.3rem 0;
+  border-top: 1px solid rgba(0,0,39,.14);
+}
+
+.policy-section h2,
+.policy-section h3 {
+  color: #000027;
+  font-weight: 800;
+  letter-spacing: -.025em;
+}
+
+.policy-section h2 {
+  font-size: clamp(1.7rem, 3vw, 2.45rem);
+}
+
+.policy-section h3 {
+  margin-top: 1.7rem;
+  font-size: 1.25rem;
+}
+
+.policy-section p,
+.policy-section li {
+  line-height: 1.75;
+}
+
+.policy-section a,
+.policy-callout a {
+  color: #006f4d;
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.policy-callout {
+  margin: 2rem 0;
+  padding: 1.35rem 1.5rem;
+  border-left: 5px solid #00dc82;
+  color: #000027;
+  background: #ecfff7;
+}
+
+.policy-callout--dark {
+  border-left: 0;
+  color: #fff;
+  background: #000027;
+}
+
+.policy-callout--dark a {
+  color: #00dc82;
+}
+
+.policy-steps,
+.trust-requirements {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.policy-step,
+.trust-requirement {
+  padding: 1.4rem;
+  border: 1px solid rgba(0,0,39,.14);
+  background: #fff;
+}
+
+.policy-step__number,
+.trust-requirement__code {
+  display: inline-block;
+  margin-bottom: .7rem;
+  color: #007f57;
+  font-size: .74rem;
+  font-weight: 900;
+  letter-spacing: .12em;
+}
+
+.policy-step h2,
+.policy-step h3,
+.trust-requirement h2,
+.trust-requirement h3 {
+  margin: 0 0 .6rem;
+  color: #000027;
+  font-size: 1.12rem;
+}
+
+.policy-step p,
+.trust-requirement p {
+  margin: 0;
+  color: #5e6172;
+  line-height: 1.65;
+}
+
+.policy-figure {
+  margin: 1.5rem 0 2.5rem;
+  padding: 1rem;
+  border: 1px solid rgba(0,0,39,.12);
+  background: #f5f6f2;
+  text-align: center;
+}
+
+.policy-figure img {
+  max-width: 100%;
+  height: auto;
+  box-shadow: 0 .8rem 2rem rgba(0,0,39,.12);
+}
+
+.policy-figure figcaption {
+  margin-top: .75rem;
+  color: #666a7a;
+  font-size: .82rem;
+}
+
+@media (max-width: 767.98px) {
+  .policy-page {
+    margin-inline: -.75rem;
+    padding: 1.5rem;
+  }
+
+  .policy-steps,
+  .trust-requirements {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,29 +1,72 @@
-<div id="faq-like">
+<div id="faq-like" class="policy-page">
 
-	<h2 id="ufal-point-faq">LINDAT/CLARIAH-CZ repository About and Policies</h2>
-	<div>hosted at <a href="http://ufal.mff.cuni.cz/">Institute of Formal and Applied Linguistics, Charles University</a></div>
+	<h2 id="ufal-point-faq">CLARIN-PL Repository - About and Policies</h2>
+	<div>Hosted and maintained by the <a href="https://clarin-pl.eu/">CLARIN-PL</a> personel at <a href="https://pwr.edu.pl/en/">WUST</a></div>
 
     <hr />
 	<ul id="faqs-list">
-		<li><a href="static/about#mission-statement">Mission Statement</a></li>
-		<li><a href="static/about#terms-of-service">Terms of Service</a></li>
-		<li><a href="static/about#about-repository">About Repository</a></li>
-		<li><a href="static/about#about-ufal">About UFAL</a></li>
-		<li><a href="static/about#about-contracts">License Agreement and Contracts</a></li>
-		<li><a href="static/about#about-ipr">Intellectual Property Rights</a></li>
-		<li><a href="static/about#privacy-policy">Privacy Policy</a></li>
-		<li><a href="static/about#metadata-policy">Metadata Policy</a></li>
-		<li><a href="static/about#preservation-policy">Preservation Policy</a></li>
-		<li><a href="static/cite">Citing Data Policy</a></li>
+		<li><a href="#about-repo-policy">About the Repository and its Policies</a></li>
+		<li><a href="#mission-statement">Mission Statement</a></li>
+		<li><a href="#ethical-statement">Repository Data Ethics</a></li>
+		<li><a href="#privacy-policy">Privacy Policy</a></li>
+		<li><a href="#citing-data-policy">Citing Data Policy</a></li>
+		<li><a href="#about-contracts">License Agreement and Contracts</a></li>
+		<li><a href="#about-ipr">Legal Issues Concerning Source Data</a></li>
+		<li><a href="#metadata-policy">Metadata Policy</a></li>
+		<li><a href="#preservation-policy">Preservation Policy</a></li>
+		<li><a href="#terms-of-service">Terms of Service</a></li>
 	</ul>
     <hr />
+
 	<div>
-		<h3 id="mission-statement">Mission Statement</h3>
+		<h3 id="about-repo-policy">About the Repository and its Policies</h3>
 		<br/>
 		<p>
-			The ultimate objective of CLARIN ERIC (which LINDAT/CLARIAH-CZ is part of) is to advance research in humanities
-			and social sciences	by giving	researchers unified single sign-on access to a platform which integrates language-based resources and advanced tools at a European level. This shall be implemented by the construction and operation of a shared distributed infrastructure that aims at making language resources, technology and expertise available to the humanities and social sciences (henceforth abbreviated HSS) research communities at large.
-            See more information about <a href="/about-lindat-clarin">LINDAT/CLARIAH-CZ</a>.
+		The CLARIN-PL research infrastructure is the Polish national node of the European Research Infrastructure for
+		Language Resources and Technology <a href="https://www.clarin.eu/">CLARIN ERIC</a> and provides, as one of its services, the CLARIN-PL repository of language resources and tools.
+		</p>
+		<p>
+		The CLARIN-PL digital repository platform is hosted and maintained by personel of Wroclaw University of Science and Technology <a href="https://pwr.edu.pl/en/">WUST</a>.
+		The hardware infrastructure is located at the Wrocław Centre for Networking and Supercomputing (WCSS).
+		</p>
+		<p>
+		In the repository we follow the standard principles of a high quality digital repository, such as the usage of persistent identifiers,
+		a federated authorisation and authentication mechanism and structured, standardized and accessible metadata data formats.
+		</p>
+		<p>
+			The policies presented here describe the methods and practices used in the preservation of datasets, metadata and data integrity.
+			They integrate with existing IT and network security policies at WUST and with the Wrocław Centre for Networking and Supercomputing and
+			implement best practice guidelines and standards set forth by CLARIN and <a href="https://www.coretrustseal.org/">Core Trust Seal</a>.
+		</p>
+
+		<p>
+			The CLARIN-PL Repository supports a broad range of metadata and data exchange protocols to ensure interoperability and accessibility.
+			These include OAI-PMH, OAI-ORE, and a number of domain-specific formats and interfaces such as ELG, MODS, METS, OAI_DC, DIM, HTML, OAI_MetashareV2,
+			OLAC, and BibTeX. Metadata records are provided in multiple formats, ranging from the widely adopted Dublin Core standard to the
+			more specialized CMDI (Component Metadata Infrastructure) format, enabling both general discovery and domain-specific resource description and reuse.
+		</p>
+		<ul>
+			<li>OAI endpoint identification - /server/oai/request?verb=Identify</li>
+			<li>OAI formats - /server/oai/request?verb=ListMetadataFormats</li>
+		</ul>
+
+		<p>CLARIN-PL repository policies have the following goals:</p>
+
+		<ul>
+			<li>Ensuring the usability and accessibility of the deposited data, including <a href="https://www.go-fair.org/fair-principles/">FAIR principles</a>.</li>
+			<li>Providing a well maintained metadata and data acquisition, publication, and archival path.</li>
+			<li>Ensuring that all datasets have complete and accurate metadata and are discoverable using the metadata.</li>
+			<li>Enforcing licencing of the datasets and restricting their use according to licences provided.</li>
+			<li>Ensuring the quality and integrity of datasets in the repository both with physical and digital security.</li>
+		</ul>
+
+	</div>
+
+	<div>
+		<h3 id="mission-statement">CLARIN Mission Statement</h3>
+		<br/>
+		<p>
+			The ultimate objective of CLARIN ERIC is to advance research in humanities and social sciences by giving researchers unified single sign-on access to a platform which integrates language-based resources and advanced tools at a European level. This shall be implemented by the construction and operation of a shared distributed infrastructure that aims at making language resources, technology and expertise available to the humanities and social sciences (henceforth abbreviated HSS) research communities at large.
 		</p>
 		<p>
 			To know more about CLARIN ERIC visit <a href="http://www.clarin.eu/sites/default/files/centres-CLARIN-ShortGuide.pdf">CLARIN-ShortGuide.pdf</a>
@@ -31,130 +74,360 @@
 	</div>
 	<br/>
 	<div>
-		<h3 id="terms-of-service">Terms of Service</h3>
-		<p>
-		To achieve our mission statement,we set out some ground rules through the <a href="static/terms-of-service">Terms of Service</a>. By accessing or using any kind of data or services provided by the Repository, you agree to abide by the Terms contained in the above mentioned document.
-        </p>
-        <p>
-        Data in LINDAT/CLARIAH-CZ repository are made available under the licence attached to the resources. In case there is no licence, data is made freely available for access, printing and download for the purposes of non-commercial research or private study.
-
-		Users <strong>must</strong> acknowledge in any publication, the Deposited Work using a persistent identifier (see <a href="static/cite">Citing Data</a>), its original author(s)/creator(s), and any publisher where applicable. Full items must not be harvested by robots except transiently for full-text indexing or citation analysis. Full items must not be sold commercially unless explicitly granted by the attached licence without formal permission of the copyright holders.
-        </p>
-	</div>
-
-	<br/>
-	<div>
-		<h3 id="about-repository">About Repository</h3>
-		<p>It is like a library for linguistic data and tools.</p>
+		<h3 id="mission-statement-pl">CLARIN-PL Mission Statement</h3>
+		<br/>
+		The Repository “CLARIN-PL Centre” gives access to language resources and tools from the Wroclaw University of Technology,
+		Department of Computational Intelligence and other CLARIN-PL Members.
+		<br/>
+		The CLARIN-PL Centre stores the resources and tools according to the mission:
 		<ul>
-			<li>Search for data and tools and easily download them.</li>
-			<li>Deposit the data and be sure it is safely stored, everyone
-				can find it, use it, and correctly cite it (giving you credit)</li>
+			<li>To promote the knowledge and the use of the Polish language, by conducting scientific applied
+				research.
+			</li>
+			<li>To stimulate and coordinate the scientific description of the Polish vocabulary and grammar in all
+				its aspects through the ages.
+			</li>
+			<li>To produce, link and give access to source material for Polish in the form of historical and current
+				corpora, dictionaries, lexical digital databases, grammars and the accompanying tools.
+			</li>
 		</ul>
+		Please check the provided <a href="https://files.clarin-pl.eu/api/public/dl/GQmh8Rss/pdfs/misja-eng.pdf">link</a> to see official mission statement document.
+	</div>
+	<br/>
+
+	<div>
+		<h3 id="ethical-statement">Repository Data Ethics</h3>
+		<p>
+		The CLARIN-PL repository ensures, to the extent possible, that data are created, curated, accessed, and used in compliance with
+		disciplinary and ethical norms. To achieve our mission statement, we set out some ground rules regarding access and use in the <a href="./terms-of-service">Terms of Service</a>.
+		</p>
+		<p>
+		Data in the CLARIN-PL repository are made available under the licence attached to the resources. In any publication users must acknowledge the
+		Deposited Work using its persistent identifier (see <a href="./cite">Citing Data</a>), its original author(s)/creator(s),
+		and any publisher, where applicable. Full items must not be harvested by robots except transiently for full-text indexing or citation analysis.
+		Full items must not be sold commercially (unless they are explicitly granted by the attached licence) without formal permission of the copyright holders.
+		</p>
+		<p>
+			The submitters <a href="https://clarin-pl.eu/dspace/page/contract">acknowledge during the submission</a> that they have the right to distribute the data and that they also have the right to grant the repository
+			permission to distribute the data on their behalf. Acknowledgement that submitter has the right to distribute the data in the first place includes
+			resolving possible legal issues, because if these are not resolved the submitter does not have the right to distribute the data.
+		</p>
 	</div>
 	<br/>
 	<div>
-		<h3 id="about-ufal">About UFAL</h3>
+		<h3 id="privacy-policy">Privacy Policy</h3>
+		<p>Read our <a href="https://pwr.edu.pl/en/privacy-policy">Privacy Policy</a> in order to learn how we manage personal data collected by the CLARIN-PL repository and services.
+        </p>
+	</div>
+	<br/>
+	<div>
+		<h3 id="citing-data-policy">Citing Policy</h3>
 		<p>
-		The Institute of Formal and Applied Linguistics (UFAL) at the Computer Science School, Faculty of Mathematics and Physics, Charles University, Czech Republic was established in 1990 as a continuation of the research and teaching activities carried out by the former Laboratory of Algebraic Linguistics since the early 60s at the Faculty of Philosophy and later at the Faculty of Mathematics and Physics, Charles University in Prague, is a primarily research department working on many topics in the area of Computational Linguistics, and on many research projects both nationally and internationally. However, the Institute of Formal and Applied Linguistics is also a regular department in the sense that it carries a comprehensive teaching program both for the Master's degree (Mgr., or MSc.) as well as for a doctorate (Ph.D.) in Computational Linguistics. Both programs are taught in Czech and English. The Institute is also a member of the double-degree "Master's LCT programme" of the EU. Students also can take advantage of the Erasmus program for typically semester-long stays at partner Universities abroad.
-		</p>
+        Read our <a href="./cite">Citing Data Policy</a>  in order to learn how the data from the CLARIN-PL repository must be cited.
+        </p>
+		<p>The entries in the repository often refer to publications available on the Web that describe the data of the entry in more detail. For the URIs of these
+			publications we strongly encourage the use of Permanent Identifiers (e.g. DOI), whenever they are available.</p>
 	</div>
 	<br/>
 	<div>
 		<h3 id="about-contracts">License Agreement and Contracts</h3>
-		<p>At the moment, UFAL distinguishes three types of contracts.</p>
+		<p>At the moment, CLARIN-PL distinguishes three types of contracts.</p>
 		<ul>
-			<li>For every deposit, we enter into a standard contract with the submitter, the so-called <a id="distribution-link" href="contract">"Distribution License Agreement"</a> , in which we describe our rights and duties and the submitter acknowledges that they have the right to submit the data and gives us (the repository centre) right to distribute the data on their behalf. Note that the linked page is dynamic, when you get there from the submission workflow it shows you the contract only for the current collection, otherwise it shows you the contracts to all the collections you can submit into.</li>
-			<li>Everyone who downloads data is bound by the licence assigned to the item - in order to download protected data, one has to be authenticated and needs to electronically sign the licence. A list of available licenses in our repository can be found <a href="licenses" id="available-licenses">here.</a></li>
+			<li>For every deposit, we enter into a standard contract with the submitter, the so-called <a id="distribution-link" href="/contract">"Deposition License Agreement"</a>, in which we describe our rights and duties and the submitter acknowledges that they have the right to submit the data and gives us (the repository centre) right to distribute the data on their behalf.</li>
+			<li>Everyone who downloads data is bound by the licence assigned to the item - in order to download protected data, one has to be authenticated and needs to electronically sign the licence. A list of available licenses in our repository can be found <a href="/licenses" id="available-licenses">here.</a></li>
 			<li>For submitters, there is a possibility for setting custom licences to items during the submission workflow.</li>
 		</ul>
 	</div>
 	<br/>
-	<div>
-		<h3 id="about-ipr">Intellectual Property Rights</h3>
+
+	<div >
+	<h3 id="about-ipr">Legal Issues Concerning Source Data</h3>
+	<p>As mentioned in the section <a href="#about-contracts">License Agreement and Contracts</a>, we
+	require the depositor of data or tools to sign a <a href="/contract">Distribution License
+	Agreement</a>, which specifies that they have the right to submit the data and gives us (the
+	repository centre) the right to distribute the data on their behalf. This means that depositors are
+	solely responsible for taking care of IPR issues before publishing data or tools by submitting them to
+	us.
+		</p>
 		<p>
-As mentioned in the section <a href="static/about#about-contracts">License Agreement and Contracts</a>, we require the depositor of data or tools to sign a Distribution License Agreement, which specifies that they have the right to submit the data and gives us (the repository centre) right to distribute the data on their behalf. This means that depositors are solely responsible for taking care of IPR issues before publishing data or tools by submitting them to us.
-<br/>
-Should anyone have a suspicion that any of the datasets or tools in our repository violate Intellectual Property Rights, they should contact us immediately at our help desk.
-</p>
-	</div>
-	<br/>
+		Submissions are reviewed by the repository staff (editors). For language data, in particular
+		language corpora, three legal issues are considered. The first is the copyright on the original texts,
+		which in Poland is regulated by  the <a href="https://isap.sejm.gov.pl/isap.nsf/DocDetails.xsp?id=wdu19940240083">Copyright and Related Rights Act,
+		Dz.U. 1994 nr 24 poz. 83</a>; the second is the protection of personal data, regulated in Poland by the <a href="https://isap.sejm.gov.pl/isap.nsf/DocDetails.xsp?id=WDU20180001000">Personal Data Protection Act,
+		Dz.U. 2018 poz. 1000</a> as well as <a href="http://data.europa.eu/eli/reg/2016/679/oj">GDPR</a>, and the third - for corpora, where the texts have
+		been harvested from social media platforms, for example - is the  terms-of-use of the owner of the platform. The first two issues are also balanced
+		against the public good that follows from releasing the dataset. If the editors are in doubt about the compliance of the dataset with applicable laws or
+		regulations, they request more information from the submitter or refuse to publish the submission. If special conditions apply, they can be addressed in
+		a distribution license tailored specifically for the particular item. There is also the possibility, in cooperation with the submitters, to use various
+		tools to modify the data so that they do not infringe laws, e.g. to release only samples of integral texts or to shuffle their sentences to avoid
+		copyright infringement while retaining linguistic content, or to anonymise texts using named entity recognition
+		tools to locate and replace personal data to avoid its disclosure or to implement the right to be
+		forgotten, which is esp. relevant for corpora containing older newspaper texts.
+		</p>
+		<p>The repository so far has no submissions containing confidential data or data with disclosure risk
+		which cannot be anonymised, and we do not expect this to change in the future. Most of our data is
+		Open Access or distributed under similar public licenses, in particular variants of
+		the <a href="https://creativecommons.org/licenses/">Creative Commons licences</a>. Substantially less
+		data is available under custom licenses, which are, however, still rather permissive (e.g.  academic
+		restriction and no redistribution). Given that the mission of the repository is to make widely
+		available data, we currently do not accept items that would contain confidential data or data with
+		disclosure risk. It should be noted that
+		the <a href="https://www.clarin.eu/governance/legal-issues-committee">CLARIN Legal and Ethical Issues
+		Committee</a> (which CLARIN-PL contributes to) organises training sessions in the legal and ethical
+		management and distribution of text data.
+		</p>
+  </div>
 
-	<div>
-		<h3 id="privacy-policy">Privacy Policy</h3>
-		<p>Read our <a href="https://lindat.mff.cuni.cz/policy">Privacy Policy</a> in order to learn how we manage personal data collected by the LINDAT/CLARIAH-CZ repository and services.
-        </p>
-	</div>
-	<br/>
-
+  <br/>
     <div>
 		<h3 id="metadata-policy">Metadata Policy</h3>
 		<p>
-	   Deposited content must be accompanied by <a href="static/metadata">sufficient metadata</a> describing its content, provenance and formats in order to support its preservation and dissemination. Metadata are freely accessible and are distributed in the public domain (under <a href="http://creativecommons.org/about/cc0">CC0</a>). However, we reserve the right to be informed about commercial usage of metadata from LINDAT/CLARIAH-CZ repository including a description of your use case at <a class="helpdesk-tolink" href="#">Help Desk</a>.
+         Deposited content must be accompanied by <a href="metadata">sufficient metadata</a> describing its content, provenance and formats in
+		 order to support its preservation and dissemination. Metadata are freely accessible and are distributed in the public domain
+		 (under <a href="http://creativecommons.org/about/cc0">CC0</a>). However, we reserve the right to be informed about commercial usage of
+		 metadata from CLARIN-PL repository including a description of your use case at <a class="helpdesk-tolink" href="mailto:dspace@clarin-pl.eu">Help Desk</a>.
         </p>
 	</div>
-	<br/>
 
+	<br/>
     <div>
 		<h3 id="preservation-policy">Preservation Policy</h3>
 		<p>
-			LINDAT/CLARIAH-CZ is committed to the long-term care of items deposited in the repository, to preserve the
-			research and to help in keeping research replicable and strives to adopt the
-			current best practice in digital preservation. See the <a href="static/about#mission-statement">Mission Statement</a>.
-			We follow best practice guidelines, standards and regulations set forth by CLARIN, OAIS and/or Charles
-			University.
+		CLARIN-PL is committed to the long-term care of items deposited in our repository and strives to adopt the current
+		best practice in digital preservation. The CLARIN-PL centre will ensure preservation and access to the data in this
+		repository as long as sufficient funding is available.
+		</p>
+
+		<h4 id="integrity-authenticity">Repository data integrity and authenticity</h4>
+		<p>
+		Users can deposit new items by using a web-based submission workflow or engaging directly with an
+		editor where the editor performs the deposition. Only registered users can deposit items and the
+		registration can be performed only when users have an academic account at one of the member
+		institutions of our identity federation. Thus the academic institutions are responsible for verifying
+		the user identity. Provenance information is kept for each repository item from the moment the item is
+		created.  Once the item is approved, only the administrators are able to change its (meta)data. The
+		data producers can refer to the <a href="item-lifecycle">Deposited Item Lifecycle page</a> to get
+		acquainted with the details or ask our <a class="helpdesk-tolink" href="mailto:dspace@clarin-pl.eu">Help Desk</a> directly.
 		</p>
 		<p>
-			In order to stay a reliable and trustworthy repository, we undergo periodical assessments by CLARIN ERIC and
-			<a href="https://hdl.handle.net/11234/6-CTS">CTS</a> (formerly DSA).
+		The editors review the deposited items with the help of tools that are made available to further
+	validate the metadata (e.g., checking URLs in the metadata), and set the appropriate level of support
+		for the submitted file formats. In this way, the deposited items are reviewed by qualified personnel
+		to ensure the presence of necessary metadata, the compliance of data formats with accessibility, best
+		practices and long-term preservation requirements, as well as data integrity and quality and any
+		potential legal issues.
 		</p>
 		<p>
-			To fulfill the commitments, the repository ensures that datasets are ingested and distributed in
-			accordance with their license (see <a href="static/about#about-contracts">agreements and contracts</a>). Sometimes
-			(for licenses that do not permit public access) this means only authorized users can access the dataset.
+		To verify that a digital object has not been altered or corrupted, the repository periodically
+		ensures the integrity of the data at all stages of its life. The checks include verification of the
+		md5 checksums of the objects, checking that all required metadata are present, and testing that URLs
+		are working. The results of these weekly checks are automatically sent to the repository staff.
 		</p>
 		<p>
-			The submission workflow as described in <a href="static/deposit">deposit</a> and the work of our editors ensures
-			discoverability (by requiring accurate <a href="static/about#metadata-policy">metadata</a>) via our search engine,
-			externally through OAI-PMH  and in page metadata for certain web crawlers. Metadata are freely accessible.
+		We do not support changing submitted data. To implement any change in the data, a new version of
+	the dataset <a href="item-lifecycle#newversion-item">must be created as a new repository item</a>.
+	In this way, we can enforce reproducibility of results using the dataset and a clear meaning of
+	what a PID (persistent identifier) refers to. The new and the old version(s) have a relation
+	added to their metadata and are visually represented on the web page.
+	Metadata, specifically small fixes, can be changed and new relationships added even after the item
+	is published.  While the data cannot be changed, it can be added to in well defined circumstances.
+	In particular, if it turns out that a new format of the data is required by the user community,
+	the data in this format can be added to an existing entry. An audit trail is automatically maintained by the repository for all operations on a
+	dataset, including changes to the metadata, which are recorded in the provenance metadata.
+		</p>
+
+		<h4 id="staff-responsibilities">Responsibilities of repository staff</h4>
+
+		<p>Access to repository administration functions is strictly limited to authorized staff. All staff
+	involved with repository maintenance and daily operations have well defined roles and are made aware
+	of the present policies and their roles in assisting and in implementing this preservation policy as
+	appropriate to their roles and responsibilities.</p>
+		<p>Repository editors are members of staff that are proficient in preservation policy, deposition and
+	metadata requirements, data format compliance with accessibility, long term preservation requirements
+	and other best practices, as well as data integrity, data quality, legal and licensing
+	requirements.</p>
+
+		<h4 id="disaster-recovery">Operational continuity and disaster recovery</h4>
+
+		<p>The CLARIN-PL repository infrastructure is hosted in two physically separate computer centres at
+	the WUST and WCSS. The WCSS provides network security, border monitoring and protection (firewalls,
+	logging, security advisory and assessments). The datasets we consider for security and preservation
+	consist of multiple components: (1) submitted datasets (files or bytestreams), (2) metadata for the
+	repository and datasets, (3) repository software and its configuration, (4) the underlying operating
+	system instances along with their configuration and logs for the repository and related services, and
+	(5) exported backups of configuration and databases for related service instances.</p>
+
+		<p>Each component has its own data security and backup policy and implementation. Specifically, system
+		images are checkpointed before any configuration changes or updates and regular replication of system
+		images to a secondary location is performed. Files representing datastreams are backed up as
+		independent files. All databases undergo regular daily database exports which are backed up and
+		replicated by a different mechanism from the operating system image backup. The same approach to
+		database consistency is implemented for databases used in service instances, with the exception of
+		specialized databases automatically created from available datasets where the original data and
+		transformation scripts are the main back-up strategy.</p>
+
+		<p>In order to ensure consistent operation aligned with modern standards and best practices, the
+	repository follows a regular upgrade cycle and, where possible, existing and widely accepted best
+	practices. Currently, this is implemented inside the secure high-availability environment of the WCSS
+	IT infrastructure and by the use of the widely deployed CLARIN-DSpace platform, which is, in turn,
+	based on the well supported open-source DSpace platform, but adapted for archiving and distributing
+	language resources. The platform is available on GitHub at <a href="https://github.com/ufal/lindat-dspace">https://github.com/ufal/clarin-dspace</a>
+	and the fork for CLARIN-PL at <a href="https://github.com/CLARIN-PL/clarin-pl-dspace">https://github.com/CLARIN-PL/clarin-pl-dspace</a>.
 		</p>
 		<p>
-			There are various automated procedures including fixity checks, to ensure integrity of the submitted
-			datasets and completeness of metadata. On the
-			system level we employ various on-site and off-site backup strategies and hardware monitoring. The
-			datasets are accessible online.
-		</p>
-        <p>
-			We view data and tools as primary research outputs, each submission receives a Persistent IDentifier for reference and
-			the users are <a href="static/cite">guided to</a> use them. Changes in a dataset after it has been published are
-			not permitted, new submission is required instead. The old and new submissions are linked through their
-			metadata (see <a href="https://github.com/ufal/clarin-dspace/wiki/New-Version-Guide">new version
-			guide</a> 	for more details).
+			DSpace is based on the OAIS reference model and the implementation follows a list of standards that are relevant for the CLARIN community.
+			In case of a future change, CLARIN-PL repository is bound to fulfil similar requirements.
 		</p>
 		<p>
-			Through regular participation in CLARIN activities, Open Repositories and various other meetings, schools
-			and conferences, the repository staff is informed of new developments in technologies and/or initiatives.
+			The CLARIN-PL implementation is an adapted and localized version of the CLARIN/LINDAT repository distribution. It tracks its production-grade
+			upstream version and is deployed in virtualised OS instances on an cluster consisting of multiple application servers that is configured
+			to provide a fault-tolerant environment supporting multiple instances. This includes a beta-server instance that is used to test upgrade cycles,
+			as well as a data storage system with a hardware RAID controller and RAID-6 configured for high-grade loss prevention and versioned snapshots,
+			replication and back-ups. In addition, the environment supports a distributed filesystem running on application server local disks that supports
+			high-availability within the cluster for local volumes, file-level back-ups as well as application-image level back-ups.
 		</p>
-		<p>
-			The various export options offered by the repository system (DSpace) ensures that data and their metadata
-			are not locked in and can be moved to a different repository system.
+
+		<p>Submitted datasets are stored in a reliable way in multiple locations, i.e. stored as DSpace
+	repository bitstreams in the repository store on a network-attached volume managed by one of the
+	application servers and replicated on another server, while the data itself is stored on a distributed
+	high-availability file store.</p>
+
+		<p>Repository and dataset metadata is stored both in production-ready form (i.e., in a virtualised
+	PostgreSQL instance inside the production-level virtual machine) and in a backup and import compatible
+	form (i.e., a database text-dump).</p>
+
+		<p>Repository software and configuration is tracked with the Git version control system that permits
+	roll-back and multiple versions and is independent of the application environment.</p>
+
+		<p>Each active virtual machine instance for the CLARIN-PL repository and related services is cloned or
+	snapshotted and backed-up regularly and especially before any software configuration changes or
+	updates, to ensure an atomic and clean roll-back to a consistent state without any data loss. In
+	addition, configuration changes and software updates are tested on a hot beta instance with secondary
+	instances available in case of system failure.</p>
+
+		<p>Additional application servers are made available to support possible complete relocation as a
+		contingency measure in case of failure of the application server infrastructure or technical issues in
+		the designated server room. Virtual machine image backups, dataset backups and database export
+		backups are cloned to a secondary backup system in a different location to allow for full recovery in
+		case of data centre failure. Backups are performed regularly and both on the level of virtual system
+		images and on the level of exported data (files and text-format database exports) on-site and
+		replicated on a secondary location. The file-based backups and VM image backups use two different
+		implementations to avoid single points of failure.  Database export files and filesystem
+		snapshot-derived files are used whenever possible to ensure atomicity and integrity of data, with full
+		VM image backups available for reconstruction of services. The two backup systems use different
+		servers and different backup locations to avoid a single point of failure in the back-up and
+		restoration procedures. All backups follow standardised backup recommendations, including checksums
+		for ensuring file integrity and automatic monitoring tools to ensure functionality on various levels,
+		including but not limited to a complete reconstruction of the service in a different environment and
+		transfer of all datasets to another instance of the CLARIN-DSpace platform.</p>
+
+
+		<h4 id="preservation-plan">Repository data preservation plan</h4>
+
+		<p>Please also review the <a href="https://files.clarin-pl.eu/api/public/dl/vJJw0xi0">preservation plan documentation</a></p>
+
+		<p>CLARIN-PL has the <a href="/contract">right to copy, transform, store and provide access to the
+	data</a>.  The preservation function encompasses: taking delivery of the dataset ingested, storing it,
+	and ensuring it is archived, accessible and usable to the research community.</p>
+
+		<p>DSpace, and thus the CLARIN-DSpace repository software, provides two levels of digital
+		preservation. The first level is bit preservation, which ensures the integrity of both data and
+		metadata over time regardless of possible changes in the physical storage media; the second is
+		functional preservation: a file may change over time so that it remains usable by evolving its
+		original digital format and media. Format migration is a straightforward strategy for functional
+		preservation.</p>
+
+		<p>The preservation strategy is implemented in the functional concepts of the Open Archival
+		Information System (OAIS) reference model for digital preservation environments. During the ingest
+		phase, data depositors are presented with a user interface divided into logical steps. Among the steps
+		are included: data upload where data depositors are urged to use formats and standards recommended
+		by <a href="https://www.clarin.eu/content/standards-and-formats">CLARIN</a>
+		and <a href="data">CLARIN-PL</a>, information about the legal issues including signing of
+		the <a href="/contract">distribution agreement</a>, and assisted selection of an appropriate licensing
+		model.
 		</p>
+
+		<p>All the information is verified by editors <a href="item-lifecycle">during the review step</a>
+		including the file format selection. CLARIN-PL performs regular checks on the metadata and data
+		(e.g. completeness, checksums) and may request additional information from the
+		depositors. Occasionally, minor metadata modifications (e.g., correcting grammar mistakes, unifying
+		keywords) can be done also after the item has been published. All the changes, including ones made by
+		editors, are recorded in the provenance metadata. The general policy of the repository is to disable
+		deleting of metadata which is crucial for long term preservation. Automated reports also help us
+		identify possible issues with long term preservation. This includes extensive automated weekly reports
+		for the whole repository that are reviewed by the repository
+		staff. An <a href="#metadata-policy">important policy</a> for our repository is that the metadata of a
+		resource is public.</p>
+
+		<p>Language data is complex, as it can be in various modalities (writing, speech, video), and heavily
+		annotated with complex structures, such as an entry in a comprehensive dictionary, or a syntactically
+		and semantically annotated corpus. The CLARIN-PL repository <a href="data">requires</a> certain ways
+		to structure the data and the usage of specific file formats. The guiding principles for format
+		selection are: open standards are preferred over proprietary standards, formats should be
+		well-documented, verifiable and proven, text-based formats are preferred over binary formats, and in
+		the case of digitization of analogue signal lossless or no compression is recommended.</p>
+
+		<p>All metadata and data have a persistent identifier (PID) and metadata can be converted to self-explanatory and human-readable XML files</p>
+
+		<p>CLARIN-PL repository staff is tasked to ensure that the administration, maintenance and management
+		is carried out according to the established best practices and guidelines at the WUST, the CLARIN-PL
+		node, the EU CLARIN infrastructure. For this reason, technical measures and guidelines have to be updated and kept current and our staff members are
+		encouraged to participate in various CLARIN ERIC committees, including
+		the <a href="https://www.clarin.eu/governance/standing-committee-clarin-technical-centres">Standing
+		Committee for CLARIN Technical Centres</a>, <a href="https://www.clarin.eu/governance/legal-issues-committee">the Legal and Ethical
+		Issues Committee</a>, the <a href="https://www.clarin.eu/governance/standards-committee">Standards
+		Committee</a> and the <a href="https://www.clarin.eu/governance/user-involvement-committee">User
+		Involvement Committee</a>. In addition, the CLARIN-PL repository software is kept current and
+		up-to-date; the CLARIN-PL repository team is in regular touch, via email, a dedicated Slack channel
+		and GitHub issues with CLARIN/LINDAT, the developers of the DSpace CLARIN platform, to ensure that the
+		local deployment is safe, current and in accordance with best practices. CLARIN-PL not only reports on
+		problems and suggests improvements to the platform, but also contributes to its development, as well
+		as to the development of standards used for encoding language resources.</p>
+
 		<p>
-			The repository encourages the usage of specific file formats as recommended by CLARIN. The preferred file
-			formats will change over time, in which case the repository will make every effort to migrate to other
-			formats, while keeping originals intact for reproducibility purposes (ie. migrated item will be a new
-			repository record linked to the old). The guiding principles for format selection are: open standards are
-			preferred over proprietary standards, formats should be well-documented, verifiable and proven,
-			text-based formats are preferred over binary formats where possible, in the case of digitalization of analogue signal lossless or no compression is recommended.
+		The technical team and the editorial team involved in the CLARIN-PL repository are expected to regularly attend conferences and workshops
+		with a focus on language resources, such as the Language Resources and Evaluation Conference, and generally follow new developments and best practices
+		in the field.
 		</p>
+
+		<h4 id="access-continuity">Continuity of access</h4>
+
 		<p>
-			In the case of a withdrawal of funding, the repositories content would be transferred to another CLARIN
-			centre. While the legal aspects of the process of relocating data to another institution are underway the
-			hosting institute (UFAL) offers a timeframe of at least 10 years, in which it will provide access to the
-			data.
-        </p>
+		The financing of CLARIN-PL Language Technology Centre was secured for the years 2024-2026 by the Polish Ministry of Science and Higher
+		Education. The funding is based on a 3-year project model. A positive evaluation is an important element in the project
+		extension process. In the unlikely event of the suspension of funding by the Ministry, Wrocław University of Science and Technology,
+		as an official owner of the whole infrastructure, is obliged to guarantee the management and maintenance of the CLARIN-PL centre.
+		This is confirmed by the WUST internal document of the acceptance of the fixed asset no. ST-011341 dated December 29, 2023 (OT document).
+		CLARIN-PL has also received funding for the years 2025-2027 within the European funds (<a href="Lista-projektow-wybranych-do-dofinasowania-nabor-01.pdf">program, FENG.02.04-IP.04 0004/24</a>).
+		The regulations of the project guarantee the additional continuity period for another five years after the end of the project that
+		is 2028-2033. This is confirmed by the grant agreement (between Wrocław University of Science and Technology and the funding
+		institution).
+		The Repository’s business continuity is guaranteed by the Department of Artificial Intelligence, Faculty of Information and Communication,
+		WUST. (The Department maintains/hosts the CLARIN-PL Language Technology Centre.)
+		</p>
 	</div>
-	<br/>
 
+	<div>
+		<h3 id="terms-of-service">Terms of Service</h3>
+		<p>
+        To achieve our mission statement,we set out some ground rules through the <a href="./terms-of-service">Terms of Service</a>.
+		By accessing or using any kind of data or services provided by the Repository, you agree to abide by the Terms contained in the above mentioned document.
+        </p>
+        <p>
+        Data in CLARIN-PL repository are made available under the licence attached to the resources. In case there is no licence, data is made freely
+		available for access, printing and download for the purposes of non-commercial research or private study.
+        Users <strong>must</strong> acknowledge in any publication, the Deposited Work using a persistent identifier (see <a href="#citing-data">Citing Data</a>),
+		its original author(s)/creator(s), and any publisher where applicable. Full items must not be harvested by robots except transiently for full-text
+		indexing or citation analysis. Full items must not be sold commercially unless explicitaly granted by the attached licence without formal
+		permission of the copyright holders.
+        </p>
 
+		<p>
+			In case we detect non-compliance with license conditions or terms of use by a registered user, we can identify the real person with
+			the help of his/her Identity provider. the service operator reserves the right to take actions necessary to clarify the matter.
+			In particular, the operator may contact both the data owner or depositor and the party responsible for the potential violation.
+			The operator also reserves the right to temporarily restrict or suspend access to the service or to specific data until the situation
+			has been fully investigated and appropriate remedial actions have been taken.
+		</p>
+	</div>
 </div>

@@ -48,14 +48,14 @@ $font-family-sans-serif: 'Nunito', -apple-system, BlinkMacSystemFont, "Segoe UI"
 // ...
 
 // Override semantic colors here
-$primary:   #43515f;  // Gray
-$secondary: #495057;  // As Bootstrap $gray-700
-$success:   #92c642;  // Lime
-$info:      #207698;  // Light blue
+$primary:   #000027;  // CLARIN-PL navy
+$secondary: #505365;
+$success:   #00a968;
+$info:      #006f5a;
 $warning:   #ec9433;  // Orange
 $danger:    #cf4444;  // Red
-$light:     #f8f9fa;  // As Bootstrap $gray-100
-$dark:      #43515f;  // Gray
+$light:     #f5f6f2;
+$dark:      #000027;
 
 // Add new semantic colors here (you don't need to add existing semantic colors)
 $theme-colors: (
@@ -70,7 +70,7 @@ $yiq-contrasted-threshold: 170;
 
 $body-color: #343a40;       // As Bootstrap $gray-800
 
-$link-color: #207698;       // Blue green, as DSpace $info
+$link-color: #006f5a;
 $link-decoration: none;
 $link-hover-color: darken($link-color, 15%);
 $link-hover-decoration: underline;
@@ -83,8 +83,16 @@ $navbar-dark-color: #fff;
 
 /*** CUSTOM DSPACE VARIABLES ***/
 
-$ds-home-news-link-color: #D2FC93;
-$ds-header-navbar-border-bottom-color: #92c642;
+$ds-home-news-link-color: #00dc82;
+$ds-header-bg: #000027;
+$ds-header-icon-color: #ffffff;
+$ds-header-icon-color-hover: #00dc82;
+$ds-navbar-bg: #000027;
+$ds-navbar-dropdown-bg: #ffffff;
+$ds-expandable-navbar-bg: #ffffff;
+$ds-navbar-link-color: #ffffff;
+$ds-navbar-link-color-hover: #00dc82;
+$ds-header-navbar-border-bottom-color: #00dc82;
 
-$ds-breadcrumb-link-color: #154E66 !default;
-$ds-breadcrumb-link-active-color: #040D11 !default;
+$ds-breadcrumb-link-color: #006f5a;
+$ds-breadcrumb-link-active-color: #000027;

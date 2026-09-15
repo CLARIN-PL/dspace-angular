@@ -1,31 +1,94 @@
+:host {
+  display: block;
+}
+
 .clarin-top-header {
-  position: absolute;
-  width: 100%;
-  z-index: 12;
+  color: rgba(255,255,255,.72);
+  background: #000018;
+  font-size: .76rem;
+  letter-spacing: .04em;
 }
 
-.clarin-logout-badge {
-  background-color: #428bca;
-  font-size: 13px;
-  border-top-left-radius: unset;
-  border-top-right-radius: unset;
-  display: inherit;
-  position: relative;
-  z-index: 2;
+.clarin-top-header__inner {
+  display: flex;
+  min-height: 36px;
+  align-items: center;
+  gap: 1rem;
 }
 
-.clarin-login-badge {
-  background-color: #d9534f;
-  font-size: 16px;
-  border-top-left-radius: unset;
-  border-top-right-radius: unset;
+.clarin-top-header__label {
+  margin-right: auto;
+  font-weight: 700;
+  text-transform: uppercase;
 }
 
-.signon:hover {
-  cursor: pointer;
-  text-decoration: underline !important;
+.ds-language-selection {
+  display: flex;
+  align-items: center;
+  gap: .25rem;
 }
 
 .language-icon {
+  display: inline-flex;
+  min-width: 44px;
+  min-height: 30px;
+  align-items: center;
+  justify-content: center;
+  gap: .35rem;
+  padding: .25rem .45rem;
+  border: 0;
+  color: inherit;
+  background: transparent;
+  font: inherit;
   cursor: pointer;
+}
+
+.language-icon:hover,
+.language-icon:focus-visible,
+.signon:hover,
+.signon:focus-visible,
+.clarin-user-links a:hover,
+.clarin-user-links a:focus-visible {
+  color: #00dc82;
+  text-decoration: none;
+}
+
+.language-icon img {
+  width: 18px;
+  height: 12px;
+  object-fit: cover;
+}
+
+.clarin-top-header__account {
+  padding-left: .8rem;
+  border-left: 1px solid rgba(255,255,255,.18);
+}
+
+.signon,
+.clarin-user-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  color: #fff;
+  cursor: pointer;
+}
+
+.clarin-user-links {
+  display: flex;
+  align-items: center;
+  gap: .55rem;
+}
+
+.hidden {
+  display: none;
+}
+
+@media (max-width: 575.98px) {
+  .clarin-top-header__label {
+    display: none;
+  }
+
+  .ds-language-selection {
+    margin-right: auto;
+  }
 }
