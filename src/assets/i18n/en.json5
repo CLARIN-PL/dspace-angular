@@ -6794,7 +6794,7 @@
   "clarin.home.popular_label": "Most viewed",
   "clarin.home.confidence_label": "Trust and transparency",
   "clarin.home.confidence_title": "Built for responsible long-term access",
-  "clarin.home.confidence_text": "Our procedures cover deposit review, data integrity, persistent identification, access, preservation and operational continuity. The CoreTrustSeal assessment awarded on 17 December 2019 documents how these commitments were evaluated under the 2017–2019 requirements.",
+  "clarin.home.confidence_text": "Our procedures cover deposit review, data integrity, persistent identification, access, preservation and operational continuity. The repository is CoreTrustSeal certified from 30 January 2026 through 29 January 2029.",
   "clarin.home.confidence_link": "Read the trust statement",
   "clarin.home.partners_label": "Consortium",
   "clarin.home.partners_title": "Six institutions, one infrastructure",
@@ -6810,7 +6810,7 @@
   "clarin.footer.terms": "Terms of service",
   "clarin.footer.trust": "Trust statement",
   "clarin.footer.standards": "Standards and networks",
-  "clarin.footer.cts_alt": "CoreTrustSeal assessment awarded in 2019",
-  "clarin.footer.assessment": "CoreTrustSeal assessment awarded 17 December 2019 under the 2017–2019 requirements.",
+  "clarin.footer.cts_alt": "CoreTrustSeal certification 2026–2029",
+  "clarin.footer.assessment": "CoreTrustSeal certified 30 January 2026 – 29 January 2029 under the 2023–2025 requirements.",
   "clarin.footer.in_clarin": "A service of the CLARIN European research infrastructure",
 }

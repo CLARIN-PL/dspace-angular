@@ -8553,7 +8553,7 @@
   "clarin.home.popular_label": "Najczęściej oglądane",
   "clarin.home.confidence_label": "Zaufanie i transparentność",
   "clarin.home.confidence_title": "Odpowiedzialny, długoterminowy dostęp",
-  "clarin.home.confidence_text": "Nasze procedury obejmują ocenę depozytów, integralność danych, trwałą identyfikację, dostęp, ochronę i ciągłość działania. Ocena CoreTrustSeal przyznana 17 grudnia 2019 r. dokumentuje weryfikację tych zobowiązań według wymagań 2017–2019.",
+  "clarin.home.confidence_text": "Nasze procedury obejmują ocenę depozytów, integralność danych, trwałą identyfikację, dostęp, ochronę i ciągłość działania. Repozytorium posiada certyfikat CoreTrustSeal na okres od 30 stycznia 2026 r. do 29 stycznia 2029 r.",
   "clarin.home.confidence_link": "Zobacz deklarację zaufania",
   "clarin.home.partners_label": "Konsorcjum",
   "clarin.home.partners_title": "Sześć instytucji, jedna infrastruktura",
@@ -8569,8 +8569,8 @@
   "clarin.footer.terms": "Warunki korzystania",
   "clarin.footer.trust": "Deklaracja zaufania",
   "clarin.footer.standards": "Standardy i sieci",
-  "clarin.footer.cts_alt": "Ocena CoreTrustSeal przyznana w 2019 roku",
-  "clarin.footer.assessment": "Ocena CoreTrustSeal przyznana 17 grudnia 2019 r. według wymagań 2017–2019.",
+  "clarin.footer.cts_alt": "Certyfikat CoreTrustSeal 2026–2029",
+  "clarin.footer.assessment": "Certyfikat CoreTrustSeal: 30 stycznia 2026 – 29 stycznia 2029, wymagania 2023–2025.",
   "clarin.footer.in_clarin": "Usługa europejskiej infrastruktury badawczej CLARIN",
 
 
