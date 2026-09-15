@@ -1,0 +1,180 @@
+name: ${COMPOSE_PROJECT_NAME:-clarin-pl-dspace}
+
+services:
+  dspacedb:
+    build:
+      context: ../../../clarin-dspace/dspace/src/main/docker/dspace-postgres-pgcrypto
+      args:
+        POSTGRES_VERSION: 15.19
+    image: clarin-pl/dspace-postgres:local
+    restart: unless-stopped
+    environment:
+      TZ: ${TIMEZONE:-Europe/Warsaw}
+      PGDATA: /pgdata
+      POSTGRES_DB: dspace
+      POSTGRES_USER: dspace
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Run ./manage.sh init first}
+    volumes:
+      - postgres_data:/pgdata
+    networks:
+      - internal
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dspace -d dspace"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+
+  dspacesolr:
+    build:
+      context: ../../../clarin-dspace
+      dockerfile: dspace/src/main/docker/dspace-solr/Dockerfile
+      additional_contexts:
+        solrconfigs: ../../../clarin-dspace/dspace/solr
+      args:
+        SOLR_VERSION: 8.11.4
+    image: clarin-pl/dspace-solr:local
+    restart: unless-stopped
+    environment:
+      TZ: ${TIMEZONE:-Europe/Warsaw}
+      SOLR_HEAP: ${SOLR_HEAP:-2g}
+    entrypoint:
+      - /bin/bash
+      - -c
+      - |
+        init-var-solr
+        precreate-core authority /opt/solr/server/solr/configsets/authority
+        cp -r /opt/solr/server/solr/configsets/authority/* authority
+        precreate-core oai /opt/solr/server/solr/configsets/oai
+        cp -r /opt/solr/server/solr/configsets/oai/* oai
+        precreate-core search /opt/solr/server/solr/configsets/search
+        cp -r /opt/solr/server/solr/configsets/search/* search
+        precreate-core statistics /opt/solr/server/solr/configsets/statistics
+        cp -r /opt/solr/server/solr/configsets/statistics/* statistics
+        exec solr -p 8983 -f -m "$${SOLR_HEAP}"
+    volumes:
+      - solr_data:/var/solr/data
+      - solr_logs:/var/solr/logs
+    networks:
+      - internal
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS 'http://localhost:8983/solr/admin/cores?action=STATUS' >/dev/null"]
+      interval: 15s
+      timeout: 5s
+      retries: 20
+      start_period: 30s
+
+  dspace:
+    build:
+      context: ../../../clarin-dspace
+      dockerfile: Dockerfile
+      args:
+        JDK_VERSION: 17
+        DSPACE_VERSION: dspace-7_x
+    image: clarin-pl/dspace-backend:local
+    restart: unless-stopped
+    command: ["catalina.sh", "run"]
+    entrypoint: ["/usr/local/bin/dspace-production-entrypoint"]
+    environment:
+      TZ: ${TIMEZONE:-Europe/Warsaw}
+      JAVA_OPTS: ${JAVA_OPTS:--Xms1g -Xmx4g}
+      DSPACE_DATABASE_HOST: dspacedb
+      dspace__P__dir: /dspace
+      dspace__P__name: ${DSPACE_NAME:-CLARIN-PL Repository}
+      dspace__P__server__P__url: ${PUBLIC_URL:?Set PUBLIC_URL in .env}/server
+      dspace__P__server__P__ssr__P__url: http://dspace:8080/server
+      dspace__P__ui__P__url: ${PUBLIC_URL:?Set PUBLIC_URL in .env}
+      db__P__url: jdbc:postgresql://dspacedb:5432/dspace
+      db__P__username: dspace
+      db__P__password: ${POSTGRES_PASSWORD:?Run ./manage.sh init first}
+      solr__P__server: http://dspacesolr:8983/solr
+      proxies__P__trusted__P__ipranges: 172.30.37
+      jwt__P__login__P__token__P__secret: ${JWT_LOGIN_SECRET:?Run ./manage.sh init first}
+      jwt__P__shortLived__P__token__P__secret: ${JWT_SHORT_LIVED_SECRET:?Run ./manage.sh init first}
+      clarin__P__token__P__encryption__P__secret: ${CLARIN_TOKEN_ENCRYPTION_SECRET:?Run ./manage.sh init first}
+    depends_on:
+      dspacedb:
+        condition: service_healthy
+      dspacesolr:
+        condition: service_healthy
+    volumes:
+      - assetstore:/dspace/assetstore
+      - dspace_logs:/dspace/log
+      - dspace_handle:/dspace/handle-server
+      - ../../../clarin-dspace/docker/production/local.cfg:/dspace/config/local.cfg:ro
+    networks:
+      - internal
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:8080/server/actuator/health | grep -q '\"status\":\"UP\"'"]
+      interval: 15s
+      timeout: 10s
+      retries: 30
+      start_period: 90s
+
+  dspace-angular:
+    build:
+      context: ../..
+      dockerfile: Dockerfile.dist
+      args:
+        NODE_VERSION: 22-alpine
+    image: clarin-pl/dspace-angular:local
+    restart: unless-stopped
+    environment:
+      TZ: ${TIMEZONE:-Europe/Warsaw}
+      NODE_ENV: production
+      NODE_OPTIONS: --max-old-space-size=2048
+      DSPACE_APP_CONFIG_PATH: /app/config/config.prod.local.yml
+      DSPACE_UI_SSL: "false"
+      DSPACE_UI_HOST: 0.0.0.0
+      DSPACE_UI_PORT: 4000
+      DSPACE_UI_NAMESPACE: /
+      DSPACE_REST_SSL: ${REST_SSL:-false}
+      DSPACE_REST_HOST: ${REST_HOST:-localhost}
+      DSPACE_REST_PORT: ${REST_PORT:-4000}
+      DSPACE_REST_NAMESPACE: /server
+      DSPACE_REST_SSRBASEURL: http://dspace:8080/server
+    depends_on:
+      dspace:
+        condition: service_healthy
+    volumes:
+      - ./config.prod.yml:/app/config/config.prod.local.yml:ro
+    networks:
+      - internal
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:4000/app/health | grep -q '\"status\":\"UP\"'"]
+      interval: 15s
+      timeout: 10s
+      retries: 20
+      start_period: 30s
+
+  gateway:
+    image: nginx:1.30.4-alpine
+    restart: unless-stopped
+    depends_on:
+      dspace-angular:
+        condition: service_healthy
+    ports:
+      - "${HTTP_BIND:-127.0.0.1}:${HTTP_PORT:-4000}:8080"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    networks:
+      - internal
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:8080/app/health | grep -q '\"status\":\"UP\"'"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+
+networks:
+  internal:
+    ipam:
+      config:
+        - subnet: 172.30.37.0/24
+
+volumes:
+  postgres_data:
+  solr_data:
+  solr_logs:
+  assetstore:
+  dspace_logs:
+  dspace_handle:

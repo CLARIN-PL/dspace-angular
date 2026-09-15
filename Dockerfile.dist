@@ -4,15 +4,19 @@
 # Test build:
 # docker build -f Dockerfile.dist -t dspace/dspace-angular:dspace-7_x-dist .
 
-FROM docker.io/node:18-alpine AS build
+ARG NODE_VERSION=22-alpine
+
+FROM docker.io/node:${NODE_VERSION} AS build
 
 # Ensure Python and other build tools are available
 # These are needed to install some node modules, especially on linux/arm64
-RUN apk add --update python3 make g++ && rm -rf /var/cache/apk/*
+RUN apk add --no-cache python3 make g++ \
+    && corepack enable \
+    && corepack prepare yarn@1.22.22 --activate
 
 WORKDIR /app
 COPY package.json yarn.lock ./
-RUN yarn install --network-timeout 300000
+RUN yarn install --frozen-lockfile --non-interactive --network-timeout 300000
 
 ADD . /app/
 
@@ -20,8 +24,7 @@ ADD . /app/
 ENV NODE_OPTIONS="--max_old_space_size=4096"
 RUN yarn build:prod
 
-FROM node:18-alpine
-RUN npm install --global pm2
+FROM docker.io/node:${NODE_VERSION}
 
 COPY --chown=node:node --from=build /app/dist /app/dist
 COPY --chown=node:node config /app/config
@@ -31,4 +34,4 @@ WORKDIR /app
 USER node
 ENV NODE_ENV=production
 EXPOSE 4000
-CMD ["pm2-runtime", "start", "dspace-ui.json", "--json"]
+CMD ["node", "dist/server/main.js"]

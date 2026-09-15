@@ -1,0 +1,31 @@
+debug: false
+
+ui:
+  ssl: false
+  host: 0.0.0.0
+  port: 4000
+  nameSpace: /
+  useProxies: true
+  rateLimiter:
+    windowMs: 60000
+    max: 500
+
+rest:
+  ssl: false
+  host: localhost
+  port: 4000
+  nameSpace: /server
+  ssrBaseUrl: http://dspace:8080/server
+
+cache:
+  control: public, max-age=604800, immutable
+  serverSide:
+    debug: false
+    botCache:
+      max: 1000
+      timeToLive: 86400000
+      allowStale: true
+    anonymousCache:
+      max: 200
+      timeToLive: 10000
+      allowStale: true
