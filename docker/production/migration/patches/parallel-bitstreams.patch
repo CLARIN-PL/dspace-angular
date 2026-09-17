@@ -1,0 +1,185 @@
+diff --git a/src/pump/_bitstream.py b/src/pump/_bitstream.py
+index d712d08..f1ac6da 100644
+--- a/src/pump/_bitstream.py
++++ b/src/pump/_bitstream.py
+@@ -1,6 +1,7 @@
+ import os
+ import logging
+-from ._utils import read_json, time_method, serialize, deserialize, progress_bar, log_before_import, log_after_import
++import threading
++from ._utils import read_json, time_method, serialize, deserialize, progress_bar, log_before_import, log_after_import, run_tasks
+ 
+ _logger = logging.getLogger("pump.bitstream")
+ 
+@@ -60,6 +61,8 @@ class bitstreams:
+ 
+         self._bs2bundle = {}
++        self._bs2order = {}
+         for e in self._bundle2bs:
+             self._bs2bundle[e['bitstream_id']] = e['bundle_id']
++            self._bs2order[e['bitstream_id']] = e['bitstream_order']
+         self._done = []
+ 
+@@ -174,6 +177,11 @@ class bitstreams:
+         checkpoints_saved = 0
+         diagnostic_invalid_response_logs = 0
+ 
++        workers = max(1, int(env["backend"].get("import_workers", 1) or 1))
++        worker_local = threading.local()
++        to_import = []
++        _logger.info(f"Preparing bitstreams for API import with workers:[{workers}]")
++
+         path_assetstore = env["assetstore"]
+         fallback_rel_path = None
+         fallback_full_path = None
+@@ -234,15 +242,6 @@ class bitstreams:
+                     _update_progress(pbar)
+                 continue
+ 
+-            # do bitstream checksum
+-            # do this after every 500 imported bitstreams,
+-            # because the server may be out of memory
+-            if (i + 1) % 500 == 0:
+-                try:
+-                    dspace.add_checksums()
+-                except Exception as e:
+-                    _logger.error(f'add_checksums failed: [{str(e)}]')
+-
+             data = {}
+             b_meta = metadatas.filter_res_d(metadatas.value(
+                 bitstreams.TYPE, b_id, log_missing=b_deleted is False), self.ignored_fields)
+@@ -302,7 +301,8 @@ class bitstreams:
+                 'deleted': b['deleted'],
+                 'sequenceId': b['sequence_id'],
+                 'bundle_id': None,
+-                'primaryBundle_id': None
++                'primaryBundle_id': None,
++                'bitstreamOrder': None,
++                'legacyBitstreamOrder': None
+             }
+ 
+             path = self.bitstream_path(params['internal_id'])
+@@ -321,5 +321,6 @@ class bitstreams:
+             if b_id in self._bs2bundle:
+                 bundle_int_id = self._bs2bundle[b_id]
+                 params['bundle_id'] = bundles.uuid(bundle_int_id)
++                params['legacyBitstreamOrder'] = self._bs2order[b_id]
+ 
+             # if bitstream is primary bitstream of some bundle,
+@@ -315,7 +316,65 @@ class bitstreams:
+             if b_id in bundles.primary:
+                 params['primaryBundle_id'] = bundles.uuid(bundles.primary[b_id])
++
++            # Never import two bitstreams into the same bundle concurrently. DSpace
++            # updates the bundle relationship in each request, while unrelated bundles
++            # are safe to process in parallel. Standalone bitstreams get a unique group.
++            lock_key = (params['bundle_id'] or params['primaryBundle_id']
++                        or f'bitstream:{b_id}')
++            to_import.append((b_id, b, params, data, lock_key))
++
++            if (i + 1) % 200 == 0:
++                _update_progress(pbar)
++
++        _logger.info(
++            f"Prepared [{len(to_import)}] bitstreams for API import with workers:[{workers}]")
++        grouped_imports = {}
++        for task in to_import:
++            grouped_imports.setdefault(task[4], []).append(task)
++        import_groups = []
++        for group in grouped_imports.values():
++            # DSpace 7 maps bitstream_order as a List index, so it must be
++            # unique and contiguous. DSpace 5 data can contain gaps after
++            # deleted files and even duplicate positions. Keep the original
++            # value in bitstream_order_legacy and use a stable compact order.
++            if group[0][2]['bundle_id'] is not None:
++                group.sort(key=lambda task: (
++                    task[2]['legacyBitstreamOrder'], task[0]))
++                for bitstream_order, task in enumerate(group):
++                    task[2]['bitstreamOrder'] = bitstream_order
++            import_groups.append(group)
++        if workers > 1 and len(to_import) > 1:
++            _logger.info(
++                f"Parallel bitstream import enabled with workers:[{workers}], "
++                f"groups:[{len(import_groups)}] and per-bundle serialization")
++
++        def worker(group):
++            if workers == 1:
++                client = dspace
++            else:
++                client = getattr(worker_local, "dspace", None)
++                if client is None:
++                    worker_local.dspace = dspace.spawn_worker_client()
++                    client = worker_local.dspace
++
++            results = []
++            for task in group:
++                _b_id, _b, params, data, _lock_key = task
++                try:
++                    results.append((task, client.put_bitstream(params, data), None))
++                except Exception as error:
++                    results.append((task, None, error))
++            return results
++
++        def import_results():
++            for group, group_results, group_error in run_tasks(
++                import_groups,
++                worker,
++                workers=workers,
++                desc=f"Importing bitstream groups ({workers} workers)",
++            ):
++                if group_error is not None:
++                    for task in group:
++                        yield task, None, group_error
++                else:
++                    yield from group_results
++
++        for task, resp, err in import_results():
++            b_id, b, params, data, _lock_key = task
++            if err is not None:
++                _logger.error(f'put_bitstream [{b_id}]: failed. Exception: [{str(err)}]')
++                _record_error(b_id)
++                continue
+             try:
+-                resp = dspace.put_bitstream(params, data)
+                 if not isinstance(resp, dict) or 'id' not in resp:
+                     if b['deleted']:
+                         _logger.warning(
+@@ -333,7 +392,6 @@ class bitstreams:
+                     _logger.error(
+                         f'put_bitstream [{b_id}]: failed. Exception: [Invalid response from put_bitstream: [{resp}]]')
+                     _record_error(b_id)
+-                    _update_progress(pbar)
+                     continue
+                 self._id2uuid[str(b_id)] = resp['id']
+                 self._imported["bitstream"] += 1
+@@ -345,18 +403,13 @@ class bitstreams:
+                     checkpoint_counter = 0
+                     checkpoints_saved += 1
+                     self.serialize(cache_file)
+-                    _update_progress(pbar)
+                 if b['deleted']:
+                     _logger.warning(f'Imported bitstream is deleted! UUID: {resp["id"]}')
+             except Exception as e:
+                 _logger.error(f'put_bitstream [{b_id}]: failed. Exception: [{str(e)}]')
+                 _record_error(b_id)
+-                _update_progress(pbar)
+-
+-            if (i + 1) % 200 == 0:
+-                _update_progress(pbar)
+ 
+-        _update_progress(pbar)
++        self.serialize(cache_file)
+ 
+         if failed_ids:
+             _logger.warning(
+@@ -371,7 +424,8 @@ class bitstreams:
+                 f'Bitstream import skipped/errored [{errored}] records due to invalid/failed responses.')
+ 
+-        # do bitstream checksum for the last imported bitstreams
+-        # these bitstreams can be less than 500, so it is not calculated in a loop
++        # Register checksums after all bitstreams have been created. During the
++        # controlled migration this endpoint is configured as a no-op; the full
++        # fixity check is an explicit production-readiness gate after finalization.
+         try:
+             dspace.add_checksums()
+         except Exception as e:

@@ -92,13 +92,35 @@ services:
       jwt__P__login__P__token__P__secret: ${JWT_LOGIN_SECRET:?Run ./manage.sh init first}
       jwt__P__shortLived__P__token__P__secret: ${JWT_SHORT_LIVED_SECRET:?Run ./manage.sh init first}
       clarin__P__token__P__encryption__P__secret: ${CLARIN_TOKEN_ENCRYPTION_SECRET:?Run ./manage.sh init first}
+      assetstore__P__dir: /dspace/assetstore
+      assetstore__P__index__P__primary: "0"
+      handle__P__prefix: ${HANDLE_PREFIX:-11321}
+      handle__P__canonical__P__prefix: ${HANDLE_CANONICAL_PREFIX:-https://hdl.handle.net/}
+      mail__P__server__P__disabled: ${MAIL_SERVER_DISABLED:-true}
+      mail__P__server: ${MAIL_SERVER:-clarinpl.nazwa.pl}
+      mail__P__server__P__port: ${MAIL_SERVER_PORT:-587}
+      mail__P__server__P__username: ${MAIL_SERVER_USERNAME:-dspace@clarin-pl.eu}
+      mail__P__server__P__password: ${MAIL_SERVER_PASSWORD:-}
+      mail__P__from__P__address: ${MAIL_FROM_ADDRESS:-dspace@clarin-pl.eu}
+      mail__P__admin: ${MAIL_ADMIN:-admin@clarin-pl.eu}
+      feedback__P__recipient: ${FEEDBACK_RECIPIENT:-dspace@clarin-pl.eu}
+      registration__P__notify: ${REGISTRATION_NOTIFY:-dspace@clarin-pl.eu}
+      plugin__P__sequence__P__org__P__dspace__P__authenticate__P__AuthenticationMethod: ${AUTHENTICATION_METHODS:-org.dspace.authenticate.PasswordAuthentication}
+      authentication__D__shibboleth__P__lazysession__P__loginurl: ${SHIBBOLETH_LOGIN_URL:-/Shibboleth.sso/Login}
+      authentication__D__shibboleth__P__netid__D__header: ${SHIBBOLETH_NETID_HEADERS:-eppn,persistent-id}
+      authentication__D__shibboleth__P__email__D__header: ${SHIBBOLETH_EMAIL_HEADER:-mail}
+      authentication__D__shibboleth__P__firstname__D__header: ${SHIBBOLETH_FIRSTNAME_HEADER:-givenName}
+      authentication__D__shibboleth__P__lastname__D__header: ${SHIBBOLETH_LASTNAME_HEADER:-sn}
+      authentication__D__shibboleth__P__autoregister: ${SHIBBOLETH_AUTOREGISTER:-true}
     depends_on:
       dspacedb:
         condition: service_healthy
       dspacesolr:
         condition: service_healthy
     volumes:
-      - assetstore:/dspace/assetstore
+      # The legacy files stay in place. The migration API registers their
+      # existing internal IDs and never uploads/copies their content.
+      - ${DSPACE_ASSETSTORE_PATH:?Set DSPACE_ASSETSTORE_PATH in .env}:/dspace/assetstore
       - dspace_logs:/dspace/log
       - dspace_handle:/dspace/handle-server
       - ../../../clarin-dspace/docker/production/local.cfg:/dspace/config/local.cfg:ro
@@ -151,6 +173,8 @@ services:
     image: nginx:1.30.4-alpine
     restart: unless-stopped
     depends_on:
+      dspace:
+        condition: service_healthy
       dspace-angular:
         condition: service_healthy
     ports:
@@ -160,7 +184,7 @@ services:
     networks:
       - internal
     healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:8080/app/health | grep -q '\"status\":\"UP\"'"]
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:8080/app/health | grep -q '\"status\":\"UP\"' && wget -qO- http://127.0.0.1:8080/server/api >/dev/null"]
       interval: 15s
       timeout: 10s
       retries: 5
@@ -175,6 +199,5 @@ volumes:
   postgres_data:
   solr_data:
   solr_logs:
-  assetstore:
   dspace_logs:
   dspace_handle:

@@ -23,6 +23,11 @@ Open <http://localhost:4000>. The REST API is available on the same origin at
 <http://localhost:4000/server>. PostgreSQL and Solr are only reachable on the
 private Docker network.
 
+The gateway resolves Docker service names dynamically and its healthcheck
+requires both the Angular health endpoint and the REST API. Recreating the
+backend or frontend therefore does not leave Nginx pinned to a stale container
+address.
+
 Create the initial administrator after the stack is healthy:
 
 ```bash
@@ -41,8 +46,16 @@ gateway bound to loopback when a host-level TLS proxy is used. Configure SMTP,
 the registered Handle prefix/server, authentication (OIDC or Shibboleth), and
 external monitoring before accepting production traffic.
 
-Back up both the PostgreSQL database and the `assetstore` volume. A database
+Back up both the PostgreSQL database and the assetstore bind mount. A database
 dump without the matching assetstore is not a complete repository backup.
 
 Never use `docker compose down --volumes` on a populated repository: it deletes
-the database, Solr index, assetstore, logs and Handle configuration volumes.
+the database, Solr index, logs and Handle configuration volumes. The externally
+mounted assetstore is not deleted by Compose, but it still needs an independent
+backup and integrity monitoring.
+
+## Migrating the CLARIN-PL DSpace 5 repository
+
+The reproducible DSpace 5 to 7 procedure, source audit and exact commands are in
+[`MIGRATION.md`](./MIGRATION.md). The importer registers files already present
+in `DSPACE_ASSETSTORE_PATH`; it does not copy the 637 GB assetstore.

@@ -1,0 +1,72 @@
+services:
+  dspace:
+    environment:
+      # Bulk imports update each Item for every attached bitstream. Suppress
+      # per-request Solr writes here; migration-finalize rebuilds Discovery once.
+      event__P__dispatcher__P__default__P__consumers: eperson
+      # Recalculate aggregate file metadata once in migration-finalize instead
+      # of after every attachment (quadratic for large multi-file Items).
+      clarin__P__item__D__files__D__metadata__P__deferred: "true"
+      # Register the existing internal_id and source checksum without opening
+      # every file on the external disk. migration-fixity performs one complete,
+      # auditable checksum pass after the database import.
+      clarin__P__bitstream__P__validation__P__deferred: "true"
+
+  legacydb:
+    image: postgres:11.22-bullseye
+    restart: unless-stopped
+    environment:
+      TZ: ${TIMEZONE:-Europe/Warsaw}
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${LEGACY_DB_PASSWORD:?Run ./manage.sh init first}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - migration_legacydb:/var/lib/postgresql/data
+      - ${LEGACY_DSPACE_DUMP:?Set LEGACY_DSPACE_DUMP in .env}:/migration/dump/clarin-dspace.sql:ro
+      - ${LEGACY_UTILITIES_DUMP:?Set LEGACY_UTILITIES_DUMP in .env}:/migration/dump/clarin-utilities.sql:ro
+      - ./migration/init-legacy-db.sh:/docker-entrypoint-initdb.d/10-legacy.sh:ro
+    networks:
+      - internal
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d clarin-dspace && psql -U postgres -d clarin-dspace -Atc 'select 1 from handle limit 1' >/dev/null"]
+      interval: 15s
+      timeout: 10s
+      retries: 80
+      start_period: 30s
+
+  migrate:
+    build:
+      context: ./migration
+      args:
+        DSPACE_MIGRATE_REF: 01128d6c01b7e4f0bbe4ce867c9d9813f6feb8ee
+    image: clarin-pl/dspace-migrate:local
+    environment:
+      MIGRATION_BACKEND_ENDPOINT: http://dspace:8080/server/api
+      MIGRATION_ADMIN_EMAIL: ${ADMIN_EMAIL:?Set ADMIN_EMAIL in .env}
+      MIGRATION_ADMIN_PASSWORD: ${ADMIN_PASSWORD:?Set ADMIN_PASSWORD in .env}
+      MIGRATION_TARGET_DB_HOST: dspacedb
+      MIGRATION_TARGET_DB_PASSWORD: ${POSTGRES_PASSWORD:?Run ./manage.sh init first}
+      MIGRATION_LEGACY_DB_HOST: legacydb
+      MIGRATION_LEGACY_DB_PASSWORD: ${LEGACY_DB_PASSWORD:?Run ./manage.sh init first}
+      MIGRATION_LICENSE_SOURCE_PREFIX: http://clarin-pl.eu/en/licenses/
+      MIGRATION_LICENSE_TARGET_PREFIX: https://clarin-pl.eu/license/
+    command: ["python", "repo_import.py", "--assetstore=/legacy-assetstore"]
+    depends_on:
+      dspace:
+        condition: service_healthy
+      legacydb:
+        condition: service_healthy
+    volumes:
+      - ${DSPACE_ASSETSTORE_PATH:?Set DSPACE_ASSETSTORE_PATH in .env}:/legacy-assetstore:ro
+      - migration_state:/opt/dspace-migrate/src/__temp
+      - migration_logs:/opt/dspace-migrate/__logs
+      - migration_exports:/opt/dspace-migrate/input
+    networks:
+      - internal
+    restart: "no"
+
+volumes:
+  migration_legacydb:
+  migration_state:
+  migration_logs:
+  migration_exports:
