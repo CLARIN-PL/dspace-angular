@@ -71,6 +71,8 @@ services:
       args:
         JDK_VERSION: 17
         DSPACE_VERSION: dspace-7_x
+        DSPACE_UID: ${DSPACE_UID:-1000}
+        DSPACE_GID: ${DSPACE_GID:-1000}
     image: clarin-pl/dspace-backend:local
     restart: unless-stopped
     command: ["catalina.sh", "run"]

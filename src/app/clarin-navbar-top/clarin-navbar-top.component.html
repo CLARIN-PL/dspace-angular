@@ -14,12 +14,11 @@
 
     <div class="clarin-top-header__account">
       <div *ngIf="authenticatedUser == null">
-        <a id="clarin-signon-discojuice" class="signon">
+        <a routerLink="/login" class="signon">
           <i class="fas fa-sign-in-alt" aria-hidden="true"></i>
           {{ 'login.title' | translate }}
         </a>
       </div>
-      <a class="hidden" id="repository_path" [href]="repositoryPath" aria-hidden="true"></a>
       <div *ngIf="authenticatedUser != null" class="clarin-user-links">
         <a routerLink="/profile"><i class="fa fa-user" aria-hidden="true"></i>{{ authenticatedUser.name }}</a>
         <span aria-hidden="true">/</span>

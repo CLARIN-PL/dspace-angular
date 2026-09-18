@@ -1,8 +1,169 @@
-.login-logo {
-  height: var(--ds-login-logo-height);
-  width: var(--ds-login-logo-width);
+:host {
+  --clarin-navy: #000027;
+  --clarin-green: #00dc82;
+  --clarin-ink: #16172f;
+  --clarin-muted: #686b7a;
+  display: block;
 }
-.clarin-logo {
-  height: var(--ds-login-logo-height);
-  width: var(--ds-login-logo-width);
+
+.clarin-login-page {
+  position: relative;
+  min-height: calc(100vh - 190px);
+  padding: clamp(2rem, 6vw, 6rem) 0;
+  overflow: hidden;
+  background: radial-gradient(circle at 8% 16%, rgba(0, 220, 130, .13), transparent 22rem),
+              linear-gradient(135deg, #f4f6f2, #fff 52%, #eef1f8);
+}
+
+.clarin-login-page::after {
+  position: absolute;
+  right: -9rem;
+  bottom: -12rem;
+  width: 28rem;
+  height: 28rem;
+  border: 1px solid rgba(0, 0, 39, .12);
+  border-radius: 50%;
+  content: '';
+  pointer-events: none;
+}
+
+.clarin-login-page__container { position: relative; z-index: 1; }
+
+.clarin-login-shell {
+  display: grid;
+  max-width: 1080px;
+  min-height: 610px;
+  margin: 0 auto;
+  grid-template-columns: minmax(0, .9fr) minmax(360px, 1.1fr);
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 39, .12);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 2rem 5rem rgba(0, 0, 39, .13);
+}
+
+.clarin-login-brand {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(2rem, 5vw, 4.5rem);
+  overflow: hidden;
+  color: #fff;
+  background: linear-gradient(rgba(255,255,255,.07) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(255,255,255,.07) 1px, transparent 1px),
+              radial-gradient(circle at 78% 20%, rgba(0, 220, 130, .24), transparent 15rem),
+              var(--clarin-navy);
+  background-size: 40px 40px, 40px 40px, auto, auto;
+}
+
+.clarin-login-brand::after {
+  position: absolute;
+  right: -8rem;
+  bottom: -8rem;
+  width: 20rem;
+  height: 20rem;
+  border: 1px solid rgba(0, 220, 130, .42);
+  border-radius: 50%;
+  content: '';
+}
+
+.clarin-login-brand__logo,
+.clarin-login-brand__logo img { display: block; width: min(260px, 100%); }
+
+.clarin-login-brand__eyebrow {
+  margin: auto 0 1rem;
+  color: var(--clarin-green);
+  font-size: .74rem;
+  font-weight: 800;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+}
+
+.clarin-login-brand h1 {
+  max-width: 10ch;
+  margin: 0;
+  color: #fff;
+  font-size: clamp(2.35rem, 4vw, 4.2rem);
+  font-weight: 800;
+  letter-spacing: -.045em;
+  line-height: 1;
+}
+
+.clarin-login-brand__lead {
+  max-width: 42ch;
+  margin: 1.4rem 0;
+  color: rgba(255,255,255,.76);
+  line-height: 1.65;
+}
+
+.clarin-login-benefits { margin: 0 0 1.8rem; padding: 0; list-style: none; }
+.clarin-login-benefits li {
+  display: flex;
+  gap: .7rem;
+  align-items: center;
+  margin-top: .65rem;
+  color: rgba(255,255,255,.9);
+  font-size: .92rem;
+}
+.clarin-login-benefits i { color: var(--clarin-green); }
+
+.clarin-login-brand__help {
+  position: relative;
+  z-index: 1;
+  align-self: flex-start;
+  color: #fff;
+  font-weight: 700;
+}
+.clarin-login-brand__help:hover,
+.clarin-login-brand__help:focus-visible { color: var(--clarin-green); }
+
+.clarin-login-panel {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(2rem, 6vw, 5rem);
+}
+
+.clarin-login-panel__label {
+  align-self: flex-start;
+  margin-bottom: 1.1rem;
+  padding: .38rem .62rem;
+  border-radius: 999px;
+  color: #00583c;
+  background: rgba(0, 220, 130, .14);
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.clarin-login-panel h2 {
+  margin: 0;
+  color: var(--clarin-navy);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -.035em;
+}
+.clarin-login-panel__intro { margin: .8rem 0 1.6rem; color: var(--clarin-muted); line-height: 1.6; }
+.clarin-login-panel ::ng-deep .form-control { min-height: 54px; }
+.clarin-login-panel ::ng-deep .btn-primary { min-height: 52px; font-weight: 800; }
+.clarin-login-panel ::ng-deep .dropdown-item { padding-left: 0; color: var(--clarin-navy); }
+
+.clarin-login-panel__privacy {
+  display: flex;
+  gap: .65rem;
+  margin: 1.7rem 0 0;
+  color: var(--clarin-muted);
+  font-size: .82rem;
+  line-height: 1.5;
+}
+.clarin-login-panel__privacy i { color: #007f57; }
+.action-buttons { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1.5rem; }
+.clarin-login-panel__logout { margin-top: 1.25rem; padding-left: 0; }
+
+@media (max-width: 767.98px) {
+  .clarin-login-shell { grid-template-columns: 1fr; }
+  .clarin-login-brand { min-height: 420px; }
+  .clarin-login-panel { padding: 2rem 1.4rem 2.5rem; }
 }

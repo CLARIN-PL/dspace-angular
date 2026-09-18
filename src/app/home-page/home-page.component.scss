@@ -471,6 +471,43 @@
     font-size: clamp(1.65rem, 3vw, 2.4rem);
   }
 
+  .clarin-resource-panel__empty {
+    display: grid;
+    min-height: 260px;
+    grid-template-columns: auto 1fr;
+    gap: 1.2rem;
+    align-content: center;
+    align-items: flex-start;
+    padding: 2rem;
+    border: 1px dashed #c8cbd2;
+    color: #555866;
+    background: rgba(255,255,255,.62);
+  }
+
+  .clarin-resource-panel__empty-icon {
+    display: grid;
+    width: 3rem;
+    height: 3rem;
+    place-items: center;
+    border-radius: 50%;
+    color: var(--clarin-navy);
+    background: rgba(0,222,159,.2);
+    font-size: 1.15rem;
+  }
+
+  .clarin-resource-panel__empty h3 {
+    margin: .15rem 0 .55rem;
+    color: var(--clarin-navy);
+    font-size: 1.1rem;
+    font-weight: 800;
+  }
+
+  .clarin-resource-panel__empty p {
+    max-width: 36ch;
+    margin: 0;
+    line-height: 1.6;
+  }
+
   .clarin-confidence {
     padding: clamp(3.5rem, 6vw, 5.5rem) 0;
     color: #fff;

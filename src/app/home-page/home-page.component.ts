@@ -23,6 +23,7 @@ import { PaginatedSearchOptions } from '../shared/search/models/paginated-search
 import { DSpaceObjectType } from '../core/shared/dspace-object-type.model';
 import { SortDirection, SortOptions } from '../core/cache/models/sort-options.model';
 import { SearchObjects } from '../shared/search/models/search-objects.model';
+import { followLink } from '../shared/utils/follow-link-config.model';
 
 /**
  * The home page component customized for the CLARIN-DSpace.
@@ -120,7 +121,7 @@ export class HomePageComponent implements OnInit {
         pagination: paginationOptions,
         sort: sortConfiguration,
         dsoTypes: [DSpaceObjectType.ITEM]
-      }))
+      }), undefined, undefined, undefined, followLink('thumbnail'))
       .pipe(getFirstSucceededRemoteDataPayload())
       .subscribe((searchObjects: SearchObjects<Item>) => {
         const searchedItems: Item[] = [];
@@ -136,28 +137,27 @@ export class HomePageComponent implements OnInit {
    * @private
    */
   private async loadTopItems() {
-    const top3ItemsId = [];
     const maxTopItemsCount = 3;
+    let usageReports: UsageReport[];
 
-    await this.getItemUsageReports()
-      .then((usageReports: UsageReport[]) => {
-        const usageReport = usageReports?.[0];
-        for (let i = 0; i < maxTopItemsCount; i++) {
-          top3ItemsId.push(usageReport.points?.[i]?.id);
-        }
-      });
+    try {
+      usageReports = await this.getItemUsageReports();
+    } catch {
+      return;
+    }
 
-    this.topItems$ = new BehaviorSubject<Item[]>([]);
-    for (let i = 0; i < maxTopItemsCount; i++) {
-      if (isUndefined(top3ItemsId?.[i])) {
-        return;
-      }
-      this.itemService.findById(top3ItemsId?.[i], false)
+    const top3ItemsId = (usageReports?.[0]?.points ?? [])
+      .slice(0, maxTopItemsCount)
+      .map(point => point?.id)
+      .filter(id => !isUndefined(id));
+
+    top3ItemsId.forEach(itemId => {
+      this.itemService.findById(itemId, false, true, followLink('thumbnail'))
         .pipe(getFirstSucceededRemoteDataPayload())
         .subscribe((item: Item) => {
-          this.topItems$.value.push(item);
+          this.topItems$.next([...this.topItems$.value, item]);
         });
-    }
+    });
   }
 
   /**
@@ -228,19 +228,19 @@ export class HomePageComponent implements OnInit {
     const searchOptions: SearchOptions = new SearchOptions({configuration: 'homepage'});
     this.searchService.getFacetValuesFor(searchFilter, 1, searchOptions)
       .pipe(getFirstSucceededRemoteDataPayload())
-      .subscribe(authorStats => {
-        authorStats.page.forEach((facetValue: FacetValue) => {
+      .subscribe(facetStats => {
+        const links = facetStats?.page?.map((facetValue: FacetValue) => {
           let updatedSearchUrl = facetValue?._links?.search?.href?.replace(this.halService.getRootHref() +
             '/discover', this.baseUrl);
           // remove `/objects` from the updatedSearchUrl
-          updatedSearchUrl = updatedSearchUrl.replace('/objects', '');
-          const fastSearchLink: FastSearchLink = Object.assign(new FastSearchLink(), {
+          updatedSearchUrl = updatedSearchUrl?.replace('/objects', '');
+          return Object.assign(new FastSearchLink(), {
             name: this.truncateText(facetValue.value),
             occurrences: facetValue.count,
             url: updatedSearchUrl
           });
-          behaviorSubject.value.push(fastSearchLink);
-        });
+        }) ?? [];
+        behaviorSubject.next(links);
       });
   }
 

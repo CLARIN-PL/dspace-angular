@@ -31,7 +31,6 @@ import { APP_CONFIG, AppConfig } from '../config/app-config.interface';
 import { StoreDevModules } from '../config/store/devtools';
 import { RootModule } from './root.module';
 import { DspaceRestInterceptor } from './core/dspace-rest/dspace-rest.interceptor';
-import { ScriptLoaderService } from './clarin-navbar-top/script-loader-service';
 import { UrlSerializer } from '@angular/router';
 import { BitstreamUrlSerializer } from './core/url-serializer/bitstream-url-serializer';
 
@@ -83,7 +82,6 @@ const PROVIDERS = [
     useClass: DSpaceRouterStateSerializer
   },
   ClientCookieService,
-  ScriptLoaderService,
   // register AuthInterceptor as HttpInterceptor
   {
     provide: HTTP_INTERCEPTORS,

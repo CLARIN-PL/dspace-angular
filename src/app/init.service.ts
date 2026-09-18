@@ -162,8 +162,10 @@ export abstract class InitService {
                  .map((a) => a.code)
     );
 
-    // Load the default language from the config file
-    // translate.setDefaultLang(environment.defaultLanguage);
+    // Always keep the complete English catalogue as a fallback. Some CLARIN
+    // extensions are not translated in every active language yet; without a
+    // fallback ngx-translate renders the raw key in the public UI.
+    this.translate.setDefaultLang('en');
 
     this.localeService.setCurrentLanguageCode();
   }

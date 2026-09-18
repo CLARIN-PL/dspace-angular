@@ -5007,6 +5007,8 @@
 
   "subscriptions.modal.new-subscription-form.type.content": "Content",
 
+  "clarin.home.popular_empty_title": "Usage statistics are not available yet",
+  "clarin.home.popular_empty_text": "This section will fill automatically as visits to the migrated repository are recorded.",
   "subscriptions.modal.new-subscription-form.frequency.D": "Daily",
 
   "subscriptions.modal.new-subscription-form.frequency.W": "Weekly",
@@ -6813,4 +6815,28 @@
   "clarin.footer.cts_alt": "CoreTrustSeal certification 2026–2029",
   "clarin.footer.assessment": "CoreTrustSeal certified 30 January 2026 – 29 January 2029 under the 2023–2025 requirements.",
   "clarin.footer.in_clarin": "A service of the CLARIN European research infrastructure",
+  "item.type.corpus": "Corpus",
+  "item.type.lexicalConceptualResource": "Lexical or conceptual resource",
+  "item.type.languageDescription": "Language description",
+  "item.type.toolService": "Tool or service",
+  "item.view.box.loading-files.message": "Checking files…",
+  "clarin.login.section_label": "Sign in to the CLARIN-PL Repository",
+  "clarin.login.logo_alt": "CLARIN-PL",
+  "clarin.login.title": "Your repository account",
+  "clarin.login.lead": "Sign in to deposit resources, follow curation and access materials with restricted availability.",
+  "clarin.login.benefit.deposit": "Submit data and tools for long-term stewardship",
+  "clarin.login.benefit.manage": "Manage deposits and respond to curators",
+  "clarin.login.benefit.access": "Access resources that require authorization",
+  "clarin.login.help": "Need help?",
+  "clarin.login.secure_label": "Secure sign-in",
+  "clarin.login.form_intro": "Use your local repository account. Institutional sign-in will become available after the production Shibboleth SP is configured.",
+  "clarin.login.privacy": "Credentials are sent only to the local repository server.",
+
+  "clarin.contact.label": "Help and contact",
+  "clarin.contact.feedback_title": "Send a message",
+  "clarin.contact.feedback_text": "Use the form to ask a question or report a problem.",
+  "clarin.contact.email_title": "Write to us directly",
+  "clarin.contact.response_title": "Repository support",
+  "clarin.contact.response_text": "Requests are routed to the team responsible for CLARIN-PL resources and infrastructure.",
+
 }

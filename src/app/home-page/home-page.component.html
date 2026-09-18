@@ -148,7 +148,18 @@
             <h2>{{ 'home-page.new-items.message' | translate }}</h2>
           </div>
         </div>
-        <ds-clarin-item-box-view *ngFor="let topItem of (topItems$ | async)" [object]="topItem"></ds-clarin-item-box-view>
+        <ng-container *ngIf="topItems$ | async as topItems">
+          <ds-clarin-item-box-view *ngFor="let topItem of topItems" [object]="topItem"></ds-clarin-item-box-view>
+          <div *ngIf="topItems.length === 0" class="clarin-resource-panel__empty" role="status">
+            <span class="clarin-resource-panel__empty-icon" aria-hidden="true">
+              <i class="far fa-chart-bar"></i>
+            </span>
+            <div>
+              <h3>{{ 'clarin.home.popular_empty_title' | translate }}</h3>
+              <p>{{ 'clarin.home.popular_empty_text' | translate }}</p>
+            </div>
+          </div>
+        </ng-container>
       </article>
     </div>
   </section>

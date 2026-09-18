@@ -80,6 +80,10 @@ export class ClarinItemBoxViewComponent implements OnInit {
    * The subject of the Item e.g., `Article,..`
    */
   itemType = '';
+  itemTypeLabel = '';
+  itemTypeLabelKey: string | null = null;
+  private readonly translatedItemTypes = new Set(['corpus', 'lexicalConceptualResource', 'languageDescription', 'toolService']);
+
   /**
    * The name of the Item.
    */
@@ -95,11 +99,11 @@ export class ClarinItemBoxViewComponent implements OnInit {
   /**
    * How kb/mb/gb has Item's files.
    */
-  itemFilesSizeBytes: BehaviorSubject<number> = new BehaviorSubject<number>(-1);
+  itemFilesSizeBytes: BehaviorSubject<number> = new BehaviorSubject<number>(0);
   /**
    * How many files the Item has.
    */
-  itemCountOfFiles: BehaviorSubject<number> = new BehaviorSubject<number>(-1);
+  itemCountOfFiles: BehaviorSubject<number> = new BehaviorSubject<number>(null);
   /**
    * The publisher of current Item
    */
@@ -152,6 +156,8 @@ export class ClarinItemBoxViewComponent implements OnInit {
 
     // Load Items metadata
     this.itemType = this.item?.firstMetadataValue('dc.type');
+    this.itemTypeLabelKey = this.translatedItemTypes.has(this.itemType) ? `item.type.${this.itemType}` : null;
+    this.itemTypeLabel = this.formateIconsAltText(this.itemType).replace(/ icon$/, '');
     this.itemName = this.item?.firstMetadataValue('dc.title');
     this.itemUri = getItemPageRoute(this.item);
     const descMeta = this.item?.firstMetadata('dc.description');
@@ -191,7 +197,7 @@ export class ClarinItemBoxViewComponent implements OnInit {
         bundle.bitstreams
           .pipe(getFirstSucceededRemoteListPayload())
           .subscribe((bitstreams: Bitstream[]) => {
-            let sizeOfAllBitstreams = -1;
+            let sizeOfAllBitstreams = 0;
             bitstreams.forEach(bitstream => {
               sizeOfAllBitstreams += bitstream.sizeBytes;
             });
@@ -255,8 +261,8 @@ export class ClarinItemBoxViewComponent implements OnInit {
         getFirstCompletedRemoteData(),
         switchMap((clList: RemoteData<PaginatedList<ClarinLicense>>) => clList?.payload?.page))
       .subscribe(clarinLicense => {
-        let iconsList = [];
-        clarinLicense.extendedClarinLicenseLabels.forEach(extendedCll => {
+        const iconsList = [];
+        (clarinLicense?.extendedClarinLicenseLabels ?? []).forEach(extendedCll => {
           iconsList.push(extendedCll);
         });
         this.licenseLabelIcons.next(iconsList);

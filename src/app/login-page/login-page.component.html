@@ -1,36 +1,49 @@
-<div class="container w-100 h-100">
-  <div class="text-center mt-5 row justify-content-center">
-    <div>
-      <div class="mb-4 d-flex justify-content-center align-items-center w-100">
-        <img class="login-logo" src="assets/images/dspace-logo.svg" alt="{{'repository.image.logo' | translate}}">
-        <a href="https://www.clarin.eu/" target="_blank" rel="noopener noreferrer">
-          <img class="ml-5 clarin-logo" src="assets/images/clarin-logo.svg" alt="Clarin logo" >
+<div class="clarin-login-page">
+  <div class="container clarin-login-page__container">
+    <section class="clarin-login-shell" [attr.aria-label]="'clarin.login.section_label' | translate">
+      <aside class="clarin-login-brand">
+        <a routerLink="/" class="clarin-login-brand__logo" [attr.aria-label]="'clarin.header.home_label' | translate">
+          <img src="assets/images/clarin-pl/logo-horizontal-white.svg" [alt]="'clarin.login.logo_alt' | translate">
         </a>
-      </div>
-      <h1 *ngIf="!authenticatedUser; else alreadyAuthenticated" class="h3 mb-0 font-weight-normal">{{"login.form.header" | translate}}</h1>
+        <p class="clarin-login-brand__eyebrow">{{ 'clarin.home.eyebrow' | translate }}</p>
+        <h1>{{ 'clarin.login.title' | translate }}</h1>
+        <p class="clarin-login-brand__lead">{{ 'clarin.login.lead' | translate }}</p>
+        <ul class="clarin-login-benefits">
+          <li><i class="fas fa-check" aria-hidden="true"></i><span>{{ 'clarin.login.benefit.deposit' | translate }}</span></li>
+          <li><i class="fas fa-check" aria-hidden="true"></i><span>{{ 'clarin.login.benefit.manage' | translate }}</span></li>
+          <li><i class="fas fa-check" aria-hidden="true"></i><span>{{ 'clarin.login.benefit.access' | translate }}</span></li>
+        </ul>
+        <a routerLink="/static/faq" class="clarin-login-brand__help">
+          {{ 'clarin.login.help' | translate }} <i class="fas fa-arrow-right" aria-hidden="true"></i>
+        </a>
+      </aside>
 
-       <ng-template #alreadyAuthenticated>
+      <div class="clarin-login-panel">
+        <div class="clarin-login-panel__label">{{ 'clarin.login.secure_label' | translate }}</div>
+        <ng-container *ngIf="!authenticatedUser; else alreadyAuthenticated">
+          <h2>{{ 'login.form.header' | translate }}</h2>
+          <p class="clarin-login-panel__intro">{{ 'clarin.login.form_intro' | translate }}</p>
+          <ds-themed-log-in [isStandalonePage]="true"></ds-themed-log-in>
+          <p class="clarin-login-panel__privacy">
+            <i class="fas fa-shield-alt" aria-hidden="true"></i>
+            <span>{{ 'clarin.login.privacy' | translate }}</span>
+          </p>
+        </ng-container>
+
+        <ng-template #alreadyAuthenticated>
           <div class="already-authenticated-message">
-            <h1 class="h3 mb-3 font-weight-normal">{{"login.already-authenticated.header" | translate}}</h1>
-            <p class="mb-4">{{"login.already-authenticated.message" | translate}}</p>
+            <h2>{{ 'login.already-authenticated.header' | translate }}</h2>
+            <p>{{ 'login.already-authenticated.message' | translate }}</p>
             <div class="action-buttons">
-              <a [routerLink]="['/home']" class="btn btn-primary mr-3">
-                {{"login.already-authenticated.go-home" | translate}}
-              </a>
-              <a [routerLink]="['/profile']" class="btn btn-outline-primary">
-                {{"login.already-authenticated.go-profile" | translate}}
-              </a>
+              <a [routerLink]="['/home']" class="btn btn-primary">{{ 'login.already-authenticated.go-home' | translate }}</a>
+              <a [routerLink]="['/profile']" class="btn btn-outline-primary">{{ 'login.already-authenticated.go-profile' | translate }}</a>
             </div>
-            <div class="mt-4">
-              <button class="btn btn-link"  [routerLink]="['/logout']">
-                {{"login.already-authenticated.logout" | translate}}
-              </button>
-            </div>
+            <button class="btn btn-link clarin-login-panel__logout" [routerLink]="['/logout']">
+              {{ 'login.already-authenticated.logout' | translate }}
+            </button>
           </div>
         </ng-template>
-
-      <ds-themed-log-in *ngIf="!authenticatedUser"
-      [isStandalonePage]="true"></ds-themed-log-in>
-    </div>
+      </div>
+    </section>
   </div>
 </div>

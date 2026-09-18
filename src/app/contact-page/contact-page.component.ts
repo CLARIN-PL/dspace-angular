@@ -7,14 +7,16 @@ import { ConfigurationDataService } from '../core/data/configuration-data.servic
   templateUrl: './contact-page.component.html'
 })
 export class ContactPageComponent implements OnInit {
-  emailToContact: string;
+  emailToContact = 'dspace@clarin-pl.eu';
   constructor(
     private configService: ConfigurationDataService
   ) {}
 
   ngOnInit(): void {
     this.configService.findByPropertyName('lr.help.mail').subscribe(remoteData => {
-      this.emailToContact = remoteData.payload.values[0];
+      if (remoteData?.payload?.values?.[0]) {
+        this.emailToContact = remoteData.payload.values[0];
+      }
     });
   }
 }

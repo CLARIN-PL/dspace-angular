@@ -1,19 +1,37 @@
-<div class="container w-100 h-100">
-    <div class="text-center mt-5 row justify-content-center">
-        <div>
-            <h1>{{'contact-us.title' | translate}}</h1>
-            <div>
-              <p>{{'contact-us.description' | translate}}</p>
-              <div class="text-left">
-                <span>{{'contact-us.form' | translate}} </span>
-                <a routerLink="info/feedback" class="ml-4">{{'contact-us.feedback' | translate}}</a>
-              </div>
-              <div class="text-left">
-                <span>{{'contact-us.email' | translate}}</span>
-                <a *ngIf="emailToContact" [href]="'mailto:' + emailToContact" class="email-text"
-                >{{emailToContact}}</a>
-              </div>
-            </div>
-          </div>
+<section class="clarin-contact" aria-labelledby="contact-title">
+  <div class="container">
+    <header class="clarin-contact__header">
+      <p class="clarin-contact__label">{{ 'clarin.contact.label' | translate }}</p>
+      <h1 id="contact-title">{{ 'contact-us.title' | translate }}</h1>
+      <p>{{ 'contact-us.description' | translate }}</p>
+    </header>
+
+    <div class="clarin-contact__grid">
+      <a routerLink="/info/feedback" class="clarin-contact-card">
+        <span class="clarin-contact-card__icon" aria-hidden="true"><i class="far fa-comment-alt"></i></span>
+        <span>
+          <strong>{{ 'clarin.contact.feedback_title' | translate }}</strong>
+          <small>{{ 'clarin.contact.feedback_text' | translate }}</small>
+        </span>
+        <i class="fas fa-arrow-right clarin-contact-card__arrow" aria-hidden="true"></i>
+      </a>
+
+      <a [href]="'mailto:' + emailToContact" class="clarin-contact-card">
+        <span class="clarin-contact-card__icon" aria-hidden="true"><i class="far fa-envelope"></i></span>
+        <span>
+          <strong>{{ 'clarin.contact.email_title' | translate }}</strong>
+          <small>{{ emailToContact }}</small>
+        </span>
+        <i class="fas fa-external-link-alt clarin-contact-card__arrow" aria-hidden="true"></i>
+      </a>
     </div>
+
+    <aside class="clarin-contact__note">
+      <i class="fas fa-info-circle" aria-hidden="true"></i>
+      <div>
+        <strong>{{ 'clarin.contact.response_title' | translate }}</strong>
+        <p>{{ 'clarin.contact.response_text' | translate }}</p>
+      </div>
+    </aside>
   </div>
+</section>
