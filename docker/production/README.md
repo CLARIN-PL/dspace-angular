@@ -28,6 +28,41 @@ requires both the Angular health endpoint and the REST API. Recreating the
 backend or frontend therefore does not leave Nginx pinned to a stale container
 address.
 
+## Password and CLARIN AAI login
+
+The stack enables local password authentication and federated authentication at
+the same time. The federated button sends the browser through the dedicated
+Apache/mod_shib service to the maintained CLARIN Discovery Service. Only
+mod_shib can add identity attributes to the protected DSpace endpoint; the
+public Nginx gateway removes matching client-supplied headers.
+
+The Shibboleth key and certificate remain outside Git. Their host paths are set
+with `SHIBBOLETH_KEY_PATH` and `SHIBBOLETH_CERT_PATH`. Keep the key readable only
+by its owner (`chmod 600`). The historical entity ID
+`http://www.clarin-pl.eu/shibboleth` is preserved and must not be changed without
+coordinating the change with the CLARIN federation. Detailed SP configuration is
+in the sibling repository at `clarin-dspace/docker/production/shibboleth/`.
+
+The local HTTP profile is suitable for checking metadata and the redirect to
+`https://discovery.clarin.eu`; an institutional sign-in can complete only on a
+public HTTPS URL whose metadata and callback endpoints are registered by the
+federation. For production set at least:
+
+```dotenv
+PUBLIC_URL=https://clarin-pl.eu
+REST_SSL=true
+REST_HOST=clarin-pl.eu
+REST_PORT=443
+SHIBBOLETH_SECURE=true
+SHIBBOLETH_SERVER_NAME=clarin-pl.eu
+SHIBBOLETH_HANDLER_SSL=true
+SHIBBOLETH_COOKIE_PROPS="; path=/; HttpOnly; secure; SameSite=None"
+```
+
+After changing these values, recreate `dspace`, `dspace-shibboleth` and `gateway`,
+then publish and register the metadata returned by
+`/shibboleth/Shibboleth.sso/Metadata`.
+
 Create the initial administrator after the stack is healthy:
 
 ```bash

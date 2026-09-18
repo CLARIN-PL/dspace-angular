@@ -2965,7 +2965,7 @@
 
   "login.form.forgot-password": "Have you forgotten your password?",
 
-  "login.form.header": "Please log in to DSpace",
+  "login.form.header": "Choose how to sign in",
 
   "login.form.new-user": "New user? Click here to register.",
 
@@ -2975,7 +2975,7 @@
 
   "login.form.password": "Password",
 
-  "login.form.shibboleth": "Log in with Shibboleth",
+  "login.form.shibboleth": "Sign in through CLARIN AAI",
 
   "login.form.submit": "Log in",
 
@@ -6829,8 +6829,8 @@
   "clarin.login.benefit.access": "Access resources that require authorization",
   "clarin.login.help": "Need help?",
   "clarin.login.secure_label": "Secure sign-in",
-  "clarin.login.form_intro": "Use your local repository account. Institutional sign-in will become available after the production Shibboleth SP is configured.",
-  "clarin.login.privacy": "Credentials are sent only to the local repository server.",
+  "clarin.login.form_intro": "Use your institutional identity through CLARIN AAI or sign in with a local repository account.",
+  "clarin.login.privacy": "Institutional credentials are handled by your identity provider; the repository receives only the attributes required to create and secure your account.",
 
   "clarin.contact.label": "Help and contact",
   "clarin.contact.feedback_title": "Send a message",

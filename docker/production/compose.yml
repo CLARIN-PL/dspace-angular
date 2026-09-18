@@ -107,9 +107,10 @@ services:
       mail__P__admin: ${MAIL_ADMIN:-admin@clarin-pl.eu}
       feedback__P__recipient: ${FEEDBACK_RECIPIENT:-dspace@clarin-pl.eu}
       registration__P__notify: ${REGISTRATION_NOTIFY:-dspace@clarin-pl.eu}
-      plugin__P__sequence__P__org__P__dspace__P__authenticate__P__AuthenticationMethod: ${AUTHENTICATION_METHODS:-org.dspace.authenticate.PasswordAuthentication}
-      authentication__D__shibboleth__P__lazysession__P__loginurl: ${SHIBBOLETH_LOGIN_URL:-/Shibboleth.sso/Login}
-      authentication__D__shibboleth__P__netid__D__header: ${SHIBBOLETH_NETID_HEADERS:-eppn,persistent-id}
+      plugin__P__sequence__P__org__P__dspace__P__authenticate__P__AuthenticationMethod: ${AUTHENTICATION_METHODS:-org.dspace.authenticate.PasswordAuthentication,org.dspace.authenticate.clarin.ClarinShibAuthentication}
+      authentication__D__shibboleth__P__lazysession__P__loginurl: ${SHIBBOLETH_LOGIN_URL:-/shibboleth/Shibboleth.sso/Login}
+      authentication__D__shibboleth__P__lazysession__P__secure: ${SHIBBOLETH_SECURE:-false}
+      authentication__D__shibboleth__P__netid__D__header: ${SHIBBOLETH_NETID_HEADERS:-eppn,subject-id,pairwise-id,persistent-id}
       authentication__D__shibboleth__P__email__D__header: ${SHIBBOLETH_EMAIL_HEADER:-mail}
       authentication__D__shibboleth__P__firstname__D__header: ${SHIBBOLETH_FIRSTNAME_HEADER:-givenName}
       authentication__D__shibboleth__P__lastname__D__header: ${SHIBBOLETH_LASTNAME_HEADER:-sn}
@@ -134,6 +135,39 @@ services:
       timeout: 10s
       retries: 30
       start_period: 90s
+
+  dspace-shibboleth:
+    build:
+      context: ../../../clarin-dspace/dspace/src/main/docker/dspace-shibboleth
+      args:
+        UBUNTU_VERSION: 24.04
+    image: clarin-pl/dspace-shibboleth:local
+    restart: unless-stopped
+    environment:
+      TZ: ${TIMEZONE:-Europe/Warsaw}
+      APACHE_SERVER_NAME: ${SHIBBOLETH_SERVER_NAME:-localhost:4000}
+      SHIBBOLETH_ENTITY_ID: ${SHIBBOLETH_ENTITY_ID:-http://www.clarin-pl.eu/shibboleth}
+      SHIBBOLETH_HOME_URL: ${PUBLIC_URL:?Set PUBLIC_URL in .env}
+      SHIBBOLETH_DISCOVERY_URL: ${SHIBBOLETH_DISCOVERY_URL:-https://discovery.clarin.eu}
+      SHIBBOLETH_HANDLER_SSL: ${SHIBBOLETH_HANDLER_SSL:-false}
+      SHIBBOLETH_COOKIE_PROPS: "${SHIBBOLETH_COOKIE_PROPS:-; path=/; HttpOnly; SameSite=Lax}"
+      SHIBBOLETH_SUPPORT_CONTACT: ${SHIBBOLETH_SUPPORT_CONTACT:-dspace@clarin-pl.eu}
+    depends_on:
+      dspace:
+        condition: service_healthy
+    volumes:
+      - ../../../clarin-dspace/docker/production/shibboleth/shibboleth2.xml.template:/etc/shibboleth/shibboleth2.xml.template:ro
+      - ../../../clarin-dspace/docker/production/shibboleth/dspace-vhost.conf:/etc/apache2/sites-available/dspace-vhost.conf:ro
+      - ${SHIBBOLETH_KEY_PATH:?Set SHIBBOLETH_KEY_PATH in .env}:/run/shibboleth-source/sp-key.pem:ro
+      - ${SHIBBOLETH_CERT_PATH:?Set SHIBBOLETH_CERT_PATH in .env}:/run/shibboleth-source/sp-cert.pem:ro
+    networks:
+      - internal
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1/shibboleth/Shibboleth.sso/Status >/dev/null"]
+      interval: 15s
+      timeout: 10s
+      retries: 20
+      start_period: 45s
 
   dspace-angular:
     build:
@@ -178,6 +212,8 @@ services:
       dspace:
         condition: service_healthy
       dspace-angular:
+        condition: service_healthy
+      dspace-shibboleth:
         condition: service_healthy
     ports:
       - "${HTTP_BIND:-127.0.0.1}:${HTTP_PORT:-4000}:8080"

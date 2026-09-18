@@ -4566,7 +4566,7 @@
   "login.form.forgot-password": "Nie pamiętasz hasła?",
 
   // "login.form.header": "Please log in to DSpace",
-  "login.form.header": "Zaloguj się do DSpace",
+  "login.form.header": "Wybierz sposób logowania",
 
   // "login.form.new-user": "New user? Click here to register.",
   "login.form.new-user": "Nie masz konta? Zarejestruj się.",
@@ -4581,7 +4581,7 @@
   "login.form.password": "Hasło",
 
   // "login.form.shibboleth": "Log in with Shibboleth",
-  "login.form.shibboleth": "Zaloguj za pomocą Shibboleth",
+  "login.form.shibboleth": "Zaloguj przez CLARIN AAI",
 
   // "login.form.submit": "Log in",
   "login.form.submit": "Zaloguj się",
@@ -8649,8 +8649,8 @@
   "clarin.login.benefit.access": "Uzyskuj dostęp do zasobów wymagających autoryzacji",
   "clarin.login.help": "Potrzebujesz pomocy?",
   "clarin.login.secure_label": "Bezpieczne logowanie",
-  "clarin.login.form_intro": "Użyj danych lokalnego konta repozytorium. Logowanie instytucjonalne zostanie udostępnione po skonfigurowaniu produkcyjnego Shibboleth SP.",
-  "clarin.login.privacy": "Dane logowania są przesyłane wyłącznie do lokalnego serwera repozytorium.",
+  "clarin.login.form_intro": "Zaloguj się kontem swojej instytucji przez CLARIN AAI albo użyj lokalnego konta repozytorium.",
+  "clarin.login.privacy": "Dane logowania instytucjonalnego obsługuje Twój dostawca tożsamości; repozytorium otrzymuje tylko atrybuty potrzebne do utworzenia i zabezpieczenia konta.",
 
   "contact-us.breadcrumbs": "Kontakt",
   "contact-us.title": "Skontaktuj się z nami",

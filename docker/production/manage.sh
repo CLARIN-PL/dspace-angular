@@ -50,13 +50,22 @@ case "${1:-}" in
         ensure_env MAIL_ADMIN admin@clarin-pl.eu
         ensure_env FEEDBACK_RECIPIENT dspace@clarin-pl.eu
         ensure_env REGISTRATION_NOTIFY dspace@clarin-pl.eu
-        ensure_env AUTHENTICATION_METHODS org.dspace.authenticate.PasswordAuthentication
-        ensure_env SHIBBOLETH_LOGIN_URL /Shibboleth.sso/Login
-        ensure_env SHIBBOLETH_NETID_HEADERS eppn,persistent-id
+        ensure_env AUTHENTICATION_METHODS org.dspace.authenticate.PasswordAuthentication,org.dspace.authenticate.clarin.ClarinShibAuthentication
+        ensure_env SHIBBOLETH_LOGIN_URL /shibboleth/Shibboleth.sso/Login
+        ensure_env SHIBBOLETH_SECURE false
+        ensure_env SHIBBOLETH_SERVER_NAME localhost:4000
+        ensure_env SHIBBOLETH_ENTITY_ID http://www.clarin-pl.eu/shibboleth
+        ensure_env SHIBBOLETH_DISCOVERY_URL https://discovery.clarin.eu
+        ensure_env SHIBBOLETH_HANDLER_SSL false
+        ensure_env SHIBBOLETH_COOKIE_PROPS '"; path=/; HttpOnly; SameSite=Lax"'
+        ensure_env SHIBBOLETH_SUPPORT_CONTACT dspace@clarin-pl.eu
+        ensure_env SHIBBOLETH_NETID_HEADERS eppn,subject-id,pairwise-id,persistent-id
         ensure_env SHIBBOLETH_EMAIL_HEADER mail
         ensure_env SHIBBOLETH_FIRSTNAME_HEADER givenName
         ensure_env SHIBBOLETH_LASTNAME_HEADER sn
         ensure_env SHIBBOLETH_AUTOREGISTER true
+        ensure_env SHIBBOLETH_KEY_PATH /media/tomasz/61a05882-c126-4df8-bb14-228582bd35cd/Backup_2026/Backup/dspace/etc/shibboleth/sp-key-2025.pem
+        ensure_env SHIBBOLETH_CERT_PATH /media/tomasz/61a05882-c126-4df8-bb14-228582bd35cd/Backup_2026/Backup/dspace/etc/shibboleth/sp-cert-2025.pem
         ensure_env LEGACY_DB_PASSWORD __LEGACY_DB_PASSWORD__
         ensure_env LEGACY_DSPACE_DUMP '"/media/tomasz/61a05882-c126-4df8-bb14-228582bd35cd/Backup_2026/Backup/dspace/backup_db 17_2_2026/dspace"'
         ensure_env LEGACY_UTILITIES_DUMP '"/media/tomasz/61a05882-c126-4df8-bb14-228582bd35cd/Backup_2026/Backup/dspace/backup_db 17_2_2026/dspace_utilities"'

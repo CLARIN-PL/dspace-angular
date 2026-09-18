@@ -149,6 +149,17 @@
 .clarin-login-panel ::ng-deep .form-control { min-height: 54px; }
 .clarin-login-panel ::ng-deep .btn-primary { min-height: 52px; font-weight: 800; }
 .clarin-login-panel ::ng-deep .dropdown-item { padding-left: 0; color: var(--clarin-navy); }
+.clarin-login-panel ::ng-deep ds-log-in-external-provider .btn-primary {
+  border-color: var(--clarin-navy);
+  color: #fff;
+  background: linear-gradient(90deg, var(--clarin-green) 0 .35rem, var(--clarin-navy) .35rem 100%);
+  box-shadow: 0 .75rem 1.8rem rgba(0, 0, 39, .16);
+}
+.clarin-login-panel ::ng-deep ds-log-in-external-provider .btn-primary:hover,
+.clarin-login-panel ::ng-deep ds-log-in-external-provider .btn-primary:focus-visible {
+  border-color: #071348;
+  background: linear-gradient(90deg, var(--clarin-green) 0 .35rem, #071348 .35rem 100%);
+}
 
 .clarin-login-panel__privacy {
   display: flex;
