@@ -93,6 +93,14 @@ describe('ClarinItemBoxViewComponent', () => {
     expect(component).toBeDefined();
   });
 
+  it('uses the correct Polish file-count form', () => {
+    [2, 3, 4, 22, 103, 124].forEach(count =>
+      expect(component.fileCountTranslationKey(count)).toBe('item.view.box.files.few'));
+    [5, 11, 12, 14, 21, 25, 111, 112].forEach(count =>
+      expect(component.fileCountTranslationKey(count)).toBe('item.view.box.files.many'));
+  });
+
+
   describe('formateIconsAltText', () => {
     it('should format camelCase item type correctly', () => {
       const result = component.formateIconsAltText('researchData');

@@ -1,23 +1,17 @@
-<div class="container alert alert-dismissible alert-info fade show w-100">
-  <div class="text-center">
-    <div [ngClass]="isCsLocale() ? '': 'd-inline-flex'">
-      <span class="pr-1">{{'item.page.license.message.0' | translate}}</span>
-      <span [ngClass]="'label ' + ' label-' + licenseLabel + ' rounded' + ' px-1'">{{licenseType}}</span>
-    </div>
-    <div class="d-inline-flex">
-      <span class="pl-1">{{'item.page.license.message.1' | translate}}</span>
-    </div>
-    <div [ngClass]="isCsLocale() ? 'd-inline-flex': ''">
-      <a [href]="licenseURI" class="pl-1">{{license}}</a>
-    </div>
-    <div>
-      <img class="mr-1"
-           *ngFor="let lli of (licenseLabelIcons | async)"
-           [src]="secureImageData(lli.icon)"
-           [ngbTooltip]="lli?.title"
-           placement="bottom"
-           triggers="mouseenter:mouseleave"
-           alt="" width="24px">
-    </div>
+<div *ngIf="licenseType || license" class="clarin-license-notice" role="note">
+  <div class="clarin-license-notice__text">
+    <span *ngIf="licenseType">{{ 'item.page.license.message.0' | translate }}</span>
+    <span *ngIf="licenseType" [ngClass]="'clarin-license-notice__badge label-' + licenseLabel">{{ licenseType | translate }}</span>
+    <span *ngIf="license">{{ 'item.page.license.message.1' | translate }}</span>
+    <a *ngIf="license && licenseURI" [href]="licenseURI" target="_blank" rel="noopener noreferrer">{{ license }}</a>
+    <span *ngIf="license && !licenseURI">{{ license }}</span>
+  </div>
+  <div *ngIf="(licenseLabelIcons | async)?.length" class="clarin-license-notice__icons">
+    <img *ngFor="let lli of (licenseLabelIcons | async)"
+         [src]="secureImageData(lli.icon)"
+         [ngbTooltip]="lli?.title"
+         placement="bottom"
+         triggers="mouseenter:mouseleave"
+         [alt]="lli?.title || ''" width="24">
   </div>
 </div>

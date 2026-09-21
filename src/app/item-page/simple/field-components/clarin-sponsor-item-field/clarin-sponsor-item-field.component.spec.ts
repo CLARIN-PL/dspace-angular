@@ -58,4 +58,16 @@ describe('ClarinSponsorItemFieldComponent', () => {
     expect(fixture.debugElement.query(By.css('#project-code-value-0')).nativeElement.textContent).toContain(PROJECT_CODE);
     expect(fixture.debugElement.query(By.css('#project-name-value-0')).nativeElement.textContent).toContain(PROJECT_NAME);
   });
+
+  it('hides legacy N/A project codes without hiding valid sponsor details', () => {
+    component.item = mockItemWithMetadataFieldsAndValue(
+      ['local.sponsor'], 'EU;N/A;Valid institution;Valid project;info:eu-repo/grantAgreement/test/test/test/EU'
+    );
+    fixture.detectChanges();
+
+    expect(fixture.debugElement.query(By.css('#project-code-value-0'))).toBeNull();
+    expect(fixture.debugElement.query(By.css('#organization-value-0')).nativeElement.textContent).toContain('Valid institution');
+    expect(fixture.debugElement.query(By.css('#project-name-value-0')).nativeElement.textContent).toContain('Valid project');
+  });
+
 });

@@ -38,13 +38,14 @@
     <footer class="clarin-resource-card__footer">
       <div class="clarin-resource-card__files">
         <i class="fas fa-paperclip" aria-hidden="true"></i>
-        <span *ngIf="hasMoreFiles()">{{ 'item.view.box.files.message.0' | translate }} {{ itemCountOfFiles | async }} {{ 'item.view.box.files.message.1' | translate }} ({{ (itemFilesSizeBytes | async) | dsFileSize }})</span>
+        <span *ngIf="hasMoreFiles()">{{ 'item.view.box.files.message.0' | translate }} {{ itemCountOfFiles | async }} {{ fileCountTranslationKey(itemCountOfFiles | async) | translate }}<ng-container *ngIf="(itemFilesSizeBytes | async) !== null"> ({{ (itemFilesSizeBytes | async) | dsFileSize }})</ng-container></span>
         <span *ngIf="(itemCountOfFiles | async) === 1">{{ 'item.view.box.one.file.message' | translate }} ({{ (itemFilesSizeBytes | async) | dsFileSize }})</span>
         <span *ngIf="(itemCountOfFiles | async) === 0">{{ 'item.view.box.no-files.message' | translate }}</span>
         <span *ngIf="(itemCountOfFiles | async) === null">{{ 'item.view.box.loading-files.message' | translate }}</span>
+        <span *ngIf="(itemCountOfFiles | async) === -1">{{ 'item.view.box.files.error' | translate }}</span>
       </div>
       <div *ngIf="licenseType != null" [ngClass]="'clarin-resource-card__license label-' + licenseLabel">
-        <span>{{ licenseType }}</span>
+        <span>{{ licenseType | translate }}</span>
         <div class="d-inline" *ngFor="let lli of (licenseLabelIcons | async)">
           <img [ngClass]="{'clarin-license-icon-mr': licenseLabelIcons.value.length > 1}"
                [src]="secureImageData(lli?.icon)" [ngbTooltip]="lli?.title"

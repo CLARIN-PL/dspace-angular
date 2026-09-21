@@ -6056,6 +6056,9 @@
 
   "item.page.acknowledgement.project-name": "Project name:",
 
+  "item.license.access.public": "Publicly available",
+  "item.license.access.restricted": "Restricted use",
+  "item.license.access.academic": "Academic use",
   "item.page.acknowledgement.project-code": "Project code:",
 
   "item.page.date.cca.message": "The exact date is unknown",
@@ -6089,6 +6092,9 @@
   "item.view.box.publisher.message": "Publisher:",
 
   "item.view.box.files.message": ["This item contains", "files"],
+  "item.view.box.files.few": "files",
+  "item.view.box.files.many": "files",
+  "item.view.box.files.error": "Unable to check files.",
 
   "item.view.box.one.file.message": "This item contains 1 file",
 

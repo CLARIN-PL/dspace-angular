@@ -12,12 +12,11 @@ export class ClarinSponsorItemFieldComponent {
 
   @Input() item: Item;
 
-  PROJECT_CODE_ERROR = 'Error: Cannot load project code';
-  ORGANIZATION_ERROR = 'Error: Cannot load organization';
-  PROJECT_NAME_ERROR = 'Error: Cannot load project name';
   SPONSOR_VALUE_SEPARATOR = SEPARATOR;
 
-  getValueOrError(value: string, defaultValue: string): string {
-    return value ? value : defaultValue;
+  hasDisplayValue(value: string): boolean {
+    const normalized = value?.trim();
+    // Legacy deposits may use N/A where no project number was provided.
+    return !!normalized && !/^(?:n\/a|n\.a\.?|na|not available)$/i.test(normalized);
   }
 }

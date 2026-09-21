@@ -2,10 +2,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Item } from '../../core/shared/item.model';
 import { CollectionDataService } from '../../core/data/collection-data.service';
-import {
-  getFirstCompletedRemoteData,
-  getFirstSucceededRemoteDataPayload, getFirstSucceededRemoteListPayload
-} from '../../core/shared/operators';
+import { getFirstCompletedRemoteData, getFirstSucceededRemoteDataPayload } from '../../core/shared/operators';
 import { Collection } from '../../core/shared/collection.model';
 import { isEmpty, isNull } from '../empty.util';
 import { followLink } from '../utils/follow-link-config.model';
@@ -99,7 +96,7 @@ export class ClarinItemBoxViewComponent implements OnInit {
   /**
    * How kb/mb/gb has Item's files.
    */
-  itemFilesSizeBytes: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+  itemFilesSizeBytes: BehaviorSubject<number> = new BehaviorSubject<number>(null);
   /**
    * How many files the Item has.
    */
@@ -186,23 +183,35 @@ export class ClarinItemBoxViewComponent implements OnInit {
     if (isNull(this.item)) {
       return;
     }
-    const configAllElements: FindListOptions = Object.assign(new FindListOptions(), {
-      elementsPerPage: 9999
+    // Fetch only a preview page: migrated items can contain thousands of files.
+    const previewPage: FindListOptions = Object.assign(new FindListOptions(), {
+      elementsPerPage: 50
     });
 
     this.bundleService.findByItemAndName(this.item, 'ORIGINAL', true, true,
-      configAllElements, followLink('bitstreams', { findListOptions: configAllElements }))
-      .pipe(getFirstSucceededRemoteDataPayload())
-      .subscribe((bundle: Bundle) => {
+      previewPage, followLink('bitstreams', { findListOptions: previewPage }))
+      .pipe(getFirstCompletedRemoteData())
+      .subscribe((bundleResponse: RemoteData<Bundle>) => {
+        if (!bundleResponse.hasSucceeded) {
+          // Items without an ORIGINAL bundle are valid; don't leave their cards loading forever.
+          this.itemCountOfFiles.next(bundleResponse.statusCode === 404 ? 0 : -1);
+          return;
+        }
+        const bundle = bundleResponse.payload;
         bundle.bitstreams
-          .pipe(getFirstSucceededRemoteListPayload())
-          .subscribe((bitstreams: Bitstream[]) => {
-            let sizeOfAllBitstreams = 0;
-            bitstreams.forEach(bitstream => {
-              sizeOfAllBitstreams += bitstream.sizeBytes;
-            });
-            this.itemFilesSizeBytes.next(sizeOfAllBitstreams);
-            this.itemCountOfFiles.next(bitstreams.length);
+          .pipe(getFirstCompletedRemoteData())
+          .subscribe((bitstreamResponse: RemoteData<PaginatedList<Bitstream>>) => {
+            if (!bitstreamResponse.hasSucceeded) {
+              this.itemCountOfFiles.next(-1);
+              return;
+            }
+            const bitstreams = bitstreamResponse.payload.page;
+            const fileCount = bitstreamResponse.payload.pageInfo?.totalElements ?? bitstreams.length;
+            if (fileCount === bitstreams.length) {
+              const sizeOfAllBitstreams = bitstreams.reduce((size, bitstream) => size + bitstream.sizeBytes, 0);
+              this.itemFilesSizeBytes.next(sizeOfAllBitstreams);
+            }
+            this.itemCountOfFiles.next(fileCount);
           });
       });
   }
@@ -236,13 +245,13 @@ export class ClarinItemBoxViewComponent implements OnInit {
     this.license = this.item?.metadata?.['dc.rights']?.[0]?.value;
     switch (this.licenseLabel) {
       case LicenseType.public:
-        this.licenseType = 'Publicly Available';
+        this.licenseType = 'item.license.access.public';
         break;
       case LicenseType.restricted:
-        this.licenseType = 'Restricted Use';
+        this.licenseType = 'item.license.access.restricted';
         break;
       case LicenseType.academic:
-        this.licenseType = 'Academic Use';
+        this.licenseType = 'item.license.access.academic';
         break;
       default:
         this.licenseType = this.licenseLabel;
@@ -279,6 +288,11 @@ export class ClarinItemBoxViewComponent implements OnInit {
 
   hasMoreFiles() {
     return this.itemCountOfFiles.value > 1;
+  }
+
+  fileCountTranslationKey(count: number): string {
+    const few = count % 10 >= 2 && count % 10 <= 4 && (count % 100 < 12 || count % 100 > 14);
+    return few ? 'item.view.box.files.few' : 'item.view.box.files.many';
   }
 
   handleImageError(event) {

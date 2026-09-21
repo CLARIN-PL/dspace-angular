@@ -1,14 +1,68 @@
 .label-PUB {
-  background-color: #5cb811 !important;
+  background-color: #145c38 !important;
   color: white !important;
 }
 
 .label-RES {
-  background-color: #c62d1f !important;
+  background-color: #9f2b2b !important;
   color: white !important;
 }
 
 .label-ACA, .label-PDT {
-  background-color: #ffab23 !important;
-  color: white !important;
+  background-color: #ffda7a !important;
+  color: var(--clarin-pl-navy) !important;
+}
+
+.clarin-license-notice {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+  width: 100%;
+  padding: .9rem 1rem;
+  color: var(--clarin-pl-navy);
+  background: #f1f8f5;
+  border: 1px solid #c8ded5;
+  border-left: 4px solid var(--clarin-pl-green-dark);
+  border-radius: .5rem;
+}
+
+.clarin-license-notice__text {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: .35rem .45rem;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.clarin-license-notice__badge {
+  display: inline-block;
+  padding: .2rem .55rem;
+  border-radius: .25rem;
+  font-weight: 700;
+}
+
+.clarin-license-notice__icons {
+  display: flex;
+  flex: none;
+  flex-wrap: wrap;
+  gap: .35rem;
+}
+
+.clarin-license-notice a {
+  color: #006d56;
+  text-decoration: underline;
+}
+
+.clarin-license-notice a:focus-visible {
+  outline: 2px solid var(--clarin-pl-green-dark);
+  outline-offset: 2px;
+}
+
+@media (max-width: 575px) {
+  .clarin-license-notice {
+    align-items: flex-start;
+    flex-direction: column;
+  }
 }

@@ -9,7 +9,6 @@ import { ClarinLicense } from '../../core/shared/clarin/clarin-license.model';
 import { DomSanitizer } from '@angular/platform-browser';
 import { secureImageData } from '../../shared/clarin-shared-util';
 import { BehaviorSubject } from 'rxjs';
-import { LocaleService } from '../../core/locale/locale.service';
 import {RequestParam} from '../../core/cache/models/request-param.model';
 
 /**
@@ -23,8 +22,7 @@ import {RequestParam} from '../../core/cache/models/request-param.model';
 export class ClarinLicenseInfoComponent implements OnInit {
 
   constructor(private sanitizer: DomSanitizer,
-              private clarinLicenseService: ClarinLicenseDataService,
-              private localeService: LocaleService) { }
+              private clarinLicenseService: ClarinLicenseDataService) { }
 
   /**
    * The item to display a version history for
@@ -63,13 +61,16 @@ export class ClarinLicenseInfoComponent implements OnInit {
     this.licenseURI = this.item.metadata?.['dc.rights.uri']?.[0]?.value;
     switch (this.licenseLabel) {
       case LicenseType.public:
-        this.licenseType = 'Publicly Available';
+        this.licenseType = 'item.license.access.public';
         break;
       case LicenseType.restricted:
-        this.licenseType = 'Restricted Use';
+        this.licenseType = 'item.license.access.restricted';
         break;
       case LicenseType.academic:
-        this.licenseType = 'Academic Use';
+        this.licenseType = 'item.license.access.academic';
+        break;
+      default:
+        this.licenseType = this.licenseLabel;
         break;
     }
 
@@ -82,10 +83,10 @@ export class ClarinLicenseInfoComponent implements OnInit {
     this.clarinLicenseService.searchBy('byName', options, false)
       .pipe(
         getFirstCompletedRemoteData(),
-        switchMap((clList: RemoteData<PaginatedList<ClarinLicense>>) => clList?.payload?.page))
+        switchMap((clList: RemoteData<PaginatedList<ClarinLicense>>) => clList?.payload?.page ?? []))
       .subscribe(clarinLicense => {
           let iconsList = [];
-          clarinLicense.extendedClarinLicenseLabels.forEach(extendedCll => {
+          (clarinLicense?.extendedClarinLicenseLabels ?? []).forEach(extendedCll => {
             iconsList.push(extendedCll);
           });
           this.licenseLabelIcons.next(iconsList);
@@ -96,12 +97,6 @@ export class ClarinLicenseInfoComponent implements OnInit {
     return secureImageData(this.sanitizer, imageByteArray);
   }
 
-  /**
-   * Check if current language is Czech
-   */
-  isCsLocale() {
-    return this.localeService.getCurrentLanguageCode() === 'cs';
-  }
 }
 
 export enum LicenseType {
