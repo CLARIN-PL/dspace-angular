@@ -123,7 +123,11 @@ services:
     volumes:
       # The legacy files stay in place. The migration API registers their
       # existing internal IDs and never uploads/copies their content.
-      - ${DSPACE_ASSETSTORE_PATH:?Set DSPACE_ASSETSTORE_PATH in .env}:/dspace/assetstore
+      - type: bind
+        source: ${DSPACE_ASSETSTORE_PATH:?Set DSPACE_ASSETSTORE_PATH in .env}
+        target: /dspace/assetstore
+        bind:
+          create_host_path: false
       - dspace_logs:/dspace/log
       - dspace_handle:/dspace/handle-server
       - ../../../clarin-dspace/docker/production/local.cfg:/dspace/config/local.cfg:ro
@@ -158,8 +162,18 @@ services:
     volumes:
       - ../../../clarin-dspace/docker/production/shibboleth/shibboleth2.xml.template:/etc/shibboleth/shibboleth2.xml.template:ro
       - ../../../clarin-dspace/docker/production/shibboleth/dspace-vhost.conf:/etc/apache2/sites-available/dspace-vhost.conf:ro
-      - ${SHIBBOLETH_KEY_PATH:?Set SHIBBOLETH_KEY_PATH in .env}:/run/shibboleth-source/sp-key.pem:ro
-      - ${SHIBBOLETH_CERT_PATH:?Set SHIBBOLETH_CERT_PATH in .env}:/run/shibboleth-source/sp-cert.pem:ro
+      - type: bind
+        source: ${SHIBBOLETH_KEY_PATH:?Set SHIBBOLETH_KEY_PATH in .env}
+        target: /run/shibboleth-source/sp-key.pem
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ${SHIBBOLETH_CERT_PATH:?Set SHIBBOLETH_CERT_PATH in .env}
+        target: /run/shibboleth-source/sp-cert.pem
+        read_only: true
+        bind:
+          create_host_path: false
     networks:
       - internal
     healthcheck:

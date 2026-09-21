@@ -1,4 +1,4 @@
-<div class="container clarin-shadow remove-padding clarin-home-page-borders clarin-cut-bottom-2 clarin-cut-top-1 pb-2"
+<div class="container clarin-record-shell"
      *ngVar="(itemRD$ | async) as itemRD">
   <div class="item-page" *ngIf="itemRD?.hasSucceeded && itemRD?.payload as item" @fadeInOut>
     <div *ngIf="!(isAdmin$ | async)?.valueOf() && (withdrawnTombstone || replacedTombstone)">

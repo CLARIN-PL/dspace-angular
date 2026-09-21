@@ -57,7 +57,12 @@ services:
       legacydb:
         condition: service_healthy
     volumes:
-      - ${DSPACE_ASSETSTORE_PATH:?Set DSPACE_ASSETSTORE_PATH in .env}:/legacy-assetstore:ro
+      - type: bind
+        source: ${DSPACE_ASSETSTORE_PATH:?Set DSPACE_ASSETSTORE_PATH in .env}
+        target: /legacy-assetstore
+        read_only: true
+        bind:
+          create_host_path: false
       - migration_state:/opt/dspace-migrate/src/__temp
       - migration_logs:/opt/dspace-migrate/__logs
       - migration_exports:/opt/dspace-migrate/input

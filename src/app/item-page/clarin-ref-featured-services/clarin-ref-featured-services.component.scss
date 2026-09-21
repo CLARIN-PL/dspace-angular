@@ -1,85 +1,129 @@
+:host {
+  display: block;
+}
 
 .clarin-ref-box-footer {
-  background-color: #D8EDF6;
-  border: 1px solid #bbe8ef;
-  color: #3388AA;
-  border-radius: 0 0 6px 6px;
   width: 100%;
+  color: var(--clarin-pl-navy);
+  background: #eef4f2;
+  border: 1px solid rgba(0, 0, 39, .14);
+  border-top: 0;
+  border-radius: 0 0 .65rem .65rem;
 }
 
 .clarin-ref-box-footer-body {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem 1.5rem;
   width: 100%;
-  font-weight: bold;
-  font-size: 15px;
+  padding: .85rem 1.15rem;
+  font-size: .875rem;
+  font-weight: 600;
+}
+
+.clarin-featured-services {
+  min-width: 0;
+}
+
+.clarin-ref-box-footer-heading,
+.clarin-share-section,
+.clarin-share-links {
+  display: flex;
+  align-items: center;
+}
+
+.clarin-ref-box-footer-heading {
+  gap: .55rem;
+  line-height: 1.35;
 }
 
 .clarin-ref-box-footer-icon {
-  font-size: 1.6em;
-}
-
-.clarin-share-buttons {
-  font-size: 2em;
-  cursor: pointer;
-  text-decoration: none;
-  padding-right: 4px;
-}
-
-.clarin-share-facebook {
-  color: #395a93;
-
-  &:hover {
-    color: #2d4373;
-  }
-}
-
-.clarin-share-twitter {
-  color: #00AEE8;
-
-  &:hover {
-    color: #0088cc;
-  }
+  color: var(--clarin-pl-green-dark);
+  font-size: 1.1rem;
 }
 
 .clarin-ref-box-footer-services {
-  margin: 0 0 0 2.4em;
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  margin: .65rem 0 0 1.65rem;
 }
 
 .clarin-ref-box-services-button {
-  font: inherit !important;
-  font-size: 14px !important;
-  line-height: 1 !important;
-  font-weight: bold !important;
-  color: #ffffff !important;
-  display: inline-block !important;
-  cursor: pointer !important;
-  padding: 6px 12px !important;
-  text-align: center !important;
-  white-space: nowrap !important;
-  vertical-align: middle !important;
-  background-color: #428bca !important;
-  background-image: none !important;
-  -moz-appearance: button !important;
-  text-indent: 0 !important;
+  min-height: 38px;
+  padding: .45rem .75rem;
+  color: #fff !important;
+  background: var(--clarin-pl-navy) !important;
+  border-color: var(--clarin-pl-navy) !important;
+  font-size: .82rem !important;
+  font-weight: 700 !important;
+  line-height: 1.15 !important;
   text-decoration: none !important;
-  text-shadow: none !important;
-  text-transform: none !important;
-  -webkit-user-select: none !important;
-  -moz-user-select: none !important;
-  -ms-user-select: none !important;
-  user-select: none !important;
-  border: 1px solid #357ebd !important;
+}
 
-  &:hover {
-    background-color: #3071a9 !important;
-    border-color: #285e8e !important;
-  }
+.clarin-ref-box-services-button:hover {
+  background: #15165a !important;
+  border-color: #15165a !important;
+}
 
-  &:focus {
-    box-shadow: none !important;
-  }
+.clarin-ref-box-services-button:focus-visible,
+.clarin-share-buttons:focus-visible {
+  outline: 2px solid var(--clarin-pl-green-dark);
+  outline-offset: 2px;
+  box-shadow: none !important;
+}
+
+.clarin-share-section {
+  flex: 0 0 auto;
+  gap: .65rem;
+}
+
+.clarin-share-links {
+  gap: .4rem;
+}
+
+.clarin-share-buttons {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  border-radius: .35rem;
+  font-size: 1.75rem;
+  text-decoration: none;
+}
+
+.clarin-share-facebook {
+  color: #315899;
+}
+
+.clarin-share-twitter {
+  color: #167ea5;
+}
+
+.clarin-share-buttons:hover {
+  color: var(--clarin-pl-navy);
+  background: rgba(0, 0, 39, .06);
+  text-decoration: none;
 }
 
 .lindat-dropdown-menu {
   max-height: 260px;
   overflow-y: auto;
+}
+
+@media (max-width: 767.98px) {
+  .clarin-ref-box-footer-body {
+    flex-direction: column;
+  }
+
+  .clarin-share-section {
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .clarin-ref-box-footer-services {
+    margin-left: 0;
+  }
 }

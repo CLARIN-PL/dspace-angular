@@ -1,9 +1,9 @@
 <div class="row clarin-item-page-field">
-  <div class="col-md-2 d-flex">
+  <div class="col-12 col-lg-3 d-flex clarin-item-page-field__label">
     <div><i [class]="'fas ' + iconName + ' fa-xs'"></i></div>
     <div class="pl-1"><b>{{'item.page.files' | translate}}</b></div>
   </div>
-  <div class="col-md-10">
+  <div class="col-12 col-lg-9 clarin-item-page-field__value">
     <div class="file-section" *ngVar="(bitstreams$ | async) as bitstreams">
       <ds-file-download-link *ngFor="let file of bitstreams; let last=last;" [bitstream]="file" [item]="item">
         <span>{{file?.name}}</span>

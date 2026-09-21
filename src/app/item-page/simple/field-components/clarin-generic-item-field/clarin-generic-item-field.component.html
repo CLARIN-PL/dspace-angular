@@ -1,9 +1,9 @@
 <div class="row clarin-item-page-field justify-content-start" *ngIf="showMetadataValue | async">
-  <div class="col-lg-3 col-2-5 d-flex">
+  <div class="col-12 col-lg-3 d-flex clarin-item-page-field__label">
     <div><i [class]="'fas ' + iconName + ' fa-xs'"></i></div>
     <div class="pl-1"><b>{{label | translate}}</b></div>
   </div>
-  <div class="col-lg-9">
+  <div class="col-12 col-lg-9 clarin-item-page-field__value">
     <div>
       <div *ngIf="type === 'author'" class="d-inline">
         <ds-clarin-item-author-preview [item]="item" [fields]="fields"></ds-clarin-item-author-preview>

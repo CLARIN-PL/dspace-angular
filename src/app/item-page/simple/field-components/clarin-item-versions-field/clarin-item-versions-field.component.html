@@ -1,5 +1,5 @@
 <div class="row clarin-item-page-field justify-content-start" *ngIf="showMetadataValue | async">
-  <div class="col-lg-3 col-2-5 d-flex align-self-start">
+  <div class="col-12 col-lg-3 d-flex align-self-start clarin-item-page-field__label">
     <div><i [class]="'fas ' + iconName + ' fa-xs'"></i></div>
     <!-- Toggle Header -->
     <div
@@ -19,7 +19,7 @@
   <!-- Collapsible Content -->
   <div
     id="version-history-content"
-    class="col-lg-9 collapse"
+    class="col-12 col-lg-9 collapse clarin-item-page-field__value"
     [ngClass]="{'show': showVersionHistory}"
     [attr.aria-hidden]="!showVersionHistory">
     <div *ngIf="enhancedVersions$ | async as enhancedVersions">

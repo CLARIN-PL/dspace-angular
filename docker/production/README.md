@@ -19,6 +19,17 @@ cd dspace-angular/docker/production
 ./manage.sh up
 ```
 
+The assetstore and Shibboleth key/certificate live on the external disk with UUID
+`61a05882-c126-4df8-bb14-228582bd35cd`. Mount that disk *before* starting
+the stack, then set `DSPACE_ASSETSTORE_PATH`, `SHIBBOLETH_KEY_PATH` and
+`SHIBBOLETH_CERT_PATH` in the private `.env` to files under its actual mount
+point. Desktop automount may choose a suffix such as `...cd1` when another
+directory already occupies `...cd`; check with `findmnt -T "$path"`. The
+startup check refuses a missing disk or credentials, and Compose must not
+create missing host paths for these binds. Avoid `docker compose up` directly
+when operating this installation; use `./manage.sh up` so the disk preflight
+runs.
+
 Open <http://localhost:4000>. The REST API is available on the same origin at
 <http://localhost:4000/server>. PostgreSQL and Solr are only reachable on the
 private Docker network.

@@ -1247,6 +1247,7 @@
 
   // "browse.comcol.by.title": "By Title",
   "browse.comcol.by.title": "wg tytułu",
+  "browse.comcol.by.language": "wg języka",
 
   // "browse.comcol.head": "Browse",
   "browse.comcol.head": "Przeglądaj",
@@ -2086,7 +2087,7 @@
   "community.sub-collection-list.head": "Kolekcje w tym zbiorze",
 
   // "community.sub-community-list.head": "Communities in this Community",
-  "community.sub-community-list.head": "Kolekcje w tym zbiorze",
+  "community.sub-community-list.head": "Podzbiory w tym zbiorze",
 
   // "cookies.consent.accept-all": "Accept all",
   "cookies.consent.accept-all": "Zaakceptuj wszystko",
@@ -3934,7 +3935,7 @@
 
   // "item.page.filesection.description": "Description:",
   // TODO New key - Add a translation
-  "item.page.filesection.description": "Description:",
+  "item.page.filesection.description": "Opis:",
 
   // "item.page.filesection.download": "Download",
   "item.page.filesection.download": "Pobierz",
@@ -3944,11 +3945,11 @@
 
   // "item.page.filesection.name": "Name:",
   // TODO New key - Add a translation
-  "item.page.filesection.name": "Name:",
+  "item.page.filesection.name": "Nazwa:",
 
   // "item.page.filesection.size": "Size:",
   // TODO New key - Add a translation
-  "item.page.filesection.size": "Size:",
+  "item.page.filesection.size": "Rozmiar:",
 
   // "item.page.journal.search.title": "Articles in this journal",
   "item.page.journal.search.title": "Artykuły w czasopiśmie",
@@ -8470,7 +8471,7 @@
 
   // "browse.search-form.placeholder": "Search the repository",
   // TODO New key - Add a translation
-  "browse.search-form.placeholder": "Search the repository",
+  "browse.search-form.placeholder": "Przeszukaj repozytorium",
 
   // "file-download-link.download": "Download ",
   // TODO New key - Add a translation
@@ -8609,12 +8610,39 @@
   "item.view.box.author.preview.show-everyone": "pokaż wszystkich autorów",
   "item.page.type": "Typ",
   "item.page.language": "Języki",
+  "item.page.project-url": "Strona projektu",
+  "item.page.demo.uri": "Wersja demonstracyjna",
+  "item.page.referenced-by": "Powiązane publikacje",
+  "item.page.size-info": "Rozmiar",
+  "item.page.sponsor": "Finansowanie",
+  "item.page.statistics": "Pokaż statystyki zasobu",
+  "item.page.users.note": "Notatka użytkownika:",
+  "item.page.doi": "DOI",
+  "item.page.acknowledgement.project-name": "Nazwa projektu:",
+  "item.page.acknowledgement.project-code": "Numer projektu:",
+  "item.page.date.cca.message": "Dokładna data nie jest znana",
+  "item.page.date.composed.message": "Ten zasób składa się z części opublikowanych w",
   "item.page.license.message": ["Ten zasób jest", "i został udostępniony na licencji:"],
   "item.page.files.head": "Pliki w tym zasobie",
   "item.page.download.button.command.line": "Instrukcje pobierania z wiersza poleceń",
   "item.page.download.command.copy": "Kopiuj do schowka",
   "item.page.download.command.copied": "Skopiowano!",
   "item.page.download.command.close": "Zamknij",
+  "item.page.download.button.all.files.zip": "Pobierz wszystkie pliki zasobu",
+  "item.page.files.downloads": "Pobrania",
+  "item.file.description.not.supported.video": "Podgląd tego formatu wideo nie jest obsługiwany.",
+  "search.filters.filter.type.head": "Typ zasobu",
+  "search.filters.filter.type.label": "Wyszukaj typ zasobu",
+  "search.filters.filter.type.placeholder": "Typ zasobu",
+  "search.filters.filter.rights.head": "Warunki dostępu",
+  "search.filters.filter.rights.label": "Wyszukaj warunki dostępu",
+  "search.filters.filter.rights.placeholder": "Warunki dostępu",
+  "search.filters.filter.language.head": "Język",
+  "search.filters.filter.language.label": "Wyszukaj język",
+  "search.filters.filter.language.placeholder": "Język",
+  "search.filters.filter.items_owning_community.head": "Zbiór",
+  "search.filters.filter.items_owning_community.label": "Wyszukaj zbiór",
+  "search.filters.filter.items_owning_community.placeholder": "Zbiór",
   "item.file.description.name": "Nazwa",
   "item.file.description.size": "Rozmiar",
   "item.file.description.format": "Format",

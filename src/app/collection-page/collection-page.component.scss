@@ -1,0 +1,55 @@
+.clarin-comcol-shell {
+  margin-bottom: 2rem;
+  padding: clamp(1rem, 2.5vw, 2rem);
+  background: #fff;
+  border: 1px solid rgba(0, 0, 39, .12);
+  border-top: 4px solid var(--clarin-pl-green);
+  border-radius: 0 0 .85rem .85rem;
+  box-shadow: 0 16px 40px rgba(0, 0, 39, .08);
+}
+
+.clarin-comcol-hero {
+  gap: 1rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 39, .12);
+}
+
+.comcol-header {
+  min-width: 0;
+}
+
+.comcol-header ::ng-deep h1 {
+  color: var(--clarin-pl-navy);
+  font-size: clamp(1.7rem, 3vw, 2.4rem);
+  font-weight: 750;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.comcol-header ::ng-deep a,
+.comcol-page-browse-section ::ng-deep a {
+  overflow-wrap: anywhere;
+}
+
+.comcol-page-browse-section ::ng-deep h2,
+.comcol-page-browse-section ::ng-deep h3 {
+  color: var(--clarin-pl-navy);
+  font-weight: 700;
+}
+
+.comcol-page-browse-section ::ng-deep .list-group-item,
+.comcol-page-browse-section ::ng-deep .card {
+  border-color: rgba(0, 0, 39, .12);
+}
+
+@media (max-width: 767.98px) {
+  :host > .container {
+    width: calc(100% - 1rem);
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  .clarin-comcol-shell {
+    padding: 1rem;
+  }
+}

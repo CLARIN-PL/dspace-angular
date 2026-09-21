@@ -1,7 +1,7 @@
 <div class="container" *ngVar="(communityRD$ | async) as communityRD">
-  <div class="community-page" *ngIf="communityRD?.hasSucceeded" @fadeInOut>
+  <div class="community-page clarin-comcol-shell" *ngIf="communityRD?.hasSucceeded" @fadeInOut>
     <div *ngIf="communityRD?.payload; let communityPayload">
-      <div class="d-flex flex-row border-bottom mb-4 pb-4">
+      <div class="clarin-comcol-hero d-flex flex-column flex-md-row mb-4">
         <header class="comcol-header mr-auto">
           <!-- Community name -->
           <ds-comcol-page-header [name]="dsoNameService.getName(communityPayload)"></ds-comcol-page-header>

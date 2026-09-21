@@ -17,6 +17,24 @@ require_env() {
     fi
 }
 
+verify_external_storage() {
+    require_env
+    local assetstore_path key_path cert_path mounted_uuid
+    assetstore_path="$(sed -n 's/^DSPACE_ASSETSTORE_PATH=//p' "${env_file}" | tail -n 1)"
+    key_path="$(sed -n 's/^SHIBBOLETH_KEY_PATH=//p' "${env_file}" | tail -n 1)"
+    cert_path="$(sed -n 's/^SHIBBOLETH_CERT_PATH=//p' "${env_file}" | tail -n 1)"
+
+    if [[ ! -d "${assetstore_path}" || ! -f "${key_path}" || ! -f "${cert_path}" ]]; then
+        echo "Assetstore or Shibboleth credentials are missing. Mount the backup disk before starting services." >&2
+        exit 1
+    fi
+    mounted_uuid="$(findmnt -n -T "${assetstore_path}" -o UUID 2>/dev/null || true)"
+    if [[ "${mounted_uuid}" != "61a05882-c126-4df8-bb14-228582bd35cd" ]]; then
+        echo "Refusing to start: the assetstore is not on the expected mounted disk (UUID 61a05882-c126-4df8-bb14-228582bd35cd)." >&2
+        exit 1
+    fi
+}
+
 compose() {
     docker compose --env-file "${env_file}" -f "${compose_file}" "$@"
 }
@@ -82,6 +100,7 @@ case "${1:-}" in
         ;;
     config)
         require_env
+        verify_external_storage
         compose config --quiet
         echo "Compose configuration is valid."
         ;;
@@ -91,6 +110,7 @@ case "${1:-}" in
         ;;
     up)
         require_env
+        verify_external_storage
         compose up -d --build --wait
         compose ps
         ;;
