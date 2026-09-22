@@ -1738,6 +1738,8 @@
   // "collection.select.table.select": "Select collection",
   // TODO New key - Add a translation
   "collection.select.table.select": "Select collection",
+  "clarin.footer.social": "Obserwuj CLARIN-PL",
+  "clarin.breadcrumb.label": "Ścieżka nawigacji",
 
   // "collection.select.table.deselect": "Deselect collection",
   // TODO New key - Add a translation

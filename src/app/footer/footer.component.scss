@@ -839,6 +839,30 @@
   font-weight: 800;
 }
 
+.clarin-pl-footer__social { margin-top: 2rem; }
+.clarin-pl-footer__social h2 { margin-bottom: .8rem; }
+.clarin-pl-footer__social ul { display: flex; flex-wrap: wrap; gap: .5rem; }
+.clarin-pl-footer__social li + li { margin-top: 0; }
+.clarin-pl-footer__social a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: .6rem;
+  padding: .55rem .75rem;
+  border: 1px solid rgba(255,255,255,.25);
+  border-radius: .35rem;
+  font-size: .83rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+.clarin-pl-footer__social a:hover,
+.clarin-pl-footer__social a:focus-visible {
+  border-color: #00dc82;
+  background: rgba(0,220,130,.09);
+}
+.clarin-pl-footer__social .fab { width: 1rem; text-align: center; }
+.clarin-pl-footer__external { margin-left: .15rem; opacity: .65; }
+
 .clarin-pl-footer ul {
   margin: 0;
   padding: 0;
@@ -861,10 +885,12 @@
 .clarin-pl-footer__badges {
   display: inline-flex;
   max-width: 100%;
-  gap: 1rem;
-  padding: .55rem .75rem;
-  border-radius: 4px;
-  background: #fff;
+  flex-wrap: wrap;
+  gap: .35rem .8rem;
+  padding: .65rem .8rem;
+  border: 1px solid rgba(255,255,255,.22);
+  border-radius: .35rem;
+  background: #ced3d5;
   align-items: center;
 }
 
@@ -877,15 +903,17 @@
 }
 
 .clarin-pl-footer__badges img {
-  width: clamp(74px, 8vw, 105px);
-  max-height: 36px;
+  width: clamp(70px, 7vw, 96px);
+  max-height: 32px;
+  filter: grayscale(1) contrast(1.2);
+  mix-blend-mode: multiply;
   object-fit: contain;
 }
 
 .clarin-pl-footer__badges .clarin-pl-footer__cts {
-  width: 42px;
-  height: 42px;
-  max-height: 42px;
+  width: 38px;
+  height: 38px;
+  max-height: 38px;
 }
 
 .clarin-pl-footer__assessment {

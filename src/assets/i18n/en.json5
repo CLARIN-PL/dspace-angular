@@ -2796,6 +2796,8 @@
   "itemtemplate.edit.metadata.add-button": "Add",
 
   "itemtemplate.edit.metadata.discard-button": "Discard",
+  "clarin.footer.social": "Follow CLARIN-PL",
+  "clarin.breadcrumb.label": "Breadcrumb navigation",
 
   "itemtemplate.edit.metadata.edit.language": "Edit language",
 
