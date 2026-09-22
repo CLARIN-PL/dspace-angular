@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dublin_core schema="dc">
+  <dcvalue element="title">Polish Drama Corpus</dcvalue>
+  <dcvalue element="contributor" qualifier="author">Pastuch, Magdalena</dcvalue>
+  <dcvalue element="contributor" qualifier="author">Mitrenga, Barbara</dcvalue>
+  <dcvalue element="contributor" qualifier="author">Wąsińska, Kinga</dcvalue>
+  <dcvalue element="date" qualifier="issued">2026-07-07</dcvalue>
+  <dcvalue element="type">corpus</dcvalue>
+  <dcvalue element="language" qualifier="iso">pol</dcvalue>
+  <dcvalue element="publisher">University of Silesia in Katowice</dcvalue>
+  <dcvalue element="description" language="en">The Polish Drama Corpus (PolDraCor) contains 50 Polish-language plays from 1772–1939 encoded in TEI XML. The corpus was prepared by the Historical Pragmalinguistic Team at the University of Silesia in Katowice, with technical support from CLARIN-PL. This description was reconstructed from the project repository; the original DSpace description was unavailable.</dcvalue>
+  <dcvalue element="subject">Polish drama</dcvalue>
+  <dcvalue element="subject">TEI</dcvalue>
+  <dcvalue element="relation" qualifier="uri">https://github.com/dracor-org/poldracor</dcvalue>
+  <dcvalue element="rights">License verification pending: the archived DSpace listing showed Creative Commons attribution, whereas the source repository declares CC0 1.0. The original deposit license has not been recovered.</dcvalue>
+  <dcvalue element="description" qualifier="provenance" language="en">Reconstructed on 2026-09-22 from the search-indexed original DSpace collection listing and a matching local archive; original database row was absent from the 2026-02-17 backup. Archive SHA-256: 315ac8b8e39f5ebaef36e32d55a1a8e07a9d5478ab555dc929eb7053167ca696. Handle 11321/1010 is based on the depositor's identification.</dcvalue>
+</dublin_core>

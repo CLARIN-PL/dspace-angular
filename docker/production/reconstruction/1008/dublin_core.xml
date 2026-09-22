@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dublin_core schema="dc">
+  <dcvalue element="title">Korpus Czterech Wieszczów</dcvalue>
+  <dcvalue element="contributor" qualifier="author">Marek, Troszyński</dcvalue>
+  <dcvalue element="contributor" qualifier="author">Tomasz, Korpysz</dcvalue>
+  <dcvalue element="contributor" qualifier="author">Ewa, Mirkowska</dcvalue>
+  <dcvalue element="contributor" qualifier="author">Anna, Mędrzecka-Stefańska</dcvalue>
+  <dcvalue element="contributor" qualifier="author">Marcin, Oleksy</dcvalue>
+  <dcvalue element="contributor" qualifier="author">Tomasz, Bernaś</dcvalue>
+  <dcvalue element="contributor" qualifier="author">Tomasz, Naskręt</dcvalue>
+  <dcvalue element="contributor" qualifier="author">Maciej Piasecki</dcvalue>
+  <dcvalue element="date" qualifier="issued">2026-05-07</dcvalue>
+  <dcvalue element="type">corpus</dcvalue>
+  <dcvalue element="format" qualifier="extent">1082 files</dcvalue>
+  <dcvalue element="language" qualifier="iso">pol</dcvalue>
+  <dcvalue element="description" language="pl">Wiersze wchodzące w skład Korpusu Czterech Wieszczów, zob. Tomasz Korpysz Anna Mędrzecka Ewa Mirkowska Marek Troszyński, „Korpus Czterech Wieszczów” – cyfrowy wymiar dziedzictwa narodowego. Założenia projektu, "Poradnik Językowy" 7/2022; T. Korpysz, A. Mędrzecka-Stefańska, O projekcie "Korpus Czterech Wieszczów", "Idiolekty" nr 2(2025).</dcvalue>
+  <dcvalue element="description" language="en">Poems included in the Corpus of the Four Bards; see Tomasz Korpysz, Anna Mędrzecka, Ewa Mirkowska, and Marek Troszyński, “Corpus of the Four Bards” – The Digital Dimension of National Heritage, Poradnik Językowy 7/2022; T. Korpysz, A. Mędrzecka-Stefańska, “On the ‘Corpus of the Four Bards’ Project,” Idiolekty no. 2 (2025).</dcvalue>
+  <dcvalue element="publisher">Wrocław University of Science and Technology</dcvalue>
+  <dcvalue element="rights">Creative Commons - Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)</dcvalue>
+  <dcvalue element="rights" qualifier="label">CC</dcvalue>
+  <dcvalue element="rights" qualifier="uri">https://creativecommons.org/licenses/by-sa/4.0/</dcvalue>
+  <dcvalue element="description" qualifier="provenance" language="en">Reconstructed on 2026-09-22 from the search-indexed original DSpace item page and a matching local archive; original database row was absent from the 2026-02-17 backup. Archive SHA-256: 252358e3c8b41dd06942a5baf9d21a1c285c988ad66f9c52b2f1d855a86177c0.</dcvalue>
+</dublin_core>
