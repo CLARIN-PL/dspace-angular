@@ -1,4 +1,12 @@
-<div class="container">
-  <h1>{{ 'communityList.title' | translate }}</h1>
-  <ds-themed-community-list></ds-themed-community-list>
-</div>
+<section class="clarin-community-index">
+  <div class="container">
+    <header class="clarin-community-index__header">
+      <p class="clarin-community-index__eyebrow">{{ 'communityList.eyebrow' | translate }}</p>
+      <h1>{{ 'communityList.title' | translate }}</h1>
+      <p class="clarin-community-index__lead">{{ 'communityList.lead' | translate }}</p>
+    </header>
+    <div class="clarin-community-index__tree">
+      <ds-themed-community-list></ds-themed-community-list>
+    </div>
+  </div>
+</section>

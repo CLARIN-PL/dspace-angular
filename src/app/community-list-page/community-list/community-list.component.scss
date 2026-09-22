@@ -1,4 +1,99 @@
-::ng-deep .fa-chevron-right::before {
+:host {
+  display: block;
+}
+
+cdk-tree {
+  display: block;
+}
+
+.example-tree-node {
+  display: block;
+  min-width: 0;
+  margin: 0 0 .75rem;
+  padding-top: .9rem;
+  padding-right: 1rem;
+  padding-bottom: .9rem;
+  border: 1px solid #dfe3e3;
+  border-radius: 5px;
+  background: #fff;
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.example-tree-node:hover,
+.example-tree-node:focus-within {
+  border-color: #80dcb4;
+  box-shadow: 0 6px 20px rgba(0, 0, 39, .06);
+}
+
+.example-tree-node > .btn-group {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: .5rem;
+}
+
+.example-tree-node .btn-default {
+  display: inline-grid;
+  width: 44px;
+  min-width: 44px;
+  max-width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  place-items: center;
+  border: 1px solid #dce8e1;
+  border-radius: 3px;
+  color: #006f4c;
+  background: #f2faf5;
+}
+
+.example-tree-node .btn-default:not(.invisible):hover,
+.example-tree-node .btn-default:not(.invisible):focus-visible {
+  border-color: #00a767;
+  color: #000027;
+  background: #e1f7e9;
+}
+
+.example-tree-node .lead {
+  color: #000027;
+  font-size: clamp(1.02rem, 1.5vw, 1.2rem);
+  font-weight: 700;
+  line-height: 1.35;
+  text-decoration: none;
+}
+
+.example-tree-node a.lead:hover,
+.example-tree-node a.lead:focus-visible {
+  color: #006f4c;
+  text-decoration: underline;
+  text-underline-offset: .2em;
+}
+
+.example-tree-node h6,
+.example-tree-node .align-middle.pt-2 {
+  margin: 0;
+  padding-top: 0 !important;
+}
+
+.example-tree-node ds-truncatable {
+  display: block;
+  margin-top: .3rem;
+  color: #5b6070;
+  font-size: .92rem;
+  line-height: 1.55;
+}
+
+.example-tree-node .badge {
+  color: #006f4c;
+  background: #e1f7e9;
+  font-variant-numeric: tabular-nums;
+}
+
+.show-more-node {
+  border-style: dashed;
+  background: #fafcf9;
+}
+
+.example-tree-node .fa-chevron-right::before {
   display: block;
   width: 16px;
 }

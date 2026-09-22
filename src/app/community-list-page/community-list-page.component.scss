@@ -1,0 +1,49 @@
+.clarin-community-index {
+  min-height: 60vh;
+  padding: clamp(2rem, 5vw, 4rem) 0 clamp(4rem, 7vw, 6rem);
+  background: #f5f6f2;
+}
+
+.clarin-community-index__header {
+  max-width: 740px;
+  margin-bottom: 2rem;
+}
+
+.clarin-community-index__eyebrow {
+  margin: 0 0 .65rem;
+  color: #007f57;
+  font-size: .76rem;
+  font-weight: 800;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.clarin-community-index h1 {
+  margin: 0 0 .75rem;
+  color: #000027;
+  font-size: clamp(2.3rem, 4.5vw, 4rem);
+  font-weight: 800;
+  letter-spacing: -.045em;
+  line-height: 1.05;
+}
+
+.clarin-community-index__lead {
+  margin: 0;
+  color: #555a68;
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+
+.clarin-community-index__tree {
+  padding: clamp(1rem, 3vw, 2.5rem);
+  border: 1px solid rgba(0, 0, 39, .12);
+  border-top: 4px solid #00dc82;
+  background: #fff;
+  box-shadow: 0 20px 55px rgba(0, 0, 39, .06);
+}
+
+@media (max-width: 575.98px) {
+  .clarin-community-index__tree {
+    padding: 1rem;
+  }
+}

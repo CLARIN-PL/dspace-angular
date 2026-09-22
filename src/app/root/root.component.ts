@@ -63,6 +63,11 @@ export class RootComponent implements OnInit, AfterViewInit {
     this.notificationOptions = environment.notifications;
   }
 
+  get isHomePage(): boolean {
+    const path = this.router.url.split(/[?#]/)[0];
+    return path === '/' || path === '/home';
+  }
+
   ngOnInit() {
     this.isSidebarVisible$ = this.menuService.isMenuVisibleWithVisibleSections(MenuID.ADMIN);
 

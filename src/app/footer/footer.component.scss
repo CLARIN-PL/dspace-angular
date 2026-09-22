@@ -859,30 +859,33 @@
 }
 
 .clarin-pl-footer__badges {
-  display: grid;
-  grid-template-columns: 1fr 1fr 58px;
-  gap: .75rem;
+  display: inline-flex;
+  max-width: 100%;
+  gap: 1rem;
+  padding: .55rem .75rem;
+  border-radius: 4px;
+  background: #fff;
   align-items: center;
 }
 
 .clarin-pl-footer__badges a {
-  display: grid;
-  min-height: 58px;
-  place-items: center;
-  padding: .5rem;
-  background: rgba(255,255,255,.92);
+  display: inline-flex;
+  min-width: 44px;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
 }
 
 .clarin-pl-footer__badges img {
-  max-width: 100%;
-  max-height: 42px;
+  width: clamp(74px, 8vw, 105px);
+  max-height: 36px;
   object-fit: contain;
 }
 
 .clarin-pl-footer__badges .clarin-pl-footer__cts {
-  width: 45px;
-  height: 45px;
-  max-height: 45px;
+  width: 42px;
+  height: 42px;
+  max-height: 42px;
 }
 
 .clarin-pl-footer__assessment {

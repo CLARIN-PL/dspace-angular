@@ -138,6 +138,10 @@
       margin: 0;
     }
 
+
+    .form-group {
+      margin-bottom: 0;
+    }
     .input-group {
       min-width: 0;
       flex-wrap: nowrap;
@@ -159,6 +163,18 @@
       color: var(--clarin-navy);
       background: var(--clarin-green);
       font-weight: 800;
+    }
+
+    // The global Bootstrap button palette is intentionally navy; the hero CTA is green.
+    button.search-button.btn-primary {
+      border-color: var(--clarin-green) !important;
+      color: var(--clarin-navy) !important;
+      background-color: var(--clarin-green) !important;
+    }
+
+    button.search-button.btn-primary:hover {
+      border-color: #25eda0 !important;
+      background-color: #25eda0 !important;
     }
   }
 

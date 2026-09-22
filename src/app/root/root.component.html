@@ -10,7 +10,7 @@
     <ds-system-wide-alert-banner></ds-system-wide-alert-banner>
     <ds-themed-header-navbar-wrapper></ds-themed-header-navbar-wrapper>
     <ds-themed-breadcrumbs></ds-themed-breadcrumbs>
-    <main class="my-cs" id="main-content">
+    <main class="my-cs" [class.clarin-home-route]="isHomePage" id="main-content">
 
       <div class="container d-flex justify-content-center align-items-center h-100" *ngIf="shouldShowRouteLoader">
         <ds-themed-loading [showMessage]="false"></ds-themed-loading>

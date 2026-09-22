@@ -6845,4 +6845,7 @@
   "clarin.contact.response_title": "Repository support",
   "clarin.contact.response_text": "Requests are routed to the team responsible for CLARIN-PL resources and infrastructure.",
 
+  "communityList.eyebrow": "Repository structure",
+  "communityList.lead": "Browse CLARIN-PL communities and collections. Expand a community to explore its contents.",
+
 }
