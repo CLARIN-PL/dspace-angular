@@ -840,28 +840,27 @@
 }
 
 .clarin-pl-footer__social {
-  grid-column: 1 / -1;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  justify-content: center;
-  gap: clamp(1.25rem, 3vw, 2.5rem);
-  padding-top: 1.75rem;
-  border-top: 1px solid rgba(255,255,255,.2);
+  gap: .8rem;
+  margin-top: 1.4rem;
 }
 
 .clarin-pl-footer__social h2 {
   margin: 0;
-  color: rgba(255,255,255,.86);
-  font-size: clamp(1.15rem, 1.8vw, 1.5rem);
-  font-weight: 400;
-  letter-spacing: .01em;
+  color: rgba(255,255,255,.82);
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0;
   text-transform: none;
+  white-space: nowrap;
 }
 
 .clarin-pl-footer__social ul {
   display: flex;
   align-items: center;
-  gap: .85rem;
+  gap: .45rem;
 }
 
 .clarin-pl-footer .clarin-pl-footer__social li + li {
@@ -870,13 +869,13 @@
 
 .clarin-pl-footer .clarin-pl-footer__social a {
   display: grid;
-  width: 68px;
-  height: 68px;
+  width: 48px;
+  height: 48px;
   place-items: center;
-  border: 2px solid rgba(255,255,255,.8);
+  border: 1.5px solid rgba(255,255,255,.8);
   border-radius: 50%;
   color: #fff;
-  font-size: 1.9rem;
+  font-size: 1.35rem;
   text-decoration: none;
   transition: background-color .18s ease, color .18s ease, transform .18s ease;
 }
@@ -998,23 +997,6 @@
 
   .clarin-pl-footer__trust {
     grid-column: auto;
-  }
-
-  .clarin-pl-footer__social {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem;
-    text-align: center;
-  }
-
-  .clarin-pl-footer__social h2 {
-    flex-basis: 100%;
-  }
-
-  .clarin-pl-footer .clarin-pl-footer__social a {
-    width: 60px;
-    height: 60px;
-    font-size: 1.7rem;
   }
 
   .clarin-pl-footer__bottom .container {
