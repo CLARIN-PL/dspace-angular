@@ -101,6 +101,23 @@ api_post() {
     update_security_headers
 }
 
+api_patch() {
+    local url="$1"
+    local payload="$2"
+    curl --fail-with-body --silent --show-error \
+        --dump-header "${header_file}" \
+        --output "${body_file}" \
+        --cookie "${cookie_file}" \
+        --cookie-jar "${cookie_file}" \
+        --request PATCH \
+        --header "@${security_header_file}" \
+        --header 'Content-Type: application/json-patch+json' \
+        --data-binary "${payload}" \
+        "${url}" || true
+    response_status="$(awk 'NR == 1 { print $2 }' "${header_file}")"
+    update_security_headers
+}
+
 require_status() {
     local expected="$1"
     local operation="$2"
@@ -145,6 +162,60 @@ fi
 api_get "${base_url}/api/authn/status?projection=full"
 require_status 200 "Administrator status lookup"
 admin_id="$(jq -er 'select(.authenticated == true) | ._embedded.eperson.id' "${body_file}")"
+
+ensure_clarin_community_metadata() {
+    local community_id payload title description abstract rights sidebar
+
+    title='CLARIN-PL'
+    abstract='<span lang="en">Trusted repository providing long-term access to Polish language resources and technologies for research.</span> <span aria-hidden="true">/</span> <span lang="pl">Zaufane repozytorium zapewniające długoterminowy dostęp do polskich zasobów i technologii językowych na potrzeby badań.</span>'
+    description='<section lang="en"><h2>CLARIN-PL Language Resources Repository</h2><p>CLARIN-PL is the Polish national node of CLARIN ERIC. The repository is operated by Wroclaw University of Science and Technology, with hardware infrastructure hosted at the Wroclaw Centre for Networking and Supercomputing. It preserves and provides corpora, lexical resources, tools and other language-technology research outputs, primarily for the humanities and social sciences.</p><p>Resources are described with interoperable metadata, assigned persistent identifiers and made discoverable through standard interfaces including OAI-PMH and CMDI. Deposits are reviewed by repository editors for metadata quality, documentation, formats, rights, licences and preservation suitability before publication. Access to each resource follows the licence and access conditions displayed in its record.</p><p>The repository is CoreTrustSeal certified from 30 January 2026 through 29 January 2029 under the 2023-2025 requirements.</p></section><section lang="pl"><h2>Repozytorium zasobów językowych CLARIN-PL</h2><p>CLARIN-PL jest polskim węzłem infrastruktury CLARIN ERIC. Operatorem repozytorium jest Politechnika Wrocławska, a infrastruktura sprzętowa znajduje się we Wrocławskim Centrum Sieciowo-Superkomputerowym. Repozytorium chroni i udostępnia korpusy, zasoby leksykalne, narzędzia oraz inne wyniki badań nad technologiami językowymi, przede wszystkim dla humanistyki i nauk społecznych.</p><p>Zasoby są opisywane interoperacyjnymi metadanymi, otrzymują trwałe identyfikatory i są udostępniane przez standardowe interfejsy, w tym OAI-PMH i CMDI. Przed publikacją redaktorzy sprawdzają jakość metadanych, dokumentację, formaty, prawa, licencje i możliwość długoterminowej ochrony. Dostęp do każdego zasobu odbywa się zgodnie z licencją i warunkami wskazanymi w jego rekordzie.</p><p>Repozytorium posiada certyfikat CoreTrustSeal od 30 stycznia 2026 r. do 29 stycznia 2029 r., przyznany według wymagań 2023-2025.</p></section>'
+    rights='<div lang="en"><p>Repository metadata are publicly available under CC0. Files and other deposited content remain subject to the licence and access conditions stated in each record. Copyright remains with the respective rights holders. Deposit and use are governed by the deposit agreement and the repository Terms of Service.</p></div><div lang="pl"><p>Metadane repozytorium są publicznie dostępne na warunkach CC0. Pliki i pozostała zdeponowana treść podlegają licencji oraz warunkom dostępu wskazanym w danym rekordzie. Prawa autorskie pozostają przy właściwych podmiotach. Deponowanie i korzystanie z zasobów regulują umowa depozytowa oraz Warunki korzystania z repozytorium.</p></div>'
+    sidebar='<nav aria-label="CLARIN-PL repository information"><h3>Repository information / Informacje</h3><ul><li><a href="/dspace/static/deposit">Deposit a resource / Deponowanie zasobu</a></li><li><a href="/dspace/static/item-lifecycle">Resource lifecycle / Cykl życia zasobu</a></li><li><a href="/dspace/static/metadata">Metadata / Metadane</a></li><li><a href="/dspace/static/about">Mission and policies / Misja i polityki</a></li><li><a href="/dspace/static/terms-of-service">Terms of service / Warunki korzystania</a></li><li><a href="/dspace/static/trust">Trust statement / Deklaracja zaufania</a></li><li><a href="https://doi.org/10.34894/FROWWV" rel="noopener">CoreTrustSeal assessment</a></li><li><a href="mailto:dspace@clarin-pl.eu">dspace@clarin-pl.eu</a></li></ul></nav>'
+
+    api_get "${base_url}/api/core/communities?size=1000"
+    require_status 200 "Community listing"
+    community_id="$(jq -er \
+        'first((._embedded.communities // [])[] | select(.handle == "11321/3" and .name == "CLARIN-PL") | .id)' \
+        "${body_file}")"
+
+    api_get "${base_url}/api/core/communities/${community_id}"
+    require_status 200 "CLARIN-PL community lookup"
+    payload="$(jq -c \
+        --arg title "${title}" \
+        --arg description "${description}" \
+        --arg abstract "${abstract}" \
+        --arg rights "${rights}" \
+        --arg sidebar "${sidebar}" '
+        .metadata as $metadata |
+        def operation($field; $value):
+            select(($metadata[$field][0].value // null) != $value) |
+            {
+                op: (if (($metadata[$field] // []) | length) > 0 then "replace" else "add" end),
+                path: ("/metadata/" + $field),
+                value: [{value: $value, language: null, authority: null, confidence: -1, place: 0}]
+            };
+        [
+            operation("dc.title"; $title),
+            operation("dc.description"; $description),
+            operation("dc.description.abstract"; $abstract),
+            operation("dc.rights"; $rights),
+            operation("dc.description.tableofcontents"; $sidebar)
+        ]' "${body_file}")"
+
+    if [[ "$(jq 'length' <<<"${payload}")" -eq 0 ]]; then
+        echo "CLARIN-PL community metadata is already current."
+        return
+    fi
+
+    api_patch "${base_url}/api/core/communities/${community_id}" "${payload}"
+    require_status 200 "Update CLARIN-PL community metadata"
+    for field in dc.title dc.description dc.description.abstract dc.rights dc.description.tableofcontents; do
+        jq -e --arg field "${field}" '.metadata[$field][0].value | length > 0' "${body_file}" >/dev/null
+    done
+    echo "CLARIN-PL community metadata updated."
+}
+
+ensure_clarin_community_metadata
 
 declare -A shared_groups
 
