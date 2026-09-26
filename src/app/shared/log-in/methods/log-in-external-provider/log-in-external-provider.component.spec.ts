@@ -18,6 +18,8 @@ import { RouterStub } from '../../../testing/router.stub';
 import { ActivatedRouteStub } from '../../../testing/active-router.stub';
 import { NativeWindowMockFactory } from '../../../mocks/mock-native-window-ref';
 import { HardRedirectService } from '../../../../core/services/hard-redirect.service';
+import { APP_CONFIG, AppConfig } from '../../../../../config/app-config.interface';
+import { DefaultAppConfig } from '../../../../../config/default-app-config';
 
 describe('LogInExternalProviderComponent', () => {
 
@@ -29,6 +31,7 @@ describe('LogInExternalProviderComponent', () => {
   let location: string;
   let initialState: any;
   let hardRedirectService: HardRedirectService;
+  let appConfig: AppConfig;
 
   beforeEach(() => {
     orcidBaseUrl = 'dspace-rest.test/orcid?redirectUrl=';
@@ -38,6 +41,9 @@ describe('LogInExternalProviderComponent', () => {
       getCurrentRoute: {},
       redirect: {}
     });
+
+    appConfig = new DefaultAppConfig();
+    appConfig.ui.nameSpace = '/dspace';
 
     initialState = {
       core: {
@@ -70,6 +76,7 @@ describe('LogInExternalProviderComponent', () => {
         { provide: Router, useValue: new RouterStub() },
         { provide: ActivatedRoute, useValue: new ActivatedRouteStub() },
         { provide: HardRedirectService, useValue: hardRedirectService },
+        { provide: APP_CONFIG, useValue: appConfig },
         provideMockStore({ initialState }),
       ],
       schemas: [
@@ -121,6 +128,16 @@ describe('LogInExternalProviderComponent', () => {
 
     expect(setHrefSpy).toHaveBeenCalledWith(currentUrl);
 
+  });
+
+  it('should use the configured UI namespace as the default redirect URL', () => {
+    fixture.detectChanges();
+
+    component.redirectToExternalProvider();
+
+    expect(hardRedirectService.redirect).toHaveBeenCalledWith(
+      'dspace-rest.test/orcid?redirectUrl=http://localhost/dspace'
+    );
   });
 
 });

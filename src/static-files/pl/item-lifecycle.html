@@ -1,32 +1,74 @@
-<article class="policy-page">
-  <header class="policy-page__header">
-    <p class="policy-page__eyebrow">Proces repozytoryjny</p>
-    <h1>Cykl życia zdeponowanego zasobu</h1>
-    <p class="policy-page__lead">Każdy zasób przechodzi kontrolowany proces od wersji roboczej, przez walidację i opiekę redakcyjną, po publikację, ochronę i ewentualne wersjonowanie.</p>
+<div id="faq-like" class="policy-page">
+  <header class="policy-page__title-row">
+    <div>
+      <p class="policy-page__eyebrow">Proces repozytoryjny</p>
+      <h2>Cykl życia zdeponowanego zasobu</h2>
+    </div>
+    <span class="policy-page__version">Wersja 1.01</span>
   </header>
+  <p>Aby otrzymać podręcznik redaktora, skontaktuj się z <a class="helpdesk-tolink" href="mailto:dspace@clarin-pl.eu?subject=Podr%C4%99cznik%20redaktora">Helpdeskiem</a>.</p>
+  <hr />
+  <ul id="faqs-list">
+    <li><a href="#submitted-item">Zgłoszony zasób</a></li>
+    <li><a href="#validated-item">Zweryfikowany zasób</a></li>
+    <li><a href="#curated-item">Zasób pod opieką kuratorską</a></li>
+    <li><a href="#edited-item">Zredagowany zasób</a></li>
+    <li><a href="#published-item">Opublikowany zasób</a></li>
+    <li><a href="#deleting-item">Usunięcie opublikowanego zasobu</a></li>
+    <li><a href="#modifying-item">Zmiana opublikowanego zasobu</a></li>
+    <li><a href="#new-version-item">Zgłoszenie nowej wersji zasobu</a></li>
+    <li><a href="#integrity">Integralność i autentyczność</a></li>
+    <li><a href="#restricted-submissions">Zgłoszenia z ograniczonym dostępem</a></li>
+  </ul>
+  <hr />
 
-  <ol class="policy-steps">
-    <li class="policy-step"><span>01</span><div><h2>Zgłoszony</h2><p>Uwierzytelniony deponent tworzy rekord, opisuje zasób, dodaje pliki oraz wybiera licencję i warunki dostępu.</p></div></li>
-    <li class="policy-step"><span>02</span><div><h2>Zweryfikowany technicznie</h2><p>System i redaktor kontrolują wymagane pola, czytelność plików, sumy kontrolne oraz spójność opisu z przekazanym materiałem.</p></div></li>
-    <li class="policy-step"><span>03</span><div><h2>Opracowany redakcyjnie</h2><p>Redaktor ocenia jakość i kompletność metadanych, formaty, dokumentację, licencję, pochodzenie i potencjalne ryzyka prawne. Zgłoszenie może zostać zwrócone deponentowi z uwagami.</p></div></li>
-    <li class="policy-step"><span>04</span><div><h2>Opublikowany</h2><p>Zaakceptowany rekord otrzymuje trwały identyfikator. Metadane są publiczne, a pliki dostępne zgodnie z licencją, embargiem i poziomem autoryzacji.</p></div></li>
-    <li class="policy-step"><span>05</span><div><h2>Chroniony i monitorowany</h2><p>Repozytorium monitoruje integralność, dostępność i ryzyko utraty obsługi formatów. Kopie bezpieczeństwa, kontrole oraz dokumentowane procedury wspierają odtworzenie.</p></div></li>
-    <li class="policy-step"><span>06</span><div><h2>Aktualizowany lub wersjonowany</h2><p>Drobne korekty opisu wykonuje uprawniony zespół. Zmiana treści danych prowadzi do nowej wersji powiązanej z poprzednią, aby zachować cytowalność i proweniencję.</p></div></li>
-  </ol>
+  <div><h3 id="submitted-item">Zgłoszony zasób</h3><p>Po <a href="./deposit">zdeponowaniu</a> zgłoszenie trafia do puli zgłoszonych zasobów. Nie jest jeszcze publicznie dostępne i oczekuje na zatwierdzenie albo odrzucenie przez redaktora.</p></div>
 
-  <section class="policy-section" id="wycofanie">
-    <h2>Wycofanie i usunięcie</h2>
-    <p>Wycofanie opublikowanego zasobu jest wyjątkiem. Może wynikać z naruszenia prawa, potwierdzonej wady, żądania uprawnionego podmiotu lub innej ważnej przyczyny. Wniosek analizuje zespół repozytorium; w razie potrzeby konsultuje deponenta i ekspertów prawnych.</p>
-    <p>Jeśli usunięcie plików jest konieczne, rekord zastępczy i trwały identyfikator są utrzymywane w zakresie dozwolonym prawem, aby zachować ślad cytowania i informację o powodach wycofania.</p>
-  </section>
+  <div>
+    <h3 id="validated-item">Zweryfikowany zasób</h3>
+    <ul><li>automatyczna walidacja formatów i integralności plików;</li><li>ręczna walidacja formatów niestandardowych.</li></ul>
+    <p>Po przesłaniu zasobu do repozytorium jest on najpierw automatycznie sprawdzany. Pliki danych są zapisywane w infrastrukturze repozytorium, wyliczane są ich sumy kontrolne MD5, a uszkodzone kopie mogą zostać odtworzone z danych redundantnych.</p>
+  </div>
 
-  <section class="policy-section" id="dostep">
-    <h2>Dostęp ograniczony i embargo</h2>
-    <p>Pliki mogą wymagać zalogowania i elektronicznego zaakceptowania licencji. Embargo oznacza, że pliki staną się publiczne we wskazanym terminie. Metadane powinny pozostać dostępne również wtedy, gdy dostęp do danych jest ograniczony.</p>
-  </section>
+  <div><h3 id="curated-item">Zasób pod opieką kuratorską</h3><p>Następnie zasób opracowuje opiekun danych. Sprawdza on, czy zgłoszenie spełnia wymagania dotyczące jakości i kompletności metadanych, spójności plików oraz praw własności intelektualnej. Może zwrócić zgłoszenie deponentowi z opisem wymaganych zmian. Etap jest powtarzany do chwili zatwierdzenia zasobu, który następnie może zostać opublikowany.</p></div>
 
-  <aside class="policy-callout">
-    <h2>Potrzebujesz zmiany?</h2>
-    <p>Nie twórz niezależnego duplikatu. Napisz na <a href="mailto:dspace@clarin-pl.eu">dspace@clarin-pl.eu</a>, podając identyfikator zasobu i opis oczekiwanej zmiany.</p>
-  </aside>
-</article>
+  <div><h3 id="edited-item">Zredagowany zasób</h3><p>Redaktor sprawdza, czy zgłoszenie spełnia wymagania dotyczące jakości i kompletności metadanych, spójności plików oraz praw własności intelektualnej. Może zwrócić je deponentowi wraz z opisem wymaganych poprawek. Etap jest powtarzany do zatwierdzenia zasobu. Zatwierdzony zasób staje się zasobem opublikowanym.</p></div>
+
+  <div>
+    <h3 id="published-item">Opublikowany zasób</h3>
+    <p>Opublikowany zasób otrzymuje PID, czyli trwały identyfikator, którego należy używać przy odwoływaniu się do niego i cytowaniu, np. <strong>https://hdl.handle.net/11321/1008</strong>. Repozytorium CLARIN-PL dba o to, aby identyfikator rozwiązywał się do działającej strony opisującej zasób także po zmianie lub przeniesieniu infrastruktury serwerowej.</p>
+    <p>Opublikowane zasoby są dostępne przez wyszukiwarkę i widoki przeglądania. Metadane wszystkich zasobów trafiają do wyszukiwarek oraz są udostępniane przez OAI-PMH; pobiera je m.in. <a href="https://vlo.clarin.eu/">CLARIN Virtual Language Observatory</a>. Pliki publicznych zgłoszeń — zobacz <a href="#restricted-submissions">zgłoszenia z ograniczonym dostępem</a> — są również dostępne przez OAI-ORE.</p>
+  </div>
+
+  <div><h3 id="deleting-item">Usunięcie opublikowanego zasobu</h3><p>Każdy może wystąpić o usunięcie opublikowanych danych, czyli plików, za pośrednictwem <a class="helpdesk-tolink" href="mailto:dspace@clarin-pl.eu">Helpdesku</a>. Wnioski są oceniane indywidualnie. Zastrzegamy sobie prawo do pozostawienia metadanych opublikowanego zgłoszenia, jeśli nie istnieje konkretny powód ich usunięcia, ponieważ usuwanie metadanych byłoby sprzeczne z ideą <strong>trwałych</strong> identyfikatorów. PID pozostaje dostępny przez OAI-PMH przynajmniej po to, aby poinformować, że zasób został usunięty.</p></div>
+
+  <div><h3 id="modifying-item">Zmiana opublikowanego zasobu</h3><p>Za pośrednictwem <a class="helpdesk-tolink" href="mailto:dspace@clarin-pl.eu">Helpdesku</a> dopuszczamy drobne poprawki zgłoszenia, np. literówek. Możliwe są również określone uzupełnienia metadanych lub danych: dodanie słów kluczowych, informacji o nowej publikacji dotyczącej zasobu albo plików pochodnych udostępniających te same dane w dodatkowych formatach. Takie propozycje oceniamy indywidualnie. Większe zmiany wymagają utworzenia nowej wersji rekordu, a metadane wskazują, że wcześniejsza wersja została zastąpiona nowszą. W ściśle określonych sytuacjach redaktorzy mogą również po publikacji wprowadzać niewielkie zmiany, np. poprawiać literówki, usuwać niedziałające adresy URL lub ujednolicać słowa kluczowe.</p></div>
+
+  <div>
+    <h3 id="new-version-item">Zgłoszenie nowej wersji zasobu</h3>
+    <p>Jeśli powstała nowa wersja zasobu, trzeba utworzyć nowe zgłoszenie. Nie należy jednak tworzyć go od początku. Wykonaj następujące kroki:</p>
+    <ol>
+      <li>Zaloguj się i przejdź do listy istniejących zgłoszeń. Nową wersję możesz utworzyć tylko na podstawie własnego wcześniejszego zgłoszenia. Jeśli należy ono do innej osoby, poproś ją o wykonanie kroków 1–3 oraz zapisanie i udostępnienie wpisu Tobie.</li>
+      <li>Przejdź do sekcji zarchiwizowanych zgłoszeń, zaznacz rekord, dla którego chcesz utworzyć nową wersję, i wybierz opcję „Dodaj nową wersję”.</li>
+      <li>System utworzy sklonowany rekord z metadanymi poprzedniej wersji. Wybierz „Wznów”, aby przejść do procesu zgłaszania.</li>
+      <li>Zmień odpowiednie metadane. Co najmniej usuń automatycznie dodaną datę z tytułu, wpisz nowy numer wersji, a na końcu opisu krótko przedstaw różnice względem poprzedniej wersji. Jeśli zmienił się rozmiar zasobu, zaktualizuj również tę informację.</li>
+      <li>Prześlij dane nowej wersji i zakończ zgłoszenie w zwykły sposób.</li>
+    </ol>
+    <p>Po zakończeniu zgłoszenia stara i nowa wersja zostają automatycznie powiązane, dzięki czemu użytkownicy widzą istnienie nowszych i starszych wersji zasobu.</p>
+    <p>Bardziej szczegółowy opis ze zrzutami ekranu znajduje się w <a href="https://github.com/ufal/clarin-dspace/wiki/New-Version-Guide">instrukcji CLARIN-DSpace w serwisie GitHub</a>.</p>
+  </div>
+
+  <div>
+    <h3 id="integrity">Integralność i autentyczność zarchiwizowanych danych</h3>
+    <p>Integralność i autentyczność danych sprawdzamy automatycznie i ręcznie na wszystkich etapach cyklu życia zasobu. Tożsamość deponenta jest weryfikowana przez konto lokalne albo konto Shibboleth, które przekazuje potwierdzone atrybuty osobowe, takie jak imię, nazwisko i adres e-mail. Każdy zdeponowany zasób jest powiązany z kontem producenta danych; przed zdeponowaniem tylko producent danych może go edytować, zarządzać nim i zgłaszać zmiany.</p>
+    <p>Po ocenie i zatwierdzeniu przez opiekuna danych zasób zostaje opublikowany, a jego wersja utrwalona — zawartość opublikowanych plików jest niezmienna. Drobne zmiany po publikacji, np. poprawienie literówek, dodanie słów kluczowych lub pochodnych formatów danych, mogą zostać wykonane na uzasadniony wniosek przesłany do <a class="helpdesk-tolink" href="mailto:dspace@clarin-pl.eu">Helpdesku</a> i są rozpatrywane indywidualnie. Większe zmiany wymagają utworzenia nowej wersji, a metadane informują o zastąpieniu wcześniejszej wersji.</p>
+    <p>Repozytorium przechowuje także informacje o pochodzeniu i dzienniki audytowe, aby zapewnić identyfikowalność i przejrzystość. Zalogowani użytkownicy mają dostęp do szczegółów zmian dotyczących zgłoszonego zasobu w polu metadanych <code>dc.description.provenance</code>. Informacje te są widoczne w pełnym widoku metadanych, np. <a href="https://clarin-pl.eu/dspace/handle/11321/741?show=full">w tym rekordzie</a>.</p>
+  </div>
+
+  <div>
+    <h3 id="restricted-submissions">Zgłoszenia z ograniczonym dostępem</h3>
+    <p>Wszystkie metadane są zawsze publicznie dostępne. Wspieramy zgłoszenia w otwartym dostępie, ale również <strong>licencje restrykcyjne</strong>, które wymagają elektronicznego zaakceptowania warunków przed pobraniem plików. Rejestrujemy te akceptacje na wypadek naruszenia praw własności intelektualnej.</p>
+    <p><a href="/licenses">Zobacz obecnie dostępne licencje</a> lub <a class="helpdesk-tolink" href="mailto:dspace@clarin-pl.eu">poproś nas</a> o dodanie konkretnej licencji.</p>
+    <p>Obsługujemy także embargo na pliki, dzięki któremu stają się one publicznie dostępne po wskazanej dacie.</p>
+  </div>
+</div>

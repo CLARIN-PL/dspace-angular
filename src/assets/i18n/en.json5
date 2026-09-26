@@ -6809,6 +6809,10 @@
   "clarin.home.partners_label": "Consortium",
   "clarin.home.partners_title": "Six institutions, one infrastructure",
   "clarin.home.partners_link": "About CLARIN-PL",
+  "clarin.home.network_label": "European research infrastructure",
+  "clarin.home.network_title": "CLARIN ERIC — Common Language Resources and Technology Infrastructure",
+  "clarin.home.network_link": "Visit clarin.eu",
+  "clarin.home.network_aria_label": "Visit the CLARIN European research infrastructure website",
   "clarin.footer.description": "The CLARIN-PL Language Resources Repository provides sustainable access to Polish language data, tools and research outputs.",
   "clarin.footer.repository": "Repository",
   "clarin.footer.deposit": "Deposit a resource",
@@ -6849,5 +6853,15 @@
 
   "communityList.eyebrow": "Repository structure",
   "communityList.lead": "Browse CLARIN-PL communities and collections. Expand a community to explore its contents.",
+
+  "item.page.files.tools.label": "File access",
+  "item.page.files.tools.description": "Download the complete package or copy a ready-to-use command for automated access.",
+  "item.page.download.command.description": "Copy a secure command",
+  "item.file.description.actions": "File actions",
+  "item.file.description.preview.close": "Close file preview",
+  "item.preview.no-preview.title": "Preview unavailable",
+  "bitstream.download.page.title": "Preparing your download",
+  "bitstream.download.page.preparing": "The requested file is being prepared and the download should begin shortly.",
+  "bitstream.download.page.automatic": "You may safely return to the resource page after the download starts.",
 
 }

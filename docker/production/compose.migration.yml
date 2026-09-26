@@ -1,6 +1,8 @@
 services:
   dspace:
     environment:
+      # Never email migrated users, even when production mail is enabled.
+      mail__P__server__P__disabled: "true"
       # Bulk imports update each Item for every attached bitstream. Suppress
       # per-request Solr writes here; migration-finalize rebuilds Discovery once.
       event__P__dispatcher__P__default__P__consumers: eperson

@@ -1,3 +1,155 @@
 /**
   The file for styling the `clarin-bitstream-download-page.component`.
  */
+.download-page {
+  display: grid;
+  min-height: clamp(320px, 54vh, 560px);
+  place-items: center;
+  padding-top: clamp(2rem, 6vw, 5rem);
+  padding-bottom: clamp(3rem, 8vw, 7rem);
+}
+
+.download-card {
+  display: grid;
+  width: min(100%, 760px);
+  grid-template-columns: 150px minmax(0, 1fr);
+  overflow: hidden;
+  border: 1px solid rgba(0,0,39,.14);
+  border-top: 4px solid #00dc82;
+  border-radius: .8rem;
+  background: #fff;
+  box-shadow: 0 1.25rem 4rem rgba(0,0,39,.1);
+}
+
+.download-card__visual {
+  display: grid;
+  position: relative;
+  min-height: 260px;
+  place-items: center;
+  overflow: hidden;
+  color: #fff;
+  background:
+    linear-gradient(rgba(255,255,255,.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.055) 1px, transparent 1px),
+    #000027;
+  background-size: 22px 22px;
+}
+
+.download-card__icon {
+  display: inline-grid;
+  z-index: 2;
+  width: 72px;
+  height: 72px;
+  place-items: center;
+  border: 2px solid #00dc82;
+  border-radius: 50%;
+  color: #000027;
+  background: #00dc82;
+  font-size: 1.55rem;
+}
+
+.download-card__pulse {
+  position: absolute;
+  width: 104px;
+  height: 104px;
+  border: 1px solid rgba(0,220,130,.55);
+  border-radius: 50%;
+  animation: download-pulse 1.8s ease-out infinite;
+}
+
+.download-card__content {
+  align-self: center;
+  padding: clamp(1.5rem, 4vw, 2.8rem);
+}
+
+.download-card__eyebrow {
+  margin: 0 0 .55rem;
+  color: #007f57;
+  font-size: .7rem;
+  font-weight: 900;
+  letter-spacing: .14em;
+}
+
+.download-card h1 {
+  margin: 0;
+  color: #000027;
+  font-size: clamp(1.65rem, 3vw, 2.3rem);
+  font-weight: 800;
+  letter-spacing: -.035em;
+}
+
+.download-card__filename {
+  display: inline-flex;
+  max-width: 100%;
+  align-items: center;
+  gap: .5rem;
+  margin: 1rem 0 .75rem;
+  padding: .5rem .7rem;
+  overflow-wrap: anywhere;
+  border: 1px solid rgba(0,111,77,.16);
+  border-radius: .4rem;
+  color: #000027;
+  background: #eff9f3;
+  font-weight: 700;
+}
+
+.download-card__message,
+.download-card__hint {
+  color: #5e6172;
+}
+
+.download-card__message {
+  margin: 0 0 1rem;
+}
+
+.download-card__hint {
+  margin: .7rem 0 0;
+  font-size: .8rem;
+}
+
+.download-card__progress {
+  height: 5px;
+  overflow: hidden;
+  border-radius: 99px;
+  background: #e4e8e6;
+}
+
+.download-card__progress span {
+  display: block;
+  width: 42%;
+  height: 100%;
+  border-radius: inherit;
+  background: #00a767;
+  animation: download-progress 1.35s ease-in-out infinite;
+}
+
+@keyframes download-pulse {
+  from { transform: scale(.72); opacity: .9; }
+  to { transform: scale(1.35); opacity: 0; }
+}
+
+@keyframes download-progress {
+  from { transform: translateX(-105%); }
+  to { transform: translateX(245%); }
+}
+
+@media (max-width: 575.98px) {
+  .download-card {
+    grid-template-columns: 1fr;
+  }
+
+  .download-card__visual {
+    min-height: 120px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .download-card__pulse,
+  .download-card__progress span {
+    animation: none;
+  }
+
+  .download-card__progress span {
+    width: 100%;
+  }
+}

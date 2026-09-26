@@ -32,11 +32,17 @@ operation. From this directory run:
 ./manage.sh migration-prepare
 ./manage.sh migration-run
 ./manage.sh migration-status
+./manage.sh migration-license-mappings
 ./manage.sh migration-finalize
 ./manage.sh migration-fixity
 ```
 
-If the importer is interrupted, keep the same target and migration volumes and
+`migration-prepare` first performs checks which do not require running services,
+then initializes only PostgreSQL, Solr, the backend and the legacy database. It
+runs the target-empty check after the DSpace schema exists and before invoking
+the importer, creates the migration administrator when it does not yet exist,
+and includes that account in the pre-migration backup. If the importer is
+interrupted, keep the same target and migration volumes and
 use `./manage.sh migration-resume`. Do not run a fresh import against a partially
 populated target. `migration-prepare` creates a mode-600 PostgreSQL backup before
 changing the target.
@@ -53,7 +59,15 @@ active DSpace 7 `bitstream_order` is made unique and contiguous per bundle;
 the exact DSpace 5 value, including historical gaps and duplicates, is retained
 in `bitstream_order_legacy` for audit.
 `migration-finalize` first refuses to run unless the expected item and
-active-bitstream counts match, repairs those aggregate fields once, then
+active-bitstream counts match. It also refuses to continue unless the active
+license-to-bitstream mappings can be resolved unambiguously. License numeric
+IDs change when the REST API recreates definitions, so they are matched by
+their unique names; bitstreams are matched by their unique assetstore
+`internal_id`. Only source rows marked active and pointing at a migrated,
+non-deleted bitstream are materialized because the DSpace 7 schema no longer
+stores inactive mapping history. The operation is idempotent and refuses to
+overwrite a non-empty table that differs from the validated source mapping.
+It then repairs those aggregate fields once and
 rebuilds Discovery and OAI from scratch and recreates the backend with its
 normal event consumers. During import, per-file validation is deferred because
 random access and hashing on the 637 GB external assetstore would dominate the
@@ -71,19 +85,42 @@ accounted for explicitly instead of being treated as silent data loss:
 - 41,199 bitstreams marked deleted are not materialized; all 33,301 active
   bitstreams and all 26,472 relationships to active bitstreams are migrated.
 - Item `646` has no collection, workspace, workflow or Handle relationship and
-  is not materialized. The target therefore contains 1,043 items: 754
-  published and 289 workspace items.
+  is not materialized. Immediately after the source migration the target
+  therefore contains 1,043 items: 528 archived, 226 withdrawn and 289
+  workspace items. The 754 collection-bound source records include the
+  withdrawn records; they must not be described as 754 currently published
+  resources.
 - 440 legacy `registrationdata` rows are expired/pending tokens which the
   DSpace 7 API rejects. All 1,591 e-persons and 102 `user_registration` rows
   are migrated independently.
 - Seven resource policies point to four deleted Item/Bundle targets or three
   skipped bitstreams. The remaining 31,756 policies are migrated and the item
   and bitstream embargo checks must pass.
+- Inactive historical license mappings are not materialized. All active
+  mappings whose bitstreams are present in the target must be migrated and
+  verified by `migration-license-mappings` before finalization. The source has
+  27 duplicate active rows for identical bitstream/license pairs; each is
+  normalized to one mapping while retaining the highest source mapping ID.
 - Seven unbound Community/Collection Handle rows are dropped and DSpace 7 adds
   its Site Handle. This changes the raw Handle count from 833 to 827 while
   retaining all 814 item, 10 collection and 2 community Handle rows.
+- Seventeen workspace drafts carry legacy version-relation metadata but have no
+  Handle, so they cannot form a valid DSpace version history until deposited.
+  Six published source items produce seven `versionitem` rows in three version
+  histories. A further version-looking metadata row belongs to a non-Item and
+  is not a missing Item version.
+
+The 25 September 2026 production migration completed these checks successfully:
+33,301/33,301 active bitstreams matched their stored checksums, 25,296 unique
+active licence mappings were materialized, and Discovery/OAI were rebuilt.
+Afterward, the separately documented reconstructions `11321/1008` and
+`11321/1010` were imported and the indexes rebuilt again. Their files match the
+SHA-256 values in `reconstruction/README.md`.
 
 Mail must remain disabled until all import and validation work is complete.
+After the successful production migration, SMTP authentication and STARTTLS
+server-identity verification were tested, a DSpace test message was delivered,
+and mail was enabled.
 After finalization, configure/rebuild optional authority indexes where their
 external providers are available and test a sample of public, authenticated,
 restricted and withdrawn records before enabling writes.
@@ -93,7 +130,7 @@ restricted and withdrawn records before enabling writes.
 | Area | Decision |
 | --- | --- |
 | Assetstore | Reuse in place through a bind mount; never copy it into Git or a Docker volume. |
-| Handle | Reuse prefix `11321` and canonical `https://hdl.handle.net/`; migrate all handle records. The backup contains no Handle server private key/configuration, so prefix administration cannot be activated from this backup alone. |
+| Handle | Reuse prefix `11321` and canonical `https://hdl.handle.net/`; all migrated handle records are served from the DSpace database through `HandlePlugin`. On 25 September 2026 the production service was upgraded to Handle 9.3.2, assigned site serial 3 and prepared with new RSA server/admin keys and the public HTTPS endpoint `handle.clarin-pl.eu:443` (`156.17.1.83`). The primary transaction queue is disabled because this single-site service has no Handle replica and uses the DSpace database as its authoritative store. TLS terminates at the perimeter reverse proxy, which forwards to the private HTTP interface `10.45.126.11:8000`; native Handle TCP/UDP 2641 is not exposed publicly. The container is healthy and resolves `11321/931` locally. Global resolution remains gated by DNS/TLS proxy activation and CNRI accepting the prepared `sitebndl.zip`. |
 | Shibboleth | Reuse `eppn,persistent-id`, `mail`, `givenName`, `sn` and automatic registration. Remove UFAL/Czech role mappings. Password auth remains enabled for the migration administrator. A production Shibboleth SP still requires its external metadata, certificate and private key. |
 | Email | Reuse host `clarinpl.nazwa.pl`, port 587, account/from/help addresses. Do not copy the old password; provide it only in ignored `.env`. Keep `MAIL_SERVER_DISABLED=true` during migration. |
 | OAI | Reuse repository identity `clarin-pl.eu`; expose it through the new single-origin `/server/oai` endpoint and rebuild the index. |
@@ -103,19 +140,17 @@ restricted and withdrawn records before enabling writes.
 | GeoLiteCity.dat and GA `.p12` | Do not reuse: both integrations are obsolete. Configure current GeoIP/analytics separately if needed. |
 | Czech/UFAL settings | Do not reuse featured-service URLs, UFAL groups, Czech IdP discovery defaults, Matomo tokens or test DOI credentials present in the fork defaults. |
 
-## Production gates
+## Remaining production gates
 
-- Obtain the registered Handle server bundle/private key from the current
-  operator or rotate it with the Handle provider.
-- Obtain or create the CLARIN-PL Shibboleth SP key/certificate and signed
-  federation metadata configuration; the application backup does not contain
-  them.
-- Confirm SMTP credentials out of band, test through a mail sink, then set
-  `MAIL_SERVER_DISABLED=false`.
-- Run database/assetstore consistency checks, repository diff, checksum audit
-  and representative authorization/download tests.
-- Verify that every bundle has a contiguous active `bitstream_order`, that the
-  source-order distribution in `bitstream_order_legacy` matches the source,
-  and that no primary bitstream points outside its bundle.
+- Publish `handle.clarin-pl.eu` at `156.17.1.83` and configure the perimeter
+  proxy to terminate HTTPS on TCP 443 and forward it to
+  `http://10.45.126.11:8000`. Then submit the prepared site bundle for prefix
+  `11321` to the Handle.Net Registry administrator. Native Handle TCP/UDP 2641
+  and HTTP 8000 remain private; the production keys and `siteinfo` match the
+  HTTPS-only bundle.
+- After CNRI confirms the prefix update, verify global HTML/API resolution for
+  `11321/931` before updating the Centre Registry.
+- Complete browser acceptance for CLARIN and foreign IdP login, restricted-item
+  authorization, and one full reviewer/editor/finaleditor submission.
 - Keep the source dumps, the pre-migration target dump and assetstore snapshot
   together as the rollback set.

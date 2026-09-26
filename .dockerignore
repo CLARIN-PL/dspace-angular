@@ -4,6 +4,26 @@
 .DS_Store
 *.iml
 
+# Never send deployment credentials, private keys or database backups to the
+# Docker daemon. Git ignores these files separately, but Docker build contexts
+# require their own explicit boundary.
+.env
+.env.*
+**/.env
+**/.env.*
+**/*.pem
+**/*.key
+**/*.p12
+**/*.pfx
+**/*.jks
+**/*.keystore
+**/*.dump
+**/*.sql
+**/*.bak
+**/*.backup
+docker/production/migration/backups
+deployment-artifacts
+
 # Build folders
 node_modules
 build

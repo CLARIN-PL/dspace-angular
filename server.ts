@@ -459,14 +459,71 @@ function checkCacheForRequest(cacheName: string, cache: LRU<string, any>, req, r
 
 /**
  * Create a cache key from the current request.
- * The cache key is the URL path (NOTE: this key will also include any querystring params).
- * E.g. "/home" or "/search?query=test"
+ * The cache key contains the URL path (including querystring params) and the
+ * effective language. The language is essential here: SSR output contains
+ * translated text, so sharing one entry between e.g. Polish and English users
+ * would make the first rendered language leak into subsequent responses.
+ * E.g. "/home::lang=pl" or "/search?query=test::lang=en"
  * @param req current request
  * @returns cache key to use for this page
  */
 function getCacheKey(req): string {
   // NOTE: this will return the URL path *without* any baseUrl
-  return req.url;
+  return `${req.url}::lang=${getRequestLanguage(req)}`;
+}
+
+/**
+ * Resolve the language used by SSR closely enough to partition its cache.
+ * LocaleService first honours dsLanguage and otherwise falls back to the
+ * browser language (Accept-Language on the server), then to defaultLanguage.
+ * Always return one of the configured active language codes so arbitrary
+ * header values cannot create an unbounded number of cache entries.
+ */
+function getRequestLanguage(req): string {
+  const activeLanguages = (environment.languages || [])
+    .filter((language) => language.active)
+    .map((language) => language.code.toLowerCase());
+
+  const configuredDefault = environment.defaultLanguage?.toLowerCase();
+  const fallbackLanguage = activeLanguages.includes(configuredDefault)
+    ? configuredDefault
+    : (activeLanguages[0] || configuredDefault || 'en');
+
+  const cookieLanguage = req.cookies?.dsLanguage?.toLowerCase();
+  if (activeLanguages.includes(cookieLanguage)) {
+    return cookieLanguage;
+  }
+
+  const acceptLanguage = req.get?.('accept-language') || '';
+  const requestedLanguages = acceptLanguage
+    .split(',')
+    .map((entry, index) => {
+      const [tag, ...parameters] = entry.trim().toLowerCase().split(';');
+      const qualityParameter = parameters.find((parameter) => parameter.trim().startsWith('q='));
+      const parsedQuality = qualityParameter ? Number(qualityParameter.trim().substring(2)) : 1;
+      return {
+        tag,
+        quality: Number.isFinite(parsedQuality) ? parsedQuality : 0,
+        index,
+      };
+    })
+    .filter(({ tag, quality }) => tag && tag !== '*' && quality > 0)
+    .sort((first, second) => second.quality - first.quality || first.index - second.index);
+
+  for (const { tag } of requestedLanguages) {
+    const exactMatch = activeLanguages.find((language) => language === tag);
+    if (exactMatch) {
+      return exactMatch;
+    }
+
+    const primaryLanguage = tag.split('-')[0];
+    const primaryMatch = activeLanguages.find((language) => language === primaryLanguage);
+    if (primaryMatch) {
+      return primaryMatch;
+    }
+  }
+
+  return fallbackLanguage;
 }
 
 /**

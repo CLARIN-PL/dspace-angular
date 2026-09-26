@@ -1,5 +1,5 @@
 import { isPlatformServer } from '@angular/common';
-import { Inject, Injectable, Optional, PLATFORM_ID } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { firstValueFrom, of as observableOf } from 'rxjs';
@@ -7,7 +7,6 @@ import { HTML_SUFFIX, STATIC_FILES_PROJECT_PATH } from '../static-page/static-pa
 import { isEmpty } from './empty.util';
 import { LocaleService } from '../core/locale/locale.service';
 import { APP_CONFIG, AppConfig } from '../../config/app-config.interface';
-import { REQUEST } from '@nguniversal/express-engine/tokens';
 
 /**
  * Service for loading static `.html` files stored in the `/static-files` folder.
@@ -18,7 +17,6 @@ export class HtmlContentService {
               private localeService: LocaleService,
               @Inject(APP_CONFIG) protected appConfig?: AppConfig,
               @Inject(PLATFORM_ID) private platformId?: object,
-              @Optional() @Inject(REQUEST) private request?: any,
             ) {}
 
   private getNamespacePrefix(): string {
@@ -45,17 +43,16 @@ export class HtmlContentService {
   }
 
   private buildRuntimeUrl(path: string): string {
-    if (!isPlatformServer(this.platformId) || !this.request) {
+    if (!isPlatformServer(this.platformId)) {
       return path;
     }
 
-    const protocol = this.request.protocol;
-    const host = this.request.get?.('host');
-    if (!protocol || !host) {
-      return path;
-    }
-
-    return `${protocol}://${host}${path}`;
+    // During SSR, fetch static assets directly from this Node process. Using
+    // the inbound Host/protocol would send the request back through the public
+    // reverse proxy, which may still point at the old service during rollout
+    // and also makes rendering depend on external DNS/TLS availability.
+    const uiPort = this.appConfig?.ui?.port ?? 4000;
+    return `http://127.0.0.1:${uiPort}${path}`;
   }
 
   getHtmlContent(url: string) {

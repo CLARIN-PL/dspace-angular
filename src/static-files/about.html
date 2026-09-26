@@ -46,8 +46,8 @@
 			more specialized CMDI (Component Metadata Infrastructure) format, enabling both general discovery and domain-specific resource description and reuse.
 		</p>
 		<ul>
-			<li>OAI endpoint identification - /server/oai/request?verb=Identify</li>
-			<li>OAI formats - /server/oai/request?verb=ListMetadataFormats</li>
+			<li>OAI endpoint identification - /oai/request?verb=Identify</li>
+			<li>OAI formats - /oai/request?verb=ListMetadataFormats</li>
 		</ul>
 
 		<p>CLARIN-PL repository policies have the following goals:</p>
@@ -108,7 +108,7 @@
 		Full items must not be sold commercially (unless they are explicitly granted by the attached licence) without formal permission of the copyright holders.
 		</p>
 		<p>
-			The submitters <a href="https://clarin-pl.eu/dspace/page/contract">acknowledge during the submission</a> that they have the right to distribute the data and that they also have the right to grant the repository
+			The submitters <a href="/contract">acknowledge during the submission</a> that they have the right to distribute the data and that they also have the right to grant the repository
 			permission to distribute the data on their behalf. Acknowledgement that submitter has the right to distribute the data in the first place includes
 			resolving possible legal issues, because if these are not resolved the submitter does not have the right to distribute the data.
 		</p>
@@ -182,7 +182,7 @@
     <div>
 		<h3 id="metadata-policy">Metadata Policy</h3>
 		<p>
-         Deposited content must be accompanied by <a href="metadata">sufficient metadata</a> describing its content, provenance and formats in
+         Deposited content must be accompanied by <a href="./metadata">sufficient metadata</a> describing its content, provenance and formats in
 		 order to support its preservation and dissemination. Metadata are freely accessible and are distributed in the public domain
 		 (under <a href="http://creativecommons.org/about/cc0">CC0</a>). However, we reserve the right to be informed about commercial usage of
 		 metadata from CLARIN-PL repository including a description of your use case at <a class="helpdesk-tolink" href="mailto:dspace@clarin-pl.eu">Help Desk</a>.
@@ -206,7 +206,7 @@
 		institutions of our identity federation. Thus the academic institutions are responsible for verifying
 		the user identity. Provenance information is kept for each repository item from the moment the item is
 		created.  Once the item is approved, only the administrators are able to change its (meta)data. The
-		data producers can refer to the <a href="item-lifecycle">Deposited Item Lifecycle page</a> to get
+		data producers can refer to the <a href="./item-lifecycle">Deposited Item Lifecycle page</a> to get
 		acquainted with the details or ask our <a class="helpdesk-tolink" href="mailto:dspace@clarin-pl.eu">Help Desk</a> directly.
 		</p>
 		<p>
@@ -225,7 +225,7 @@
 		</p>
 		<p>
 		We do not support changing submitted data. To implement any change in the data, a new version of
-	the dataset <a href="item-lifecycle#newversion-item">must be created as a new repository item</a>.
+	the dataset <a href="./item-lifecycle#new-version-item">must be created as a new repository item</a>.
 	In this way, we can enforce reproducibility of results using the dataset and a clear meaning of
 	what a PID (persistent identifier) refers to. The new and the old version(s) have a relation
 	added to their metadata and are visually represented on the web page.
@@ -342,12 +342,12 @@
 		phase, data depositors are presented with a user interface divided into logical steps. Among the steps
 		are included: data upload where data depositors are urged to use formats and standards recommended
 		by <a href="https://www.clarin.eu/content/standards-and-formats">CLARIN</a>
-		and <a href="data">CLARIN-PL</a>, information about the legal issues including signing of
+		and the <a href="./deposit">CLARIN-PL format guidance</a>, information about the legal issues including signing of
 		the <a href="/contract">distribution agreement</a>, and assisted selection of an appropriate licensing
 		model.
 		</p>
 
-		<p>All the information is verified by editors <a href="item-lifecycle">during the review step</a>
+		<p>All the information is verified by editors <a href="./item-lifecycle">during the review step</a>
 		including the file format selection. CLARIN-PL performs regular checks on the metadata and data
 		(e.g. completeness, checksums) and may request additional information from the
 		depositors. Occasionally, minor metadata modifications (e.g., correcting grammar mistakes, unifying
@@ -361,7 +361,7 @@
 
 		<p>Language data is complex, as it can be in various modalities (writing, speech, video), and heavily
 		annotated with complex structures, such as an entry in a comprehensive dictionary, or a syntactically
-		and semantically annotated corpus. The CLARIN-PL repository <a href="data">requires</a> certain ways
+		and semantically annotated corpus. The CLARIN-PL repository <a href="./deposit">recommends</a> certain ways
 		to structure the data and the usage of specific file formats. The guiding principles for format
 		selection are: open standards are preferred over proprietary standards, formats should be
 		well-documented, verifiable and proven, text-based formats are preferred over binary formats, and in
@@ -398,7 +398,7 @@
 		extension process. In the unlikely event of the suspension of funding by the Ministry, Wrocław University of Science and Technology,
 		as an official owner of the whole infrastructure, is obliged to guarantee the management and maintenance of the CLARIN-PL centre.
 		This is confirmed by the WUST internal document of the acceptance of the fixed asset no. ST-011341 dated December 29, 2023 (OT document).
-		CLARIN-PL has also received funding for the years 2025-2027 within the European funds (<a href="Lista-projektow-wybranych-do-dofinasowania-nabor-01.pdf">program, FENG.02.04-IP.04 0004/24</a>).
+		CLARIN-PL has also received funding for the years 2025-2027 within the European funds (programme FENG.02.04-IP.04 0004/24).
 		The regulations of the project guarantee the additional continuity period for another five years after the end of the project that
 		is 2028-2033. This is confirmed by the grant agreement (between Wrocław University of Science and Technology and the funding
 		institution).
@@ -416,7 +416,7 @@
         <p>
         Data in CLARIN-PL repository are made available under the licence attached to the resources. In case there is no licence, data is made freely
 		available for access, printing and download for the purposes of non-commercial research or private study.
-        Users <strong>must</strong> acknowledge in any publication, the Deposited Work using a persistent identifier (see <a href="#citing-data">Citing Data</a>),
+        Users <strong>must</strong> acknowledge in any publication, the Deposited Work using a persistent identifier (see <a href="./cite">Citing Data</a>),
 		its original author(s)/creator(s), and any publisher where applicable. Full items must not be harvested by robots except transiently for full-text
 		indexing or citation analysis. Full items must not be sold commercially unless explicitaly granted by the attached licence without formal
 		permission of the copyright holders.
@@ -430,4 +430,8 @@
 			has been fully investigated and appropriate remedial actions have been taken.
 		</p>
 	</div>
+	<aside class="policy-callout">
+		<h2>Trust documentation</h2>
+		<p>See the <a href="./trust">trust statement</a> and the <a href="https://doi.org/10.34894/FROWWV" target="_blank" rel="noopener">CoreTrustSeal certification document for 2026–2029</a>.</p>
+	</aside>
 </div>

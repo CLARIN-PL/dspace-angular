@@ -33,7 +33,7 @@ const main = () => {
     return bootstrap();
   } else {
     // Configuration must be fetched explicitly
-    return fetch('assets/config.json')
+    return fetch('assets/config.json', { cache: 'no-store' })
       .then((response) => response.json())
       .then((appConfig: AppConfig) => {
         // extend environment with app config for browser when not prerendered
@@ -46,10 +46,19 @@ const main = () => {
 function addMatomoStatistics() {
   (window as any)._paq = (window as any)._paq || [];
 
-  void fetch('assets/config.json')
+  void fetch('assets/config.json', { cache: 'no-store' })
     .then((response) => response.json())
     .then((config) => {
       const matomoConfig = config.matomo;
+
+      // The upstream default points to localhost and must never make a
+      // visitor's browser contact a non-existent local Matomo instance. An
+      // HTTP tracker is also invalid when the repository is served over HTTPS.
+      if (!matomoConfig?.hostUrl ||
+          /(?:localhost|127\.0\.0\.1|\.changeme)(?::|\/|$)/i.test(matomoConfig.hostUrl) ||
+          (window.location.protocol === 'https:' && !matomoConfig.hostUrl.startsWith('https://'))) {
+        return;
+      }
 
       // Push all configuration commands first
       (window as any)._paq.push(['setTrackerUrl', matomoConfig.hostUrl + 'matomo.php']);

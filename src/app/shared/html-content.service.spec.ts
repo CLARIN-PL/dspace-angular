@@ -1,3 +1,4 @@
+import { PLATFORM_ID } from '@angular/core';
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { firstValueFrom } from 'rxjs';
@@ -19,7 +20,7 @@ describe('HtmlContentService', () => {
   let httpMock: HttpTestingController;
   let localeService: LocaleServiceStub;
 
-  function setup(nameSpace: string): void {
+  function setup(nameSpace: string, platformId = 'browser', port = 4000): void {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
@@ -28,9 +29,10 @@ describe('HtmlContentService', () => {
         {
           provide: APP_CONFIG,
           useValue: {
-            ui: { nameSpace },
+            ui: { nameSpace, port },
           },
         },
+        { provide: PLATFORM_ID, useValue: platformId },
       ],
     });
 
@@ -122,5 +124,18 @@ describe('HtmlContentService', () => {
 
     const content = await contentPromise;
     expect(content).toBe('');
+  });
+
+  it('should load namespaced static content from the local UI process during SSR', async () => {
+    setup('/dspace', 'server', 4321);
+    localeService.languageCode = 'pl';
+
+    const promise = service.getHmtlContentByPathAndLocale('about');
+
+    const request = httpMock.expectOne('http://127.0.0.1:4321/dspace/static-files/pl/about.html');
+    expect(request.request.method).toBe('GET');
+    request.flush('Repozytorium CLARIN-PL — informacje i polityki');
+
+    expect(await promise).toContain('Repozytorium CLARIN-PL');
   });
 });

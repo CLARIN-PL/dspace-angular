@@ -17,5 +17,6 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/* /tmp/parallel-bitstreams.patch
 
 COPY project_settings.py /opt/dspace-migrate/src/project_settings.py
+COPY migrate_license_mappings.py /opt/dspace-migrate/src/migrate_license_mappings.py
 
 WORKDIR /opt/dspace-migrate/src

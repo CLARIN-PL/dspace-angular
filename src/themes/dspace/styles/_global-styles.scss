@@ -121,6 +121,41 @@ textarea:focus-visible {
   text-transform: uppercase;
 }
 
+.policy-page__title-row {
+  display: flex;
+  position: relative;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: 1.35rem;
+}
+
+.policy-page__title-row h2 {
+  max-width: 17ch;
+  margin: 0;
+  color: #000027;
+  font-size: clamp(2rem, 4vw, 3.6rem);
+  font-weight: 800;
+  letter-spacing: -.045em;
+  line-height: 1.04;
+}
+
+.policy-page__version {
+  display: inline-flex;
+  min-height: 2rem;
+  flex: 0 0 auto;
+  align-items: center;
+  padding: .4rem .7rem;
+  border: 1px solid rgba(0,111,77,.2);
+  border-radius: 999px;
+  color: #006f4d;
+  background: #eafff4;
+  font-size: .72rem;
+  font-weight: 900;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
 .policy-page > h1,
 .policy-page__header h1,
 .policy-page > h2:first-of-type {
@@ -383,5 +418,10 @@ textarea:focus-visible {
   .policy-steps,
   .trust-requirements {
     grid-template-columns: 1fr;
+  }
+
+  .policy-page__title-row {
+    flex-direction: column-reverse;
+    gap: .8rem;
   }
 }

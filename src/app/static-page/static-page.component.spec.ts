@@ -2,10 +2,10 @@ import { TestBed } from '@angular/core/testing';
 
 import { StaticPageComponent } from './static-page.component';
 import { HtmlContentService } from '../shared/html-content.service';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { RouterMock } from '../shared/mocks/router.mock';
 import { TranslateModule } from '@ngx-translate/core';
-import { of } from 'rxjs';
+import { of, Subject } from 'rxjs';
 import { APP_CONFIG } from '../../config/app-config.interface';
 import { environment } from '../../environments/environment';
 import { ClarinSafeHtmlPipe } from '../shared/utils/clarin-safehtml.pipe';
@@ -38,6 +38,8 @@ describe('StaticPageComponent', () => {
     });
 
     const router = new RouterMock();
+    const routerEvents = new Subject<NavigationEnd>();
+    router.events = routerEvents.asObservable();
     router.setRoute(route);
 
     const appConfig = {
@@ -67,7 +69,7 @@ describe('StaticPageComponent', () => {
 
     const fixture = TestBed.createComponent(StaticPageComponent);
     const component = fixture.componentInstance;
-    return { fixture, component, htmlContentService, responseService };
+    return { fixture, component, htmlContentService, responseService, router, routerEvents };
   }
 
   function createLinkEvent(href: string, useNestedTarget = false): Event {
@@ -103,6 +105,45 @@ describe('StaticPageComponent', () => {
     await component.ngOnInit();
 
     expect(htmlContentService.getHmtlContentByPathAndLocale).toHaveBeenCalledWith('license-ud-1.0.html');
+  });
+
+  it('should load the file name when the UI runs below a namespace', async () => {
+    const { component, htmlContentService } = await setupTest(
+      '<h1>About</h1>',
+      undefined,
+      undefined,
+      '/dspace/static/about?source=menu#mission'
+    );
+
+    await component.ngOnInit();
+
+    expect(htmlContentService.getHmtlContentByPathAndLocale).toHaveBeenCalledWith('about');
+  });
+
+  it('should load a new file when Angular reuses the component for another static route', async () => {
+    const { component, htmlContentService, router, routerEvents } = await setupTest(
+      '<h1>Trust</h1>',
+      undefined,
+      undefined,
+      '/static/trust'
+    );
+    await component.ngOnInit();
+
+    const aboutContent = createDeferred<string | undefined>();
+    htmlContentService.getHmtlContentByPathAndLocale.and.returnValue(aboutContent.promise);
+    router.setRoute('/static/about');
+    routerEvents.next(new NavigationEnd(1, '/static/trust', '/static/about'));
+
+    expect(htmlContentService.getHmtlContentByPathAndLocale).toHaveBeenCalledWith('about');
+    expect(component.contentState).toBe('loading');
+
+    aboutContent.resolve('<h1>About</h1>');
+    await aboutContent.promise;
+    await Promise.resolve();
+
+    expect(component.htmlFileName).toBe('about');
+    expect(component.htmlContent.value).toBe('<h1>About</h1>');
+    expect(component.contentState).toBe('found');
   });
 
   it('should rewrite OAI link with rest.baseUrl', async () => {
@@ -165,6 +206,19 @@ describe('StaticPageComponent', () => {
     fixture.detectChanges();
 
     expect(component.htmlContent.value).toBe(otherHtml);
+  });
+
+  it('should keep repository links under the UI namespace and OAI on its public path', async () => {
+    const html = '<a href="/contract">Contract</a><a href="/static/faq">FAQ</a>' +
+      '<a href="/oai/request?verb=Identify">OAI</a><a href="/server/api">API</a>';
+    const { component } = await setupTest(html);
+
+    await component.ngOnInit();
+
+    expect(component.htmlContent.value).toContain('href="/testNamespace/contract"');
+    expect(component.htmlContent.value).toContain('href="/testNamespace/static/faq"');
+    expect(component.htmlContent.value).toContain('href="/oai/request?verb=Identify"');
+    expect(component.htmlContent.value).toContain('href="/server/api"');
   });
 
   describe('contentState behavior', () => {
@@ -249,47 +303,53 @@ describe('StaticPageComponent', () => {
 
   describe('link handling', () => {
     it('should intercept and navigate dot-relative links under the static route', async () => {
-      const { component } = await setupTest('<div>test</div>');
-      const navigateTo = spyOn<any>(component, 'navigateTo');
+      const { component, router } = await setupTest('<div>test</div>');
       const event = createLinkEvent('./cite');
 
       component.processLinks(event);
 
       expect((event.preventDefault as jasmine.Spy)).toHaveBeenCalled();
-      expect(navigateTo).toHaveBeenCalledWith(`${window.location.origin}/testNamespace/static/cite`);
+      expect(router.navigateByUrl).toHaveBeenCalledWith('/static/cite');
     });
 
     it('should resolve nested relative-link clicks inside anchors', async () => {
-      const { component } = await setupTest('<div>test</div>');
-      const navigateTo = spyOn<any>(component, 'navigateTo');
+      const { component, router } = await setupTest('<div>test</div>');
       const event = createLinkEvent('../discover?query=test', true);
 
       component.processLinks(event);
 
       expect((event.preventDefault as jasmine.Spy)).toHaveBeenCalled();
-      expect(navigateTo).toHaveBeenCalledWith(`${window.location.origin}/testNamespace/discover?query=test`);
+      expect(router.navigateByUrl).toHaveBeenCalledWith('/discover?query=test');
+    });
+
+    it('should preserve fragment identifiers in relative static-page links', async () => {
+      const { component, router } = await setupTest('<div>test</div>');
+      const event = createLinkEvent('./item-lifecycle#new-version-item');
+
+      component.processLinks(event);
+
+      expect((event.preventDefault as jasmine.Spy)).toHaveBeenCalled();
+      expect(router.navigateByUrl).toHaveBeenCalledWith('/static/item-lifecycle#new-version-item');
     });
 
     it('should not intercept explicit app-route links', async () => {
-      const { component } = await setupTest('<div>test</div>');
-      const navigateTo = spyOn<any>(component, 'navigateTo');
+      const { component, router } = await setupTest('<div>test</div>');
       const event = createLinkEvent('contract');
 
       component.processLinks(event);
 
       expect((event.preventDefault as jasmine.Spy)).not.toHaveBeenCalled();
-      expect(navigateTo).not.toHaveBeenCalled();
+      expect(router.navigateByUrl).not.toHaveBeenCalled();
     });
 
     it('should not intercept fragment links', async () => {
-      const { component } = await setupTest('<div>test</div>');
-      const navigateTo = spyOn<any>(component, 'navigateTo');
+      const { component, router } = await setupTest('<div>test</div>');
       const event = createLinkEvent('#about-contracts');
 
       component.processLinks(event);
 
       expect((event.preventDefault as jasmine.Spy)).not.toHaveBeenCalled();
-      expect(navigateTo).not.toHaveBeenCalled();
+      expect(router.navigateByUrl).not.toHaveBeenCalled();
     });
   });
 });

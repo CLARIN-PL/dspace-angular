@@ -1,45 +1,60 @@
 <ng-container>
   <ds-clarin-license-info class="mt-3 d-block" [item]="item"></ds-clarin-license-info>
-  <h2 class="h6"><i class="fa fa-paperclip" aria-hidden="true"></i> {{'item.page.files.head' | translate}}</h2>
-  <div class="pb-3">
-    <span class="pr-1">
+  <section class="file-tools" aria-labelledby="file-tools-title">
+    <div class="file-tools__intro">
+      <span class="file-tools__icon" aria-hidden="true"><i class="fas fa-folder-open"></i></span>
+      <div>
+        <p class="file-tools__eyebrow">{{'item.page.files.tools.label' | translate}}</p>
+        <h2 class="file-tools__title" id="file-tools-title">{{'item.page.files.head' | translate}}</h2>
+        <p class="file-tools__description">{{'item.page.files.tools.description' | translate}}</p>
+      </div>
+    </div>
+    <div class="file-tools__actions">
       <button type="button" class="btn btn-download" (click)="openCommandModal(commandModal)"
          *ngIf="canShowCurlDownload">
-        <i class="fa fa-download fa-3x" style="display: block">&nbsp;</i>
-        {{'item.page.download.button.command.line' | translate}}
+        <span class="btn-download__icon" aria-hidden="true"><i class="fas fa-terminal"></i></span>
+        <span>
+          <strong>{{'item.page.download.button.command.line' | translate}}</strong>
+          <small>{{'item.page.download.command.description' | translate}}</small>
+        </span>
       </button>
-    </span>
 
-    <ng-template #commandModal let-modal>
-      <div class="modal-header">
-        <h5 class="modal-title" id="commandModalTitle">{{'item.page.download.button.command.line' | translate}}</h5>
-        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <pre class="command-pre mb-0">{{ command }}</pre>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-outline-secondary" (click)="copyCommand()">
-          <i class="fa" [ngClass]="commandCopied ? 'fa-check' : 'fa-clipboard'"></i>
-          {{ commandCopied ? ('item.page.download.command.copied' | translate) : ('item.page.download.command.copy' | translate) }}
-        </button>
-        <button class="btn btn-secondary" (click)="modal.close()">
-          {{'item.page.download.command.close' | translate}}
-        </button>
-      </div>
-    </ng-template>
-    <span>
       <button type="button" *ngIf="
       (totalFileSizes | async) > (downloadZipMinFileSize | async) &&
       (totalFileSizes | async) < (downloadZipMaxFileSize | async) &&
       (listOfFiles | async).length >= (downloadZipMinFileCount | async)"
          class="btn btn-download" id="download-all-button" (click)="downloadFiles()">
-        <i style="display: block" class="fa fa-download fa-3x">&nbsp;</i>
-        {{'item.page.download.button.all.files.zip' | translate}} ({{ (totalFileSizes | async) | dsFileSize }})
+        <span class="btn-download__icon" aria-hidden="true"><i class="fas fa-file-archive"></i></span>
+        <span>
+          <strong>{{'item.page.download.button.all.files.zip' | translate}}</strong>
+          <small>{{ (totalFileSizes | async) | dsFileSize }}</small>
+        </span>
       </button>
-    </span>
-  </div>
+    </div>
+  </section>
+
+  <ng-template #commandModal let-modal>
+    <div class="modal-header">
+      <div>
+        <p class="file-tools__eyebrow mb-1">CLARIN-PL</p>
+        <h5 class="modal-title" id="commandModalTitle">{{'item.page.download.button.command.line' | translate}}</h5>
+      </div>
+      <button type="button" class="close" [attr.aria-label]="'item.page.download.command.close' | translate" (click)="modal.dismiss()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <pre class="command-pre mb-0">{{ command }}</pre>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline-secondary" (click)="copyCommand()">
+        <i class="fa" [ngClass]="commandCopied ? 'fa-check' : 'fa-clipboard'"></i>
+        {{ commandCopied ? ('item.page.download.command.copied' | translate) : ('item.page.download.command.copy' | translate) }}
+      </button>
+      <button class="btn btn-secondary" (click)="modal.close()">
+        {{'item.page.download.command.close' | translate}}
+      </button>
+    </div>
+  </ng-template>
   <ds-preview-section [item]="item"></ds-preview-section>
 </ng-container>

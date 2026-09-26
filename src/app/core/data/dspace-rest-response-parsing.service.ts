@@ -43,17 +43,6 @@ export function isRestPaginatedList(halObj: any): boolean {
     hasValue(halObj.page.number);
 }
 
-/**
- * Split a url into parts
- *
- * @param url the url to split
- */
-const splitUrlInParts = (url: string): string[] => {
-  return url.split('?')
-    .map((part) => part.split('&'))
-    .reduce((combined, current) => [...combined, ...current]);
-};
-
 @Injectable({ providedIn: 'root' })
 export class DspaceRestResponseParsingService implements ResponseParsingService {
   protected serializerConstructor: GenericConstructor<Serializer<any>> = DSpaceSerializer;
@@ -155,11 +144,15 @@ export class DspaceRestResponseParsingService implements ResponseParsingService 
           }
         });
 
-      } else {
-        const expected = splitUrlInParts(urlWithoutEmbedParams);
-        const actual = splitUrlInParts(response.payload._links.self.href);
-        if (expected[0] === actual[0] && (expected.some((e) => !actual.includes(e)) || actual.some((e) => !expected.includes(e)))) {
-          console.warn(`The response for '${urlWithoutEmbedParams}' has the self link '${response.payload._links.self.href}'. These don't match. This could mean there's an issue with the REST endpoint`);
+      } else if (urlWithoutEmbedParams !== response.payload._links.self.href) {
+        const requestedEndpoint = urlWithoutEmbedParams.split('?')[0];
+        const responseEndpoint = response.payload._links.self.href.split('?')[0];
+
+        // DSpace REST may omit, normalize or reorder query parameters in a HAL self link.
+        // Keep the originally requested URL as the cache key when only its query differs.
+        // A different endpoint is valid for relationship resources (e.g. owningCollection),
+        // so preserve the canonical self link returned by the backend in that case.
+        if (requestedEndpoint === responseEndpoint) {
           response.payload._links = Object.assign({}, response.payload._links, {
             self: {
               href: urlWithoutEmbedParams

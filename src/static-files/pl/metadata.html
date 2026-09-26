@@ -1,34 +1,64 @@
-<article class="policy-page">
-  <header class="policy-page__header">
-    <p class="policy-page__eyebrow">Opis zasobów</p>
-    <h1>Metadane</h1>
-    <p class="policy-page__lead">Dobry opis pozwala odnaleźć, zrozumieć, ocenić, zacytować i ponownie wykorzystać zasób — także bez otwierania jego plików.</p>
-  </header>
+<div id="faq-like" class="policy-page">
+  <h2 id="ufal-point-faq">Informacje o metadanych</h2>
+  <p>Ta strona opisuje wymagane przez nas metadane i sposób ich rozpowszechniania. Metadane są dostępne bez ograniczeń i przekazywane do domeny publicznej na zasadach <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.pl">CC0</a>. Prosimy jednak o poinformowanie <a class="helpdesk-tolink" href="mailto:dspace@clarin-pl.eu">Helpdesku</a> o komercyjnym wykorzystaniu metadanych z repozytorium CLARIN-PL wraz z opisem przypadku użycia.</p>
 
-  <section class="policy-section">
-    <h2>Informacje wymagane</h2>
-    <ul>
-      <li>jednoznaczny tytuł i opis zakresu zasobu;</li>
-      <li>twórcy i współtwórcy z afiliacjami oraz identyfikatorami, jeśli są dostępne;</li>
-      <li>język, typ zasobu, formaty, rozmiar, wersja i data;</li>
-      <li>pochodzenie danych, sposób pozyskania i najważniejsze etapy przetwarzania;</li>
-      <li>licencja, prawa, ograniczenia i warunki dostępu;</li>
-      <li>słowa kluczowe, obszar tematyczny i zasięg czasowy lub geograficzny;</li>
-      <li>finansowanie, projekty oraz relacje do publikacji, narzędzi i wcześniejszych wersji;</li>
-      <li>dokumentacja techniczna potrzebna do poprawnej interpretacji danych.</li>
-    </ul>
-  </section>
+  <hr />
+  <ul id="faqs-list">
+    <li><a href="#formats">Formaty metadanych</a></li>
+    <li><a href="#metadata">Metadane zgłoszenia</a></li>
+    <li><a href="#mapping">Mapowanie metadanych</a></li>
+  </ul>
+  <hr />
 
-  <section class="policy-section">
-    <h2>Zasady jakości</h2>
-    <p>Wartości powinny być konkretne, spójne i możliwe do weryfikacji. Nazwy osób i instytucji zapisuj konsekwentnie, stosuj kontrolowane słowniki, gdy formularz je udostępnia, oraz podawaj trwałe identyfikatory publikacji i zasobów.</p>
-    <p>Redaktor może poprawić oczywiste błędy, ujednolicić opis albo poprosić deponenta o dodatkowe informacje. Proweniencja rekordu jest zachowywana.</p>
-  </section>
+  <div>
+    <h3 id="formats">Formaty metadanych</h3>
+    <p>Metadane zgłoszenia udostępniamy w wielu formatach, w tym CMDI i <code>oai_dc</code>. Zobacz <a href="/oai/request?verb=ListMetadataFormats">pełną listę obsługiwanych formatów</a>. Nie każdy format musi mieć zastosowanie do każdego zasobu. Różne formaty pozwalają promować zdeponowane treści w agregatorach i wyszukiwarkach.</p>
+    <h4>CMDI</h4>
+    <p>Więcej informacji zawiera wprowadzenie CLARIN do <a href="https://www.clarin.eu/content/component-metadata">metadanych komponentowych</a>. W pewnym zakresie obsługujemy zgłoszenia z dołączonym plikiem CMDI, jednak preferujemy przeprowadzenie użytkownika przez formularz deponowania, co pomaga zapewnić odpowiednią jakość metadanych.</p>
+    <p>Obecne zgłoszenia są zgodne z profilem <a href="https://catalog.clarin.eu/ds/ComponentRegistry/rest/registry/profiles/clarin.eu:cr1:p_1403526079380/xsd">clarin.eu:cr1:p_1403526079380</a>. Część starszych zgłoszeń korzysta z profilu <a href="https://catalog.clarin.eu/ds/ComponentRegistry/rest/registry/profiles/clarin.eu:cr1:p_1349361150622/xsd">clarin.eu:cr1:p_1349361150622</a>.</p>
+    <p>Oba profile zawierają szerokie powiązania z rejestrem pojęć.</p>
+    <h4>oai_dc</h4>
+    <p><code>oai_dc</code> jest podstawowym formatem protokołu <a href="https://www.openarchives.org/OAI/2.0/oai_dc.xsd">OAI-PMH</a>. Sposób mapowania pól zgłoszenia do tego formatu opisuje sekcja <a href="#mapping">Mapowanie metadanych</a>.</p>
+  </div>
 
-  <section class="policy-section">
-    <h2>Dostęp i interoperacyjność</h2>
-    <p>Metadane są publiczne i udostępniane na zasadach CC0. Repozytorium publikuje je przez interfejs użytkownika i OAI-PMH w formatach ogólnych oraz dziedzinowych, m.in. Dublin Core i CMDI. Metadane mogą być zbierane przez usługi CLARIN i inne katalogi naukowe.</p>
-  </section>
+  <div>
+    <h3 id="metadata">Metadane zgłoszenia</h3>
+    <p>Poniższa lista przedstawia pola używane w formularzu zgłoszenia. Formularz może być rozwijany. Metadane należy podawać po angielsku. Poszczególne formaty wyjściowe zawierają również różne metadane generowane automatycznie, np. czytelne nazwy języków towarzyszące kodom ISO, identyfikatory i dodatkowe daty.</p>
+    <table class="table-bordered">
+      <thead><tr><th>Nazwa pola</th><th>Opis</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Typ</strong></td><td>Typ zasobu: „Korpus” obejmuje korpusy tekstowe, mowne i multimodalne; „Zasób leksykalny lub pojęciowy” — leksykony, ontologie, słowniki i listy słów; „Opis języka” — modele języka i gramatyki; „Technologia / narzędzie / usługa” — narzędzia, systemy i ich komponenty.</td><td><span class="label label-info">wymagane</span></td></tr>
+        <tr><td><strong>Tytuł</strong></td><td>Główny tytuł zasobu.</td><td><span class="label label-info">wymagane</span></td></tr>
+        <tr><td><strong>URL projektu</strong></td><td>Adres zasobu lub projektu związanego ze zgłoszeniem, np. strona projektu. Wartość jest sprawdzana wyrażeniem regularnym i musi zaczynać się od <code>http</code> lub <code>https</code>.</td><td><span class="label label-info">walidowane</span></td></tr>
+        <tr><td><strong>URL demonstracyjny</strong></td><td>Adres demonstracji, próbek albo przykładowych wyników narzędzia. Musi zaczynać się od <code>http</code> lub <code>https</code>.</td><td><span class="label label-info">walidowane</span></td></tr>
+        <tr><td><strong>Data wydania</strong></td><td>Data wydania danych, jeśli istnieje, np. 2014-01-21, albo co najmniej rok.</td><td><span class="label label-info">wymagane</span></td></tr>
+        <tr><td><strong>Autor</strong></td><td>Autorzy zasobu. Dla zbiorów, np. korpusów, podaje się zwykle osoby odpowiedzialne za opracowanie zbioru, a nie autorów poszczególnych tekstów. Nazwisko zapisuje się przed pozostałą częścią imienia, np. „Kowalski, Jan”.</td><td><span class="label label-info">wymagane</span><span class="label label-info">powtarzalne</span></td></tr>
+        <tr><td><strong>Wydawca</strong></td><td>Nazwa organizacji lub podmiotu, który opublikował wcześniejszą postać zasobu, albo instytucji macierzystej deponenta.</td><td><span class="label label-info">wymagane</span><span class="label label-info">powtarzalne</span></td></tr>
+        <tr><td><strong>Osoba kontaktowa</strong></td><td>Osoba, z którą można się kontaktować w sprawach zgłoszenia i która potrafi udzielić informacji o zasobie, np. autor lub deponent. Pole obejmuje imię, nazwisko, e-mail i instytucję.</td><td><span class="label label-info">wymagane</span><span class="label label-info">powtarzalne</span></td></tr>
+        <tr><td><strong>Finansowanie</strong></td><td>Podmioty i programy finansujące prace opisane w zgłoszeniu. Pole obejmuje nazwę i kod projektu, instytucję finansującą oraz typ środków: własne, krajowe lub europejskie.</td><td><span class="label label-info">powtarzalne</span></td></tr>
+        <tr><td><strong>Opis</strong></td><td>Tekstowy opis zgłoszenia.</td><td><span class="label label-info">wymagane</span></td></tr>
+        <tr><td><strong>Język</strong></td><td>Język lub języki głównej zawartości, zapisane kodem ISO 639-3. Pole jest wymagane dla korpusów, zasobów leksykalnych lub pojęciowych oraz opisów języka.</td><td><span class="label label-info">powtarzalne</span><span class="label label-info">wymagane zależnie od typu</span></td></tr>
+        <tr><td><strong>Słowa kluczowe</strong></td><td>Słowa lub frazy związane z tematyką zasobu.</td><td><span class="label label-info">powtarzalne</span><span class="label label-info">wymagane</span></td></tr>
+        <tr><td><strong>Rozmiar</strong></td><td>Wielkość przekazanych danych, np. liczba tokenów lub plików.</td><td><span class="label label-info">powtarzalne</span></td></tr>
+        <tr><td><strong>Typ medium</strong></td><td>Typ głównej zawartości, np. tekst lub dźwięk. Wybierany z listy; wymagany dla korpusów, opisów języka i zasobów leksykalnych lub pojęciowych.</td><td><span class="label label-info">lista wyboru</span><span class="label label-info">wymagane zależnie od typu</span></td></tr>
+        <tr><td><strong>Typ szczegółowy</strong></td><td>Dalsza klasyfikacja typu zasobu. Wybierana z listy; wymagana dla narzędzi, opisów języka i zasobów leksykalnych lub pojęciowych.</td><td><span class="label label-info">lista wyboru</span><span class="label label-info">wymagane zależnie od typu</span></td></tr>
+        <tr><td><strong>Zależność od języka</strong></td><td>Wartość logiczna określająca, czy opisane narzędzie lub usługa zależy od języka. Wymagana dla narzędzi.</td><td><span class="label label-info">wymagane zależnie od typu</span></td></tr>
+      </tbody>
+    </table>
+  </div>
 
-  <aside class="policy-callout"><h2>Wskazówka</h2><p>Dodaj README opisujący strukturę katalogów, formaty, kodowanie, wymagane oprogramowanie i przykład użycia. Taka dokumentacja jest częścią długoterminowej użyteczności zasobu.</p></aside>
-</article>
+  <div>
+    <h3 id="mapping">Mapowanie metadanych</h3>
+    <p>Poniższe tabele przedstawiają mapowanie pól zgłoszenia do <code>oai_dc</code> oraz ważne pola generowane automatycznie.</p>
+    <table class="table-bordered">
+      <thead><tr><th>Pole zgłoszenia</th><th>Pole docelowe</th></tr></thead>
+      <tbody>
+        <tr><td>Typ</td><td>dc.type</td></tr><tr><td>Tytuł</td><td>dc.title</td></tr><tr><td>URL projektu</td><td>dc.source</td></tr><tr><td>URL demonstracyjny</td><td>brak mapowania</td></tr><tr><td>Data wydania</td><td>dc.date</td></tr><tr><td>Autor</td><td>dc.creator</td></tr><tr><td>Wydawca</td><td>dc.publisher</td></tr><tr><td>Osoba kontaktowa</td><td>brak mapowania</td></tr><tr><td>Finansowanie</td><td>brak mapowania</td></tr><tr><td>Opis</td><td>dc.description</td></tr><tr><td>Język</td><td>dc.language</td></tr><tr><td>Słowa kluczowe</td><td>dc.subject</td></tr><tr><td>Rozmiar</td><td>brak mapowania</td></tr><tr><td>Typ medium</td><td>brak mapowania</td></tr><tr><td>Typ szczegółowy</td><td>brak mapowania</td></tr>
+      </tbody>
+    </table>
+    <table class="table-bordered">
+      <thead><tr><th>Pole generowane</th><th>Opis</th></tr></thead>
+      <tbody><tr><td>dc.identifier</td><td>PID zasobu, obecnie identyfikator Handle.</td></tr><tr><td>dc.rights</td><td>Pole powtarzalne; może zawierać nazwę licencji, adres jej pełnego tekstu i kategorię dostępu PUB, ACA lub RES.</td></tr></tbody>
+    </table>
+  </div>
+</div>

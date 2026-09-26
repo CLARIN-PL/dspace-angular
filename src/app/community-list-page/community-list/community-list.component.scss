@@ -7,22 +7,36 @@ cdk-tree {
 }
 
 .example-tree-node {
+  position: relative;
   display: block;
   min-width: 0;
-  margin: 0 0 .75rem;
-  padding-top: .9rem;
-  padding-right: 1rem;
-  padding-bottom: .9rem;
-  border: 1px solid #dfe3e3;
-  border-radius: 5px;
-  background: #fff;
-  transition: border-color .2s ease, box-shadow .2s ease;
+  margin: 0 0 .85rem;
+  padding: 1rem 1.1rem 1rem 1.25rem;
+  overflow: hidden;
+  border: 1px solid rgba(0,0,39,.13);
+  border-radius: .75rem;
+  background:
+    linear-gradient(90deg, rgba(0,220,130,.07), transparent 38%),
+    #fff;
+  box-shadow: 0 .35rem 1.2rem rgba(0,0,39,.04);
+  transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+}
+
+.example-tree-node::before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 4px;
+  background: #00dc82;
+  content: "";
 }
 
 .example-tree-node:hover,
 .example-tree-node:focus-within {
-  border-color: #80dcb4;
-  box-shadow: 0 6px 20px rgba(0, 0, 39, .06);
+  transform: translateY(-2px);
+  border-color: rgba(0,167,103,.48);
+  box-shadow: 0 .8rem 2rem rgba(0,0,39,.09);
 }
 
 .example-tree-node > .btn-group {
@@ -40,10 +54,11 @@ cdk-tree {
   height: 44px;
   flex: 0 0 44px;
   place-items: center;
-  border: 1px solid #dce8e1;
-  border-radius: 3px;
+  border: 1px solid rgba(0,167,103,.24);
+  border-radius: 50%;
   color: #006f4c;
-  background: #f2faf5;
+  background: #eafff4;
+  transition: transform .2s ease, border-color .2s ease, background-color .2s ease;
 }
 
 .example-tree-node .btn-default:not(.invisible):hover,
@@ -53,12 +68,25 @@ cdk-tree {
   background: #e1f7e9;
 }
 
+.example-tree-node .btn-default:not(.invisible):hover {
+  transform: translateX(2px);
+}
+
 .example-tree-node .lead {
   color: #000027;
   font-size: clamp(1.02rem, 1.5vw, 1.2rem);
   font-weight: 700;
   line-height: 1.35;
   text-decoration: none;
+}
+
+.example-tree-node.expandable-node .lead::after {
+  display: block;
+  width: 2.25rem;
+  height: 2px;
+  margin-top: .2rem;
+  background: rgba(0,167,103,.42);
+  content: "";
 }
 
 .example-tree-node a.lead:hover,
@@ -91,6 +119,27 @@ cdk-tree {
 .show-more-node {
   border-style: dashed;
   background: #fafcf9;
+}
+
+@media (max-width: 575.98px) {
+  .example-tree-node {
+    padding: .85rem .8rem .85rem 1rem;
+  }
+
+  .example-tree-node .btn-default {
+    width: 40px;
+    min-width: 40px;
+    max-width: 40px;
+    height: 40px;
+    flex-basis: 40px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .example-tree-node,
+  .example-tree-node .btn-default {
+    transition: none;
+  }
 }
 
 .example-tree-node .fa-chevron-right::before {

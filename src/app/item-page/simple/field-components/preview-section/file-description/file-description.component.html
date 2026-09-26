@@ -38,37 +38,45 @@
       alt="Preview"
       class="preview-image cursor-pointer"/>
   </div>
-  <div class="button-container">
+  <div class="button-container" [attr.aria-label]="'item.file.description.actions' | translate">
     <span>
-      <a class="download-btn" (click)="downloadFile()">
-        <i class="fa fa-chevron-circle-down">&nbsp;</i>
+      <button type="button" class="download-btn" (click)="downloadFile()">
+        <i class="fas fa-download" aria-hidden="true"></i>
         {{'item.file.description.download.file' | translate}}
-      </a>
+      </button>
     </span>
     <span class="pl-1">
-      <a class="preview-btn collapsed" data-toggle="collapse" *ngIf="couldPreview()" role="button"
-         href="#file_file_{{ fileInput.id }}">
-        <i class="fa fa-eye">&nbsp;</i>
+      <button type="button" class="preview-btn collapsed" data-toggle="collapse" *ngIf="couldPreview()"
+         [attr.data-target]="'#file_file_' + fileInput.id" [attr.aria-controls]="'file_file_' + fileInput.id">
+        <i class="fas fa-eye" aria-hidden="true"></i>
         {{'item.file.description.preview' | translate}}
-      </a>
+      </button>
     </span>
   </div>
   <div class="in collapse" id="file_file_{{ fileInput.id }}" style="height: auto">
-    <div style="margin: 5px 1px 1px 1px" class="panel panel-info">
-      <div style="height: auto; padding: 0px" class="bold panel-heading text-center">
-        <i class="fa fa-eye">&nbsp;</i>
+    <div class="panel panel-info">
+      <div class="bold panel-heading">
+        <span><i class="fas fa-eye" aria-hidden="true"></i>
         {{'item.file.description.file.preview' | translate}}
-        <a class="pull-right collapsed" data-toggle="collapse" role="button" href="#file_file_{{ fileInput.id }}">
-          <i class="fa fa-remove">&nbsp;</i>
-        </a>
+        </span>
+        <button type="button" class="preview-close collapsed" data-toggle="collapse"
+                [attr.data-target]="'#file_file_' + fileInput.id"
+                [attr.aria-label]="'item.file.description.preview.close' | translate">
+          <i class="fas fa-times" aria-hidden="true"></i>
+        </button>
       </div>
-      <div [style]="'max-height: 500px; padding: 0px; overflow: scroll'" class="panel-body">
+      <div class="panel-body">
         <ul class="treeview collapse show">
-          <div *ngIf="hasNoPreview()" class="d-flex justify-content-center align-items-center my-3">
-            <div>{{ 'item.preview.no-preview' | translate }}
-              <a *ngIf="emailToContact" [href]="'mailto:' + emailToContact" class="email-text">{{ emailToContact }}</a>
+          <li *ngIf="hasNoPreview()" class="preview-empty">
+            <span class="preview-empty__icon" aria-hidden="true"><i class="far fa-file-alt"></i></span>
+            <div>
+              <strong>{{ 'item.preview.no-preview.title' | translate }}</strong>
+              <p>{{ 'item.preview.no-preview' | translate }}</p>
+              <a *ngIf="emailToContact" [href]="'mailto:' + emailToContact" class="email-text">
+                <i class="far fa-envelope" aria-hidden="true"></i> {{ emailToContact }}
+              </a>
             </div>
-          </div>
+          </li>
 
           <!-- File Content -->
           <ng-container *ngIf="fileInput.fileInfo.length !== 0">

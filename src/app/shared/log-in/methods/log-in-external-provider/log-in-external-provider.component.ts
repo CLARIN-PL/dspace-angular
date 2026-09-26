@@ -15,6 +15,7 @@ import { URLCombiner } from '../../../../core/url-combiner/url-combiner';
 import { CoreState } from '../../../../core/core-state.model';
 import { renderAuthMethodFor } from '../log-in.methods-decorator';
 import { AuthMethodType } from '../../../../core/auth/models/auth.method-type';
+import { APP_CONFIG, AppConfig } from '../../../../../config/app-config.interface';
 
 @Component({
   selector: 'ds-log-in-external-provider',
@@ -65,7 +66,8 @@ export class LogInExternalProviderComponent implements OnInit {
     @Inject(NativeWindowService) protected _window: NativeWindowRef,
     private authService: AuthService,
     private hardRedirectService: HardRedirectService,
-    private store: Store<CoreState>
+    private store: Store<CoreState>,
+    @Inject(APP_CONFIG) private appConfig: AppConfig,
   ) {
     this.authMethod = injectedAuthMethodModel;
   }
@@ -90,7 +92,10 @@ export class LogInExternalProviderComponent implements OnInit {
       if (!this.isStandalonePage) {
         redirectRoute = this.hardRedirectService.getCurrentRoute();
       } else if (isEmpty(redirectRoute)) {
-        redirectRoute = '/';
+        // Keep external-authentication callbacks inside the configured UI namespace.
+        // Using '/' here sends installations hosted below a context path (e.g. /dspace)
+        // back to the domain root after a successful federated login.
+        redirectRoute = this.appConfig.ui.nameSpace || '/';
       }
       const correctRedirectUrl = new URLCombiner(this._window.nativeWindow.origin, redirectRoute).toString();
 

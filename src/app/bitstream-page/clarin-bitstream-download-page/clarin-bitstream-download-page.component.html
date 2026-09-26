@@ -1,6 +1,20 @@
-<div class="container">
-  <div *ngIf="(downloadStatus | async) === 'Success'">
-    <h3>{{'bitstream.download.page' | translate:{bitstream: (bitstream$ | async)?.name} }}</h3>
+<div class="container download-page">
+  <div class="download-card" *ngIf="(downloadStatus | async) === 'Success'" role="status" aria-live="polite">
+    <div class="download-card__visual" aria-hidden="true">
+      <span class="download-card__icon"><i class="fas fa-arrow-down"></i></span>
+      <span class="download-card__pulse"></span>
+    </div>
+    <div class="download-card__content">
+      <p class="download-card__eyebrow">CLARIN-PL</p>
+      <h1>{{'bitstream.download.page.title' | translate}}</h1>
+      <p class="download-card__filename">
+        <i class="far fa-file" aria-hidden="true"></i>
+        {{ (bitstream$ | async)?.name }}
+      </p>
+      <p class="download-card__message">{{'bitstream.download.page.preparing' | translate}}</p>
+      <div class="download-card__progress" aria-hidden="true"><span></span></div>
+      <p class="download-card__hint">{{'bitstream.download.page.automatic' | translate}}</p>
+    </div>
   </div>
   <ds-clarin-license-agreement-page
     *ngIf="(downloadStatus | async) === 'MissingLicenseAgreementException'"

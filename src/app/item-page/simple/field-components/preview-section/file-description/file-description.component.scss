@@ -1,7 +1,10 @@
 .file-preview-box {
-    border: 1px solid #ddd;
-    padding: 4px;
-    margin-bottom: 10px;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border: 1px solid rgba(0,0,39,.13);
+    border-radius: .65rem !important;
+    background: #fff;
+    box-shadow: 0 .35rem 1.25rem rgba(0,0,39,.045);
 
     video {
         margin-left: 100px;
@@ -48,35 +51,49 @@
     }
 
     .button-container {
-        a {
-            text-decoration: none;
-        }
+        display: flex;
+        flex-wrap: wrap;
+        gap: .5rem;
+        margin-top: .85rem;
+
         .download-btn, .preview-btn {
-            display: inline;
-            padding: .2em .6em .3em;
-            font-size: 12px;
-            font-weight: bold;
-            line-height: 1;
-            text-align: center;
-            white-space: nowrap;
-            vertical-align: baseline;
-            border-radius: .25em;
-            border: none;
-            color: white;
+            display: inline-flex;
+            min-height: 40px;
+            align-items: center;
+            gap: .45rem;
+            padding: .5rem .8rem;
+            border: 1px solid #000027;
+            border-radius: .45rem;
+            color: #fff;
+            background: #000027;
             cursor: pointer;
-            background-color: #5bc0de;
+            font-size: .82rem;
+            font-weight: 700;
+            line-height: 1.2;
+            text-align: center;
+            text-decoration: none;
         }
 
         .download-btn:hover, .preview-btn:hover {
-            background-color: #31b0d5;
+            border-color: #006f4d;
+            color: #000027;
+            background: #00dc82;
+            text-decoration: none;
+        }
+
+        .download-btn:focus-visible, .preview-btn:focus-visible {
+            outline: 3px solid rgba(0,220,130,.45);
+            outline-offset: 2px;
         }
     }
 
     .panel {
-        background-color: #fff;
-        border: 1px solid transparent;
-        border-radius: 4px;
-        box-shadow: 0 1px 1px rgba(0,0,0,0.05);
+        margin: .85rem 0 0;
+        overflow: hidden;
+        border: 1px solid rgba(0,111,77,.22);
+        border-radius: .55rem;
+        background: #fff;
+        box-shadow: none;
     }
 
     .panel-info {
@@ -84,13 +101,21 @@
     }
 
     .panel-info>.panel-heading {
-        color: #3a87ad;
-        background-color: #d9edf7;
-        border-color: #bce8f1;
+        display: flex;
+        min-height: 44px;
+        align-items: center;
+        justify-content: space-between;
+        padding: .65rem .8rem;
+        border: 0;
+        color: #000027;
+        background: #eafff4;
+        font-size: .86rem;
     }
 
     .panel-body {
-        padding: 15px;
+        max-height: 500px;
+        padding: 0;
+        overflow: auto;
 
         pre {
             display: block;
@@ -106,10 +131,68 @@
             border-radius: 4px;
         }
     }
+}
 
-    .pull-right {
-        float: right !important;
-    }
+.preview-close {
+  display: inline-grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  color: #006f4d;
+  background: transparent;
+}
+
+.preview-close:hover,
+.preview-close:focus-visible {
+  color: #fff;
+  background: #000027;
+}
+
+.preview-empty {
+  display: flex;
+  max-width: 46rem;
+  align-items: flex-start;
+  gap: 1rem;
+  margin: 1.25rem auto;
+  padding: 1.1rem 1.25rem;
+  color: #45495b;
+  background: #f8faf9;
+}
+
+.preview-empty__icon {
+  display: inline-grid;
+  width: 2.6rem;
+  height: 2.6rem;
+  flex: 0 0 2.6rem;
+  place-items: center;
+  border-radius: 50%;
+  color: #006f4d;
+  background: #dff8eb;
+}
+
+.preview-empty strong {
+  display: block;
+  margin-bottom: .2rem;
+  color: #000027;
+}
+
+.preview-empty p {
+  margin: 0 0 .55rem;
+  line-height: 1.55;
+}
+
+.preview-empty .email-text {
+  color: #006f4d;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.preview-empty .email-text:hover,
+.preview-empty .email-text:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: .2em;
 }
 
 .dl-horizontal {
@@ -123,3 +206,14 @@ dd {
   margin-bottom: 0;
 }
 
+@media (max-width: 767.98px) {
+  .file-preview-box .file-content {
+    flex-direction: column;
+  }
+
+  .file-preview-box .file-content .preview-image {
+    width: 72px;
+    height: auto;
+    margin-top: .75rem;
+  }
+}

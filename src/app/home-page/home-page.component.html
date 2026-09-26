@@ -182,6 +182,24 @@
         <h2 id="partners-title">{{ 'clarin.home.partners_title' | translate }}</h2>
         <a href="https://clarin-pl.eu/" target="_blank" rel="noopener">{{ 'clarin.home.partners_link' | translate }} <i class="fas fa-external-link-alt" aria-hidden="true"></i></a>
       </div>
+      <a class="clarin-network-link"
+         href="https://www.clarin.eu/"
+         target="_blank"
+         rel="noopener noreferrer"
+         [attr.aria-label]="'clarin.home.network_aria_label' | translate">
+        <span class="clarin-network-link__logo">
+          <img src="assets/images/clarin-logo.svg"
+               alt="CLARIN — Common Language Resources and Technology Infrastructure">
+        </span>
+        <span class="clarin-network-link__copy">
+          <small>{{ 'clarin.home.network_label' | translate }}</small>
+          <strong>{{ 'clarin.home.network_title' | translate }}</strong>
+        </span>
+        <span class="clarin-network-link__action">
+          {{ 'clarin.home.network_link' | translate }}
+          <i class="fas fa-arrow-right" aria-hidden="true"></i>
+        </span>
+      </a>
       <div class="clarin-partner-grid">
         <a href="https://pwr.edu.pl/" target="_blank" rel="noopener" aria-label="Politechnika Wrocławska"><img src="assets/images/clarin-pl/partners/pwr.png" alt="Politechnika Wrocławska"></a>
         <a href="https://www.ipipan.waw.pl/" target="_blank" rel="noopener" aria-label="Instytut Podstaw Informatyki PAN"><img src="assets/images/clarin-pl/partners/ipipan.png" alt="Instytut Podstaw Informatyki PAN"></a>

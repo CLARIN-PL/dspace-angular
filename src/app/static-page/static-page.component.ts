@@ -1,7 +1,8 @@
-import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { HtmlContentService } from '../shared/html-content.service';
-import { BehaviorSubject } from 'rxjs';
-import { Router } from '@angular/router';
+import { BehaviorSubject, Subscription } from 'rxjs';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs/operators';
 import { isEmpty } from '../shared/empty.util';
 import { STATIC_PAGE_PATH } from './static-page-routing-paths';
 import { APP_CONFIG, AppConfig } from '../../config/app-config.interface';
@@ -16,10 +17,12 @@ import { ServerResponseService } from '../core/services/server-response.service'
   templateUrl: './static-page.component.html',
   styleUrls: ['./static-page.component.scss']
 })
-export class StaticPageComponent implements OnInit {
+export class StaticPageComponent implements OnInit, OnDestroy {
   htmlContent: BehaviorSubject<string> = new BehaviorSubject<string>('');
   htmlFileName: string;
   contentState: 'loading' | 'found' | 'not-found' = 'loading';
+  private routerEventsSubscription: Subscription;
+  private loadSequence = 0;
 
   constructor(private htmlContentService: HtmlContentService,
               private router: Router,
@@ -28,18 +31,56 @@ export class StaticPageComponent implements OnInit {
               @Inject(APP_CONFIG) protected appConfig?: AppConfig) { }
 
   async ngOnInit(): Promise<void> {
+    this.routerEventsSubscription = this.router.events.pipe(
+      filter((event): event is NavigationEnd => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      void this.loadCurrentPage();
+    });
+
+    await this.loadCurrentPage(true);
+  }
+
+  ngOnDestroy(): void {
+    this.routerEventsSubscription?.unsubscribe();
+  }
+
+  /**
+   * Load the static file selected by the current route. Angular reuses this
+   * component when only `:htmlFileName` changes, so NavigationEnd events must
+   * trigger a fresh load. The sequence token prevents a slower previous
+   * request from replacing the content of a newer route.
+   */
+  private async loadCurrentPage(force = false): Promise<void> {
+    const requestedFileName = this.getHtmlFileName();
+    if (!force && requestedFileName === this.htmlFileName) {
+      return;
+    }
+
+    const loadSequence = ++this.loadSequence;
+    this.htmlFileName = requestedFileName;
+
     try {
       this.contentState = 'loading';
       this.htmlContent.next('');
 
-      // Fetch html file name from the url path. `static/some_file.html`
-      this.htmlFileName = this.getHtmlFileName();
-
       let htmlContent = await this.htmlContentService.getHmtlContentByPathAndLocale(this.htmlFileName);
+      if (loadSequence !== this.loadSequence) {
+        return;
+      }
+
       if (htmlContent !== undefined) {
         const restBase = this.appConfig?.rest?.baseUrl;
         const oaiUrl = restBase ? restBase.replace(/\/+$/, '') + '/oai' : '/server/oai';
         htmlContent = htmlContent.replace(/href="\/server\/oai/gi, 'href="' + oaiUrl);
+        // Keep editorial links inside the UI namespace, while leaving API and federation paths intact.
+        const namespacePrefix = this.getNamespacePrefix();
+        if (namespacePrefix) {
+          htmlContent = htmlContent.replace(
+            /href="\/(?!\/|server(?:\/|")|oai(?:\/|")|shibboleth(?:\/|")|dspace(?:\/|"))/gi,
+            `href="${namespacePrefix}/`
+          );
+        }
+
 
         this.htmlContent.next(htmlContent);
         this.contentState = 'found';
@@ -52,6 +93,10 @@ export class StaticPageComponent implements OnInit {
       this.contentState = 'not-found';
       this.changeDetector.detectChanges();
     } catch (error) {
+      if (loadSequence !== this.loadSequence) {
+        return;
+      }
+
       console.error('Static page load error:', {
         fileName: this.htmlFileName,
         url: this.router.url,
@@ -80,9 +125,7 @@ export class StaticPageComponent implements OnInit {
     }
 
     event.preventDefault();
-    const namespacePrefix = this.getNamespacePrefix();
-    const staticPageBaseUrl = this.composeStaticPageBaseUrl(namespacePrefix);
-    this.redirectToRelativeLink(staticPageBaseUrl, href);
+    void this.router.navigateByUrl(this.composeRelativeRouterUrl(href));
   }
 
   private getNamespacePrefix(): string {
@@ -90,26 +133,14 @@ export class StaticPageComponent implements OnInit {
     return nameSpace === '/' ? '' : nameSpace.replace(/\/$/, '');
   }
 
-  private composeUrl(pathname: string): string {
-    const baseUrl = new URL(window.location.origin);
-    baseUrl.pathname = pathname;
-    return baseUrl.href;
-  }
-
-  private composeStaticPageBaseUrl(namespacePrefix: string): string {
-    return this.composeUrl(`${namespacePrefix}/${STATIC_PAGE_PATH}/`);
-  }
-
   private isRelativeLink(href: string | null): boolean {
     return href?.startsWith('.') ?? false;
   }
 
-  private redirectToRelativeLink(redirectUrl: string, href: string | null): void {
-    this.navigateTo(new URL(href, redirectUrl).href);
-  }
-
-  private navigateTo(url: string): void {
-    window.location.href = url;
+  private composeRelativeRouterUrl(href: string): string {
+    const staticRouteBase = new URL(`/${STATIC_PAGE_PATH}/`, window.location.origin);
+    const target = new URL(href, staticRouteBase);
+    return `${target.pathname}${target.search}${target.hash}`;
   }
 
   /**
@@ -117,15 +148,17 @@ export class StaticPageComponent implements OnInit {
    * @private
    */
   private getHtmlFileName() {
-    let urlInList = this.router.url?.split('/');
-    // Filter empty elements
-    urlInList = urlInList.filter(n => n);
-    // if length is 1 - html file name wasn't defined.
-    if (isEmpty(urlInList) || urlInList.length === 1) {
+    const routePath = this.router.url?.split(/[?#]/, 1)[0] ?? '';
+    const routeSegments = routePath.split('/').filter(segment => segment);
+    const staticPageSegment = routeSegments.indexOf(STATIC_PAGE_PATH);
+
+    // Locate the route by name instead of by a fixed array position. Production
+    // runs below /dspace, so its URL is /dspace/static/<page> while local and
+    // test installations may use /static/<page>.
+    if (isEmpty(routeSegments) || staticPageSegment < 0 || !routeSegments[staticPageSegment + 1]) {
       return null;
     }
 
-    // If the url is too long take just the first string after `/static` prefix.
-    return urlInList[1]?.split('#')?.[0];
+    return routeSegments[staticPageSegment + 1];
   }
 }

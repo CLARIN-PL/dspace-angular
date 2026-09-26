@@ -15,7 +15,7 @@ ui:
   ssl: false
   host: 0.0.0.0
   port: 4000
-  nameSpace: /
+  nameSpace: /dspace
   useProxies: true
   rateLimiter:
     windowMs: 60000
@@ -36,7 +36,15 @@ cache:
       max: 1000
       timeToLive: 86400000
       allowStale: true
+
     anonymousCache:
       max: 200
       timeToLive: 10000
       allowStale: true
+
+# No production Matomo endpoint has been provided. The browser bootstrap
+# treats an empty URL as disabled instead of falling back to upstream localhost.
+matomo:
+  hostUrl: ''
+  siteId: ''
+  dimensionId: 1

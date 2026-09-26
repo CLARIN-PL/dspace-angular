@@ -83,7 +83,8 @@ services:
       DSPACE_DATABASE_HOST: dspacedb
       dspace__P__dir: /dspace
       dspace__P__name: ${DSPACE_NAME:-CLARIN-PL Repository}
-      dspace__P__server__P__url: ${PUBLIC_URL:?Set PUBLIC_URL in .env}/server
+      dspace__P__server__P__url: ${REST_PUBLIC_URL:?Set REST_PUBLIC_URL in .env}
+      oai__P__url: ${OAI_PUBLIC_URL:?Set OAI_PUBLIC_URL in .env}
       dspace__P__server__P__ssr__P__url: http://dspace:8080/server
       dspace__P__ui__P__url: ${PUBLIC_URL:?Set PUBLIC_URL in .env}
       db__P__url: jdbc:postgresql://dspacedb:5432/dspace
@@ -140,6 +141,36 @@ services:
       retries: 30
       start_period: 90s
 
+  handle-server:
+    # Reuse the exact DSpace runtime, database configuration and persistent
+    # handle directory. The Handle server uses the same HandlePlugin and
+    # database as the REST backend. Its registered public endpoint is the
+    # HTTPS interface at handle.clarin-pl.eu:443. TLS terminates on the
+    # perimeter reverse proxy, which forwards to the private HTTP interface
+    # below. The native Handle ports remain private for local diagnostics.
+    extends:
+      service: dspace
+    command:
+      - /bin/bash
+      - -c
+      - |
+        rm -f /dspace/handle-server/txns/lock
+        exec java $${JAVA_OPTS_HANDLE:--Xmx256m} \
+          -classpath "$$(/dspace/bin/dspace classpath)" \
+          -Ddspace.log.init.disable=true \
+          -Dlog4j2.configurationFile=log4j2-handle-plugin.xml \
+          net.handle.server.Main /dspace/handle-server
+    ports:
+      - "${HANDLE_BIND:-10.45.126.11}:${HANDLE_PORT:-2641}:2641/tcp"
+      - "${HANDLE_BIND:-10.45.126.11}:${HANDLE_PORT:-2641}:2641/udp"
+      - "${HANDLE_BIND:-10.45.126.11}:${HANDLE_HTTP_PORT:-8000}:8000/tcp"
+    healthcheck:
+      test: ["CMD-SHELL", "timeout 5 bash -c '</dev/tcp/127.0.0.1/2641'"]
+      interval: 15s
+      timeout: 10s
+      retries: 12
+      start_period: 45s
+
   dspace-shibboleth:
     build:
       context: ../../../clarin-dspace/dspace/src/main/docker/dspace-shibboleth
@@ -189,6 +220,7 @@ services:
       dockerfile: Dockerfile.dist
       args:
         NODE_VERSION: 22-alpine
+        UI_NAMESPACE: /dspace
     image: clarin-pl/dspace-angular:local
     restart: unless-stopped
     environment:
@@ -199,7 +231,7 @@ services:
       DSPACE_UI_SSL: "false"
       DSPACE_UI_HOST: 0.0.0.0
       DSPACE_UI_PORT: 4000
-      DSPACE_UI_NAMESPACE: /
+      DSPACE_UI_NAMESPACE: /dspace
       DSPACE_REST_SSL: ${REST_SSL:-false}
       DSPACE_REST_HOST: ${REST_HOST:-localhost}
       DSPACE_REST_PORT: ${REST_PORT:-4000}

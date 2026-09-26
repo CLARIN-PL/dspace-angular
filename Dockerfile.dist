@@ -5,6 +5,7 @@
 # docker build -f Dockerfile.dist -t dspace/dspace-angular:dspace-7_x-dist .
 
 ARG NODE_VERSION=22-alpine
+ARG UI_NAMESPACE=/
 
 FROM docker.io/node:${NODE_VERSION} AS build
 
@@ -22,7 +23,9 @@ ADD . /app/
 
 # Set memory limit for build process - Angular builds require more memory
 ENV NODE_OPTIONS="--max_old_space_size=4096"
-RUN yarn build:prod
+ARG UI_NAMESPACE
+ENV DSPACE_UI_NAMESPACE=$UI_NAMESPACE
+RUN yarn base-href && yarn build:prod
 
 FROM docker.io/node:${NODE_VERSION}
 
