@@ -355,11 +355,20 @@ export class DefaultAppConfig implements AppConfig {
       // Example use case: set the favicon based on the active theme.
       headTags: [
         {
-          // Insert <link rel="icon" href="assets/dspace/images/favicons/favicon.ico" sizes="any"/> into the <head> of the page.
+          // Legacy browser fallback; keep the icon URL versioned to refresh cached DSpace favicons.
           tagName: 'link',
           attributes: {
             'rel': 'icon',
-            'href': 'assets/dspace/images/favicons/favicon.ico',
+            'type': 'image/x-icon',
+            'href': 'assets/dspace/images/favicons/favicon.ico?v=clarin-pl-1',
+          }
+        },
+        {
+          tagName: 'link',
+          attributes: {
+            'rel': 'icon',
+            'type': 'image/svg+xml',
+            'href': 'assets/dspace/images/favicons/favicon.svg?v=clarin-pl-1',
             'sizes': 'any',
           }
         },
@@ -368,7 +377,7 @@ export class DefaultAppConfig implements AppConfig {
           tagName: 'link',
           attributes: {
             'rel': 'apple-touch-icon',
-            'href': 'assets/dspace/images/favicons/apple-touch-icon.png',
+            'href': 'assets/dspace/images/favicons/apple-touch-icon.png?v=clarin-pl-1',
           }
         },
         {
@@ -376,7 +385,7 @@ export class DefaultAppConfig implements AppConfig {
           tagName: 'link',
           attributes: {
             'rel': 'manifest',
-            'href': 'assets/dspace/images/favicons/manifest.webmanifest',
+            'href': 'assets/dspace/images/favicons/manifest.webmanifest?v=clarin-pl-1',
           }
         },
       ]
