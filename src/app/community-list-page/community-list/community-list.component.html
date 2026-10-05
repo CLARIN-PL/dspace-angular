@@ -25,13 +25,16 @@
                  class="example-tree-node expandable-node">
     <div class="community-tree-node__inset" cdkTreeNodePadding>
       <div class="community-tree-node__layout">
-        <button type="button" class="community-tree-node__toggle" cdkTreeNodeToggle
+        <button *ngIf="hasChild(null, node) | async; else noChildren" type="button" class="community-tree-node__toggle" cdkTreeNodeToggle
                 [attr.aria-label]="(node.isExpanded ? 'communityList.collapse' : 'communityList.expand') | translate:{ name: dsoNameService.getName(node.payload) }"
                 [attr.aria-expanded]="node.isExpanded"
                 (click)="toggleExpanded(node)"
                 data-test="expand-button">
-          <i class="fa" [ngClass]="node.isExpanded ? 'fa-chevron-down' : 'fa-chevron-right'" aria-hidden="true"></i>
+          <span class="fa" [ngClass]="node.isExpanded ? 'fa-chevron-down' : 'fa-chevron-right'" aria-hidden="true"></span>
         </button>
+        <ng-template #noChildren>
+          <span class="community-tree-node__marker" aria-hidden="true"><i class="fas fa-folder"></i></span>
+        </ng-template>
         <div class="community-tree-node__content">
           <div class="community-tree-node__heading">
             <a [routerLink]="node.route" class="community-tree-node__title">{{ dsoNameService.getName(node.payload) }}</a>

@@ -332,6 +332,19 @@ describe('CommunityListComponent', () => {
         const showMoreEl = fixture.debugElement.queryAll(By.css('.show-more-node'));
         expect(showMoreEl.length).toEqual(2);
       });
+
+      it('does not offer an expand button for collections without children', () => {
+        const treeNodes = fixture.debugElement.queryAll(By.css('.example-tree-node'));
+        for (const collection of mockCollectionsPage1) {
+          const collectionNode = treeNodes.find((node) =>
+            node.query(By.css('a'))?.nativeElement.textContent.trim() === collection.name
+          );
+          expect(collectionNode).toBeTruthy();
+          if (collectionNode) {
+            expect(collectionNode.query(By.css('button[data-test="expand-button"]'))).toBeNull();
+          }
+        }
+      });
     });
   });
 
