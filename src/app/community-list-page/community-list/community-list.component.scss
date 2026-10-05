@@ -146,3 +146,118 @@ cdk-tree {
   display: block;
   width: 16px;
 }
+
+// Keep CDK's hierarchy padding inside the card so the toggle stays clear of its border.
+.example-tree-node:not(.show-more-node) {
+  padding: 1.2rem 1.4rem;
+  background: #fff;
+}
+
+.example-tree-node:not(.show-more-node):hover,
+.example-tree-node:not(.show-more-node):focus-within {
+  transform: none;
+}
+
+.community-tree-node__inset,
+.community-tree-node__content {
+  min-width: 0;
+}
+
+.community-tree-node__layout {
+  display: grid;
+  grid-template-columns: 2.6rem minmax(0, 1fr);
+  align-items: start;
+  gap: 1rem;
+}
+
+.community-tree-node__toggle,
+.community-tree-node__marker {
+  display: inline-grid;
+  width: 2.6rem;
+  height: 2.6rem;
+  place-items: center;
+  border: 1px solid rgba(0, 145, 93, .3);
+  border-radius: .65rem;
+  color: #006b4b;
+  background: #eafff4;
+  font-size: .9rem;
+}
+
+.community-tree-node__toggle {
+  cursor: pointer;
+}
+
+.community-tree-node__toggle:hover,
+.community-tree-node__toggle:focus-visible {
+  border-color: #00895b;
+  color: #000027;
+  background: #dff9e9;
+}
+
+.community-tree-node__toggle:focus-visible,
+.community-tree-node__title:focus-visible {
+  outline: 3px solid rgba(0, 145, 93, .45);
+  outline-offset: 3px;
+}
+
+.community-tree-node__marker {
+  border-color: rgba(0, 0, 39, .1);
+  color: #377257;
+  background: #f2f8f5;
+}
+
+.community-tree-node__content {
+  padding-top: .2rem;
+}
+
+.community-tree-node__heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .5rem .8rem;
+}
+
+.community-tree-node__title {
+  color: #000027;
+  font-size: clamp(1.08rem, 1.5vw, 1.3rem);
+  font-weight: 700;
+  line-height: 1.35;
+  text-decoration: none;
+}
+
+.community-tree-node__title:hover,
+.community-tree-node__title:focus-visible {
+  color: #006b4b;
+  text-decoration: underline;
+  text-underline-offset: .2em;
+}
+
+.community-tree-node__description {
+  max-width: 82ch;
+  margin: .45rem 0 0;
+  color: #596273;
+  font-size: .94rem;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.community-tree-node__loading {
+  margin: .75rem 0 0 3.6rem;
+}
+
+@media (max-width: 575.98px) {
+  .example-tree-node:not(.show-more-node) {
+    padding: 1rem;
+  }
+
+  .community-tree-node__layout {
+    grid-template-columns: 2.25rem minmax(0, 1fr);
+    gap: .75rem;
+  }
+
+  .community-tree-node__toggle,
+  .community-tree-node__marker {
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+}
