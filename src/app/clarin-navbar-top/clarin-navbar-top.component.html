@@ -3,11 +3,11 @@
     <div class="clarin-top-header__label">{{ 'clarin.header.network' | translate }}</div>
     <div class="ds-language-selection" [attr.aria-label]="'clarin.header.language' | translate">
       <button type="button" class="language-icon" (click)="setLanguage('pl')" [attr.aria-label]="'language.polish' | translate">
-        <img src="./assets/images/flags/pl.svg" alt="" aria-hidden="true">
+        <img [src]="imageBasePath + '/flags/pl.svg'" alt="" aria-hidden="true">
         <span>PL</span>
       </button>
       <button type="button" class="language-icon" (click)="setLanguage('en')" [attr.aria-label]="'language.english' | translate">
-        <img src="./assets/images/flags/gb.svg" alt="" aria-hidden="true">
+        <img [src]="imageBasePath + '/flags/gb.svg'" alt="" aria-hidden="true">
         <span>EN</span>
       </button>
     </div>

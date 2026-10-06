@@ -115,11 +115,9 @@ export class RSSComponent implements OnInit, OnDestroy  {
     if (uuid) {
       route += `&scope=${uuid}`;
     }
-    if (query) {
-      route += `&query=${query}`;
-    } else {
-      route += `&query=*`;
-    }
+    // encodeURIComponent leaves '*' unchanged, although it must be escaped in
+    // OpenSearch feed URLs for strict feed validators.
+    route += `&query=${encodeURIComponent(query || '*').replace(/\*/g, '%2A')}`;
     route = '/' + opensearch + route;
     return route;
   }

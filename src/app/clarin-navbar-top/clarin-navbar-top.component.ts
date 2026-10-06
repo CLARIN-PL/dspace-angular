@@ -3,6 +3,7 @@ import { AuthService } from '../core/auth/auth.service';
 import { take } from 'rxjs/operators';
 import { EPerson } from '../core/eperson/models/eperson.model';
 import { LocaleService } from '../core/locale/locale.service';
+import { environment } from '../../environments/environment';
 
 /**
  * The component which wraps `language` and `login`/`logout + profile` operations in the top navbar.
@@ -13,6 +14,7 @@ import { LocaleService } from '../core/locale/locale.service';
   styleUrls: ['./clarin-navbar-top.component.scss']
 })
 export class ClarinNavbarTopComponent implements OnInit {
+  readonly imageBasePath = `${environment.ui.nameSpace === '/' ? '' : environment.ui.nameSpace.replace(/\/$/, '')}/assets/images`;
 
   constructor(private authService: AuthService,
               private localeService: LocaleService) { }

@@ -26,9 +26,11 @@ try {
 
   const baseHref = `${appConfig.ui.nameSpace}${appConfig.ui.nameSpace.endsWith('/') ? '' : '/'}`;
 
-  console.log(`Setting baseHref to ${baseHref} in angular.json`);
+  console.log(`Setting baseHref and deployUrl to ${baseHref} in angular.json`);
 
   angularJson.projects['dspace-angular'].architect.build.options.baseHref = baseHref;
+  // Emit root-relative CSS/JS URLs; archival crawlers may ignore <base href>.
+  angularJson.projects['dspace-angular'].architect.build.options.deployUrl = baseHref;
 
   writeFileSync(angularJsonPath, JSON.stringify(angularJson, null, 2) + '\n');
 } catch (e) {

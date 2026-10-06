@@ -131,6 +131,8 @@ services:
           create_host_path: false
       - dspace_logs:/dspace/log
       - dspace_handle:/dspace/handle-server
+      # Generated sitemap files must survive backend container recreation.
+      - dspace_sitemaps:/dspace/sitemaps
       - ../../../clarin-dspace/docker/production/local.cfg:/dspace/config/local.cfg:ro
     networks:
       - internal
@@ -285,3 +287,4 @@ volumes:
   solr_logs:
   dspace_logs:
   dspace_handle:
+  dspace_sitemaps:

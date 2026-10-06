@@ -26,6 +26,7 @@ import { CommonModule, DOCUMENT } from '@angular/common';
 import { RouterMock } from '../mocks/router.mock';
 import { ConfigurationDataServiceStub } from '../testing/configuration-data.service.stub';
 import { ConfigurationDataService } from '../../core/data/configuration-data.service';
+import { environment } from '../../../environments/environment';
 
 /**
  * LinkService able to mock recursively resolving DSO parent links
@@ -434,7 +435,8 @@ describe('ThemeService', () => {
       link.setAttribute('rel', 'stylesheet');
       link.setAttribute('type', 'text/css');
       link.setAttribute('class', 'theme-css');
-      link.setAttribute('href', 'custom-theme.css');
+      const nameSpace = environment.ui.nameSpace === '/' ? '' : environment.ui.nameSpace.replace(/\/$/, '');
+      link.setAttribute('href', `${nameSpace}/custom-theme.css`);
 
       expect(headSpy.appendChild).toHaveBeenCalledWith(link);
     });
