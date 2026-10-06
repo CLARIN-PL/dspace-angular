@@ -166,8 +166,10 @@ export function app() {
    */
   server.get('/robots.txt', (req, res) => {
     res.setHeader('content-type', 'text/plain');
+    const nameSpace = environment.ui.nameSpace === '/' ? '' : environment.ui.nameSpace.replace(/\/$/, '');
     res.render('assets/robots.txt.ejs', {
-      'origin': req.protocol + '://' + req.headers.host
+      'origin': req.protocol + '://' + req.headers.host + nameSpace,
+      'basePath': nameSpace
     });
   });
 

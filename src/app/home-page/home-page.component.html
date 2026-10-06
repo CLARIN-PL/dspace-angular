@@ -188,7 +188,7 @@
          rel="noopener noreferrer"
          [attr.aria-label]="'clarin.home.network_aria_label' | translate">
         <span class="clarin-network-link__logo">
-          <img src="assets/images/clarin-logo.svg"
+          <img [src]="imageBasePath + '/clarin-logo.svg'"
                alt="CLARIN — Common Language Resources and Technology Infrastructure">
         </span>
         <span class="clarin-network-link__copy">
@@ -201,12 +201,12 @@
         </span>
       </a>
       <div class="clarin-partner-grid">
-        <a href="https://pwr.edu.pl/" target="_blank" rel="noopener" aria-label="Politechnika Wrocławska"><img src="assets/images/clarin-pl/partners/pwr.png" alt="Politechnika Wrocławska"></a>
-        <a href="https://www.ipipan.waw.pl/" target="_blank" rel="noopener" aria-label="Instytut Podstaw Informatyki PAN"><img src="assets/images/clarin-pl/partners/ipipan.png" alt="Instytut Podstaw Informatyki PAN"></a>
-        <a href="https://www.pja.edu.pl/" target="_blank" rel="noopener" aria-label="Polsko-Japońska Akademia Technik Komputerowych"><img src="assets/images/clarin-pl/partners/pjatk.png" alt="Polsko-Japońska Akademia Technik Komputerowych"></a>
-        <a href="https://www.ispan.waw.pl/" target="_blank" rel="noopener" aria-label="Instytut Slawistyki PAN"><img src="assets/images/clarin-pl/partners/ispan.png" alt="Instytut Slawistyki PAN"></a>
-        <a href="https://www.uni.lodz.pl/" target="_blank" rel="noopener" aria-label="Uniwersytet Łódzki"><img src="assets/images/clarin-pl/partners/ul.png" alt="Uniwersytet Łódzki"></a>
-        <a href="https://uwr.edu.pl/" target="_blank" rel="noopener" aria-label="Uniwersytet Wrocławski"><img src="assets/images/clarin-pl/partners/uwr.png" alt="Uniwersytet Wrocławski"></a>
+        <a href="https://pwr.edu.pl/" target="_blank" rel="noopener" aria-label="Politechnika Wrocławska"><img [src]="imageBasePath + '/clarin-pl/partners/pwr.png'" alt="Politechnika Wrocławska"></a>
+        <a href="https://www.ipipan.waw.pl/" target="_blank" rel="noopener" aria-label="Instytut Podstaw Informatyki PAN"><img [src]="imageBasePath + '/clarin-pl/partners/ipipan.png'" alt="Instytut Podstaw Informatyki PAN"></a>
+        <a href="https://www.pja.edu.pl/" target="_blank" rel="noopener" aria-label="Polsko-Japońska Akademia Technik Komputerowych"><img [src]="imageBasePath + '/clarin-pl/partners/pjatk.png'" alt="Polsko-Japońska Akademia Technik Komputerowych"></a>
+        <a href="https://www.ispan.waw.pl/" target="_blank" rel="noopener" aria-label="Instytut Slawistyki PAN"><img [src]="imageBasePath + '/clarin-pl/partners/ispan.png'" alt="Instytut Slawistyki PAN"></a>
+        <a href="https://www.uni.lodz.pl/" target="_blank" rel="noopener" aria-label="Uniwersytet Łódzki"><img [src]="imageBasePath + '/clarin-pl/partners/ul.png'" alt="Uniwersytet Łódzki"></a>
+        <a href="https://uwr.edu.pl/" target="_blank" rel="noopener" aria-label="Uniwersytet Wrocławski"><img [src]="imageBasePath + '/clarin-pl/partners/uwr.png'" alt="Uniwersytet Wrocławski"></a>
       </div>
     </div>
   </section>

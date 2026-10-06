@@ -4,6 +4,7 @@ import { MenuService } from '../shared/menu/menu.service';
 import { MenuID } from '../shared/menu/menu-id.model';
 import { HostWindowService, WidthCategory } from '../shared/host-window.service';
 import { LocaleService } from '../core/locale/locale.service';
+import { environment } from '../../environments/environment';
 
 /**
  * Represents the header with the logo and simple navigation
@@ -14,6 +15,7 @@ import { LocaleService } from '../core/locale/locale.service';
   templateUrl: 'header.component.html',
 })
 export class HeaderComponent implements OnInit {
+  readonly imageBasePath = `${environment.ui.nameSpace === '/' ? '' : environment.ui.nameSpace.replace(/\/$/, '')}/assets/images`;
   /**
    * Whether user is authenticated.
    * @type {Observable<string>}

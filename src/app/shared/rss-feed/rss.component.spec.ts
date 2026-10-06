@@ -105,5 +105,8 @@ describe('RssComponent', () => {
         const route = comp.formulateRoute(null, 'opensearch/search', null);
         expect(route).toBe('/opensearch/search?format=atom&query=*');
     });
-});
 
+    it('should link to the OpenSearch description beside the search endpoint', () => {
+        expect(comp.formulateServiceRoute('opensearch/search')).toBe('/opensearch/service');
+    });
+});

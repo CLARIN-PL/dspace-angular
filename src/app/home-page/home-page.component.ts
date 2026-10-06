@@ -62,6 +62,9 @@ export class HomePageComponent implements OnInit {
 
   baseUrl = '';
 
+  // Absolute path in rendered HTML also works for crawlers that ignore <base>.
+  readonly imageBasePath = `${environment.ui.nameSpace === '/' ? '' : environment.ui.nameSpace.replace(/\/$/, '')}/assets/images`;
+
   /**
    * Link to the search page
    */

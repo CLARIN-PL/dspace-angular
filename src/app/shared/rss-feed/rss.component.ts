@@ -94,10 +94,10 @@ export class RSSComponent implements OnInit, OnDestroy  {
       const route = environment.rest.baseUrl + this.formulateRoute(this.uuid, openSearchUri, searchOptions.query);
       this.addLinks(route);
       this.linkHeadService.addTag({
-        href: environment.rest.baseUrl + '/' + openSearchUri + '/service',
-        type: 'application/atom+xml',
+        href: environment.rest.baseUrl + this.formulateServiceRoute(openSearchUri),
+        type: 'application/opensearchdescription+xml',
         rel: 'search',
-        title: 'Dspace'
+        title: 'DSpace'
       });
       this.route$.next(route);
     }));
@@ -122,6 +122,11 @@ export class RSSComponent implements OnInit, OnDestroy  {
     }
     route = '/' + opensearch + route;
     return route;
+  }
+
+  /** The description endpoint is a sibling of /search, not its child. */
+  formulateServiceRoute(opensearch: string): string {
+    return '/' + opensearch.replace(/\/search\/?$/, '/service');
   }
 
   /**

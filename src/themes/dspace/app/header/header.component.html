@@ -3,7 +3,7 @@
   <div class="clarin-pl-header__main">
     <div class="container clarin-pl-header__inner">
       <a class="clarin-pl-brand" routerLink="/home" [attr.aria-label]="'clarin.header.home_label' | translate">
-        <img src="assets/images/clarin-pl/logo-horizontal-white.svg" alt="CLARIN-PL">
+        <img [src]="imageBasePath + '/clarin-pl/logo-horizontal-white.svg'" alt="CLARIN-PL">
         <span>{{ 'clarin.header.repository' | translate }}</span>
       </a>
 

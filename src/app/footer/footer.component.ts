@@ -16,6 +16,7 @@ import { ConfigurationDataService } from '../core/data/configuration-data.servic
 })
 export class FooterComponent implements OnInit {
   dateObj: number = Date.now();
+  readonly imageBasePath = `${environment.ui.nameSpace === '/' ? '' : environment.ui.nameSpace.replace(/\/$/, '')}/assets/images`;
 
   /**
    * A boolean representing if to show or not the top footer container
