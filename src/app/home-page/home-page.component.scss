@@ -380,6 +380,10 @@
     line-height: 1.55;
   }
 
+  .clarin-action-card.clarin-action-card--accent small {
+    color: var(--clarin-navy);
+  }
+
   .clarin-action-card__arrow {
     margin-top: .75rem;
     color: var(--clarin-green-dark);

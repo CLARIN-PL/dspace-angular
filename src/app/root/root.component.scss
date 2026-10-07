@@ -1,17 +1,19 @@
 #skip-to-main-content {
   position: absolute;
-  top: -40px;
-  left: 0;
-  opacity: 0;
-  transition: opacity 0.3s;
+  top: 0;
+  left: 1rem;
+  transform: translateY(-120%);
+  padding: .7rem 1rem;
+  color: #fff;
+  background: #000027;
+  border: 2px solid #fff;
+  border-radius: 0 0 .4rem .4rem;
   z-index: calc(var(--ds-nav-z-index) + 1);
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-  border-bottom-left-radius: 0;
 
-  &:focus {
-    opacity: 1;
-    top: 0;
+  &:focus-visible {
+    transform: translateY(0);
+    outline: 3px solid #006f4d;
+    outline-offset: 2px;
   }
 }
 

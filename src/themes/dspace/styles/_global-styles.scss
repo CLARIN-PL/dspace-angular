@@ -233,6 +233,9 @@ textarea:focus-visible {
 .policy-callout a {
   color: #006f4d;
   font-weight: 700;
+}
+
+.policy-page a:not(.btn):not(.clarin-button) {
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 3px;

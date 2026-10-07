@@ -72,6 +72,20 @@ $(function() {
 
   })
 
+  // This legacy picker stays in the DOM while closed. Keep its buttons out of
+  // the tab order until the dialog is opened, independently of theme CSS load.
+  const licenseDialog = document.querySelector('section.license-selector');
+  if (licenseDialog) {
+    const syncDialogInert = () => {
+      licenseDialog.inert = licenseDialog.getAttribute('aria-hidden') === 'true';
+    };
+    syncDialogInert();
+    new MutationObserver(syncDialogInert).observe(licenseDialog, {
+      attributes: true,
+      attributeFilter: ['aria-hidden']
+    });
+  }
+
 });
 
 // class="btn btn-repository licenseselector bold btn-block btn-lg

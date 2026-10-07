@@ -54,9 +54,10 @@ export const klaroConfiguration: any = {
   htmlTexts: true,
 
   /*
-  Force Klaro to use our custom "zy" lang configs defined below.
+  BrowserKlaroService replaces this with the current UI language before rendering.
+  The internal "zy" translations below must never become the dialog's HTML lang.
   */
-  lang: 'zy',
+  lang: 'pl',
 
   /*
   You can overwrite existing translations and add translations for your app

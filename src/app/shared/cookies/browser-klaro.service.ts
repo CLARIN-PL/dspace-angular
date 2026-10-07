@@ -145,14 +145,55 @@ export class BrowserKlaroService extends KlaroService {
          */
         this.translateConfiguration();
 
+        // Keep DSpace's internal translation template, but expose a real language
+        // code to Klaro so its dialog is announced correctly by screen readers.
+        const language = this.translateService.currentLang || environment.defaultLanguage;
+        this.klaroConfig.lang = language;
+        this.klaroConfig.translations[language] = this.klaroConfig.translations.zy;
+
         if (!environment.info?.enableCookieConsentPopup) {
           this.klaroConfig.services = [];
         } else {
           this.klaroConfig.services = this.filterConfigServices(servicesToHide);
         }
 
-        this.lazyKlaro.then(({ setup }) => setup(this.klaroConfig));
+        this.lazyKlaro.then(({ setup }) => {
+          setup(this.klaroConfig);
+          this.labelConsentNotice();
+        });
       });
+  }
+
+  /**
+   * Klaro's compact notice references an id-cookie-title element that it does
+   * not render. Give the dialog its translated accessible name once it exists.
+   */
+  private labelConsentNotice(): void {
+    const title = this.klaroConfig.translations?.[this.klaroConfig.lang]?.consentNotice?.title;
+    if (!title || typeof document === 'undefined') {
+      return;
+    }
+
+    const applyLabel = (): boolean => {
+      const notice = document.getElementById('klaro-cookie-notice');
+      if (!notice) {
+        return false;
+      }
+      notice.removeAttribute('aria-labelledby');
+      notice.setAttribute('aria-label', title);
+      return true;
+    };
+
+    if (!applyLabel()) {
+      const observer = new MutationObserver(() => {
+        if (applyLabel()) {
+          observer.disconnect();
+        }
+      });
+      observer.observe(document.body, { childList: true, subtree: true });
+      // Existing consent may mean no notice will appear on this page.
+      setTimeout(() => observer.disconnect(), 5000);
+    }
   }
 
   /**

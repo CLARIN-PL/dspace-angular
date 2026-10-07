@@ -3,23 +3,29 @@
 }
 
 .label-default {
-  color: grey !important;
+  color: #555 !important;
   background-color: whitesmoke;
 }
 
 .label-PUB {
-  background-color: #dff0d8 !important;
-  color: #5cb811 !important;;
+  background-color: #145c38 !important;
+  color: #fff !important;
 }
 
 .label-RES {
-  color: #c62d1f !important;
+  color: #a51f13 !important;
   background-color: #f2dede !important;
 }
 
 .label-ACA, .label-PDT {
-  color: #ffab23 !important;
+  color: #785000 !important;
   background-color: #fcf8e3 !important;
+}
+
+// The legacy license picker keeps focusable controls in its closed dialog.
+// Remove the closed dialog from layout and the keyboard/screen-reader tree.
+section.license-selector[aria-hidden="true"] {
+  display: none !important;
 }
 
 .cursor-pointer {

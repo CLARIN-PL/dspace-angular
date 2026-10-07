@@ -168,6 +168,32 @@ describe('BrowserKlaroService', () => {
     expect((service as any).translateService.instant).toHaveBeenCalledWith(testKey);
   });
 
+  it('uses the selected language in the Klaro dialog', () => {
+    (translateService as any).currentLang = 'en';
+    spyOn((service as any), 'getUser$').and.returnValue(observableOf(undefined));
+    translateService.get.and.returnValue(observableOf('loading...'));
+
+    service.initialize();
+
+    expect(service.klaroConfig.lang).toBe('en');
+    expect(service.klaroConfig.translations.en).toBe(service.klaroConfig.translations.zy);
+  });
+
+  it('gives the cookie notice a translated accessible name', () => {
+    const notice = document.createElement('div');
+    notice.id = 'klaro-cookie-notice';
+    notice.setAttribute('aria-labelledby', 'id-cookie-title');
+    document.body.appendChild(notice);
+    mockConfig.lang = 'en';
+    mockConfig.translations.en = { consentNotice: { title: 'Cookie Consent' } };
+
+    (service as any).labelConsentNotice();
+
+    expect(notice.hasAttribute('aria-labelledby')).toBeFalse();
+    expect(notice.getAttribute('aria-label')).toBe('Cookie Consent');
+    notice.remove();
+  });
+
   describe('initializeUser when there is a metadata field value', () => {
     beforeEach(() => {
       user.setMetadata(COOKIE_MDFIELD, undefined, '{}');

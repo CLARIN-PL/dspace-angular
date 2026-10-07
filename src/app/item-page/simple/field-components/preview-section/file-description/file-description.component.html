@@ -38,7 +38,7 @@
       alt="Preview"
       class="preview-image cursor-pointer"/>
   </div>
-  <div class="button-container" [attr.aria-label]="'item.file.description.actions' | translate">
+  <div class="button-container" role="group" [attr.aria-label]="'item.file.description.actions' | translate">
     <span>
       <button type="button" class="download-btn" (click)="downloadFile()">
         <i class="fas fa-download" aria-hidden="true"></i>
