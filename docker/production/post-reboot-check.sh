@@ -186,6 +186,25 @@ else
     fail "${mode} endpoint returned HTTP ${http_status:-error}: ${http_url}"
 fi
 
+if [[ "${mode}" == "production" ]]; then
+    gateway_base_url="${http_url%/app/health}"
+    actuator_health_status="$(curl --silent --show-error --output /dev/null --write-out '%{http_code}' \
+        --max-time 10 "${gateway_base_url}/actuator/health" 2>/dev/null || true)"
+    if [[ "${actuator_health_status}" == "200" ]]; then
+        pass "public Health route is available through the gateway"
+    else
+        fail "public Health route returned HTTP ${actuator_health_status:-error} through the gateway"
+    fi
+
+    actuator_info_status="$(curl --silent --show-error --output /dev/null --write-out '%{http_code}' \
+        --max-time 10 "${gateway_base_url}/actuator/info" 2>/dev/null || true)"
+    if [[ "${actuator_info_status}" == "401" ]]; then
+        pass "Actuator info remains protected from anonymous access"
+    else
+        fail "Actuator info returned HTTP ${actuator_info_status:-error} without authentication (expected 401)"
+    fi
+fi
+
 if journalctl -b -p err --no-pager 2>/dev/null | grep -Eqi \
     'EXT4-fs error|I/O error|Buffer I/O|device-mapper.*error|lvm.*failed'; then
     fail "current boot journal contains storage-related errors"
