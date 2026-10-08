@@ -147,6 +147,11 @@ restrict that port to the proxy. Configure SMTP,
 the registered Handle prefix/server, authentication (OIDC or Shibboleth), and
 external monitoring before accepting production traffic.
 
+The Handle HTTPS endpoint is **not** part of this HTTP reverse-proxy example.
+For registered prefix `11321`, use raw TLS passthrough to the private Handle
+interface and follow [HANDLE-TLS-CUTOVER.md](HANDLE-TLS-CUTOVER.md); forwarding
+it to Handle HTTP 8000 breaks native Handle resolution.
+
 Back up both the PostgreSQL database and the assetstore bind mount. A database
 dump without the matching assetstore is not a complete repository backup.
 

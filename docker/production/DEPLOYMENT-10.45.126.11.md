@@ -375,15 +375,16 @@ The following items remain after production cutover:
 
 1. Confirm the hypervisor snapshot and external backup with the infrastructure
    owner; neither can be verified from inside this guest.
-2. Publish DNS `handle.clarin-pl.eu` at `156.17.1.83`, terminate HTTPS on TCP
-   443 at the perimeter proxy and forward it to `http://10.45.126.11:8000`.
-   Native Handle TCP/UDP 2641 and HTTP 8000 remain private. The Handle 9.3.2
-   container is already enabled, healthy and configured to restart
-   automatically.
-3. Send the prepared HTTPS-only `sitebndl.zip` for existing prefix `11321` to
-   the Handle.Net Registry administrator. The production keys and site serial
-   3 match the bundle; after confirmation, verify global resolution of
-   `11321/931` through both the HTML proxy and Handle API.
+2. Complete the edge TCP/TLS passthrough from `156.17.1.83:443` to the live
+   private Handle HTTPS interface `10.45.126.11:443`, for both
+   `handle.clarin-pl.eu` SNI and no-SNI clients. Keep other websites on their
+   existing HTTPS stack. Do not terminate Handle TLS or proxy native traffic
+   to HTTP 8000. The registry already installed site serial 3, but global
+   resolution still fails. See `HANDLE-TLS-CUTOVER.md` for topology and tests.
+3. Verify `11321/931` with a certified native client through the public IP,
+   then through the global HTML proxy and Handle API. Coordinate browser-
+   trusted certificate issuance for the existing Handle server key if the
+   Handle REST endpoint must remain accessible without certificate warnings.
 4. Complete the remaining external/manual tests: federated IdP round trip,
    restricted-item authorization, one end-to-end
    deposit through all three editorial stages, official OAI/CMDI validation and

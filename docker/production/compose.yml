@@ -147,9 +147,11 @@ services:
     # Reuse the exact DSpace runtime, database configuration and persistent
     # handle directory. The Handle server uses the same HandlePlugin and
     # database as the REST backend. Its registered public endpoint is the
-    # HTTPS interface at handle.clarin-pl.eu:443. TLS terminates on the
-    # perimeter reverse proxy, which forwards to the private HTTP interface
-    # below. The native Handle ports remain private for local diagnostics.
+    # HTTPS interface at handle.clarin-pl.eu:443. The perimeter proxy must
+    # pass through TLS unchanged, including clients without SNI. Terminating
+    # TLS there changes the certificate key checked by native Handle clients.
+    # Keep HTTP 8000 for private diagnostics only: the registered HTTPS-only
+    # siteinfo rejects native queries arriving via HTTP.
     extends:
       service: dspace
     command:
@@ -166,8 +168,9 @@ services:
       - "${HANDLE_BIND:-10.45.126.11}:${HANDLE_PORT:-2641}:2641/tcp"
       - "${HANDLE_BIND:-10.45.126.11}:${HANDLE_PORT:-2641}:2641/udp"
       - "${HANDLE_BIND:-10.45.126.11}:${HANDLE_HTTP_PORT:-8000}:8000/tcp"
+      - "${HANDLE_BIND:-10.45.126.11}:${HANDLE_HTTPS_PORT:-443}:8001/tcp"
     healthcheck:
-      test: ["CMD-SHELL", "timeout 5 bash -c '</dev/tcp/127.0.0.1/2641'"]
+      test: ["CMD-SHELL", "timeout 5 bash -c '</dev/tcp/127.0.0.1/2641' && curl -fsS --max-time 5 http://127.0.0.1:8000/api/site >/dev/null && curl -kfsS --max-time 5 https://127.0.0.1:8001/api/site >/dev/null"]
       interval: 15s
       timeout: 10s
       retries: 12

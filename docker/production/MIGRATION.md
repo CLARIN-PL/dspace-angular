@@ -130,7 +130,7 @@ restricted and withdrawn records before enabling writes.
 | Area | Decision |
 | --- | --- |
 | Assetstore | Reuse in place through a bind mount; never copy it into Git or a Docker volume. |
-| Handle | Reuse prefix `11321` and canonical `https://hdl.handle.net/`; all migrated handle records are served from the DSpace database through `HandlePlugin`. On 25 September 2026 the production service was upgraded to Handle 9.3.2, assigned site serial 3 and prepared with new RSA server/admin keys and the public HTTPS endpoint `handle.clarin-pl.eu:443` (`156.17.1.83`). The primary transaction queue is disabled because this single-site service has no Handle replica and uses the DSpace database as its authoritative store. TLS terminates at the perimeter reverse proxy, which forwards to the private HTTP interface `10.45.126.11:8000`; native Handle TCP/UDP 2641 is not exposed publicly. The container is healthy and resolves `11321/931` locally. Global resolution remains gated by DNS/TLS proxy activation and CNRI accepting the prepared `sitebndl.zip`. |
+| Handle | Reuse prefix `11321` and canonical `https://hdl.handle.net/`; migrated records are served from the DSpace database through `HandlePlugin`. The Handle 9.3.2 server has site serial 3 and the registry advertises HTTPS `156.17.1.83:443`. Its private TLS connector is available at `10.45.126.11:443`; a certified native query for `11321/931` succeeds there. The primary transaction queue is disabled because this single-site service has no replica. The public edge must pass Handle TLS through unchanged, including no-SNI traffic, instead of terminating TLS and forwarding to HTTP 8000. Global resolution is still blocked by the edge configuration; see `HANDLE-TLS-CUTOVER.md`. |
 | Shibboleth | Reuse `eppn,persistent-id`, `mail`, `givenName`, `sn` and automatic registration. Remove UFAL/Czech role mappings. Password auth remains enabled for the migration administrator. A production Shibboleth SP still requires its external metadata, certificate and private key. |
 | Email | Reuse host `clarinpl.nazwa.pl`, port 587, account/from/help addresses. Do not copy the old password; provide it only in ignored `.env`. Keep `MAIL_SERVER_DISABLED=true` during migration. |
 | OAI | Reuse repository identity `clarin-pl.eu`; expose it through the new single-origin `/server/oai` endpoint and rebuild the index. |
@@ -142,14 +142,12 @@ restricted and withdrawn records before enabling writes.
 
 ## Remaining production gates
 
-- Publish `handle.clarin-pl.eu` at `156.17.1.83` and configure the perimeter
-  proxy to terminate HTTPS on TCP 443 and forward it to
-  `http://10.45.126.11:8000`. Then submit the prepared site bundle for prefix
-  `11321` to the Handle.Net Registry administrator. Native Handle TCP/UDP 2641
-  and HTTP 8000 remain private; the production keys and `siteinfo` match the
-  HTTPS-only bundle.
-- After CNRI confirms the prefix update, verify global HTML/API resolution for
-  `11321/931` before updating the Centre Registry.
+- Complete the public TCP/TLS passthrough from `156.17.1.83:443` to private
+  `10.45.126.11:443` for both Handle SNI and no-SNI clients, preserving the
+  other websites. The registry already installed serial 3. Follow
+  `HANDLE-TLS-CUTOVER.md` and verify certified native and global resolution
+  for `11321/931` before updating the Centre Registry. Native Handle TCP/UDP
+  2641 and HTTP 8000 remain private.
 - Complete browser acceptance for CLARIN and foreign IdP login, restricted-item
   authorization, and one full reviewer/editor/finaleditor submission.
 - Keep the source dumps, the pre-migration target dump and assetstore snapshot
