@@ -342,14 +342,26 @@ describe('StaticPageComponent', () => {
       expect(router.navigateByUrl).not.toHaveBeenCalled();
     });
 
-    it('should not intercept fragment links', async () => {
-      const { component, router } = await setupTest('<div>test</div>');
+    it('should navigate fragment links on the current static page', async () => {
+      const { component, router } = await setupTest('<div>test</div>', undefined, undefined, '/static/about');
       const event = createLinkEvent('#about-contracts');
 
       component.processLinks(event);
 
-      expect((event.preventDefault as jasmine.Spy)).not.toHaveBeenCalled();
-      expect(router.navigateByUrl).not.toHaveBeenCalled();
+      expect((event.preventDefault as jasmine.Spy)).toHaveBeenCalled();
+      expect(router.navigateByUrl).toHaveBeenCalledWith('/static/about#about-contracts');
+    });
+
+    it('should preserve the UI namespace and query when navigating to a section', async () => {
+      const { component, router } = await setupTest(
+        '<div>test</div>', undefined, undefined, '/dspace/static/about?lang=pl#old-section'
+      );
+      const event = createLinkEvent('#mission-statement', true);
+
+      component.processLinks(event);
+
+      expect((event.preventDefault as jasmine.Spy)).toHaveBeenCalled();
+      expect(router.navigateByUrl).toHaveBeenCalledWith('/dspace/static/about?lang=pl#mission-statement');
     });
   });
 });

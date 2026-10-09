@@ -120,7 +120,20 @@ export class StaticPageComponent implements OnInit, OnDestroy {
     }
 
     const href = anchorElement.getAttribute('href');
-    if (!href || !this.isRelativeLink(href)) {
+    if (!href) {
+      return;
+    }
+
+    // A fragment-only href resolves against <base href="/dspace/"> instead
+    // of the current static page. Keep the page path when navigating to its
+    // sections so Angular's anchor scrolling can find the target heading.
+    if (href.startsWith('#')) {
+      event.preventDefault();
+      void this.router.navigateByUrl(`${this.router.url.split('#')[0]}${href}`);
+      return;
+    }
+
+    if (!this.isRelativeLink(href)) {
       return;
     }
 
