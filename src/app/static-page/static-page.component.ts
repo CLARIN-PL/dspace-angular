@@ -81,6 +81,14 @@ export class StaticPageComponent implements OnInit, OnDestroy {
           );
         }
 
+        // Fragment-only links resolve against the document's <base> element,
+        // even before Angular handles clicks. Give them the current public
+        // page URL so they also work during SSR and when opened in a new tab.
+        const currentPageUrl = this.getPublicPageUrl().replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+        htmlContent = htmlContent.replace(
+          /href="#([^"]+)"/gi,
+          (_match, fragment) => `href="${currentPageUrl}#${fragment}"`
+        );
 
         this.htmlContent.next(htmlContent);
         this.contentState = 'found';
@@ -144,6 +152,14 @@ export class StaticPageComponent implements OnInit, OnDestroy {
   private getNamespacePrefix(): string {
     const nameSpace = this.appConfig?.ui?.nameSpace ?? '/';
     return nameSpace === '/' ? '' : nameSpace.replace(/\/$/, '');
+  }
+
+  private getPublicPageUrl(): string {
+    const routeUrl = this.router.url.split('#')[0];
+    const namespacePrefix = this.getNamespacePrefix();
+    const alreadyNamespaced = routeUrl === namespacePrefix ||
+      routeUrl.startsWith(`${namespacePrefix}/`) || routeUrl.startsWith(`${namespacePrefix}?`);
+    return namespacePrefix && !alreadyNamespaced ? `${namespacePrefix}${routeUrl}` : routeUrl;
   }
 
   private isRelativeLink(href: string | null): boolean {

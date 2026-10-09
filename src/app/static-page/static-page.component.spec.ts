@@ -221,6 +221,33 @@ describe('StaticPageComponent', () => {
     expect(component.htmlContent.value).toContain('href="/server/api"');
   });
 
+  it('should render fragment links with the public page URL before Angular handles clicks', async () => {
+    const html = '<a href="#mission-statement">Mission</a><h2 id="mission-statement">Mission</h2>';
+    const { fixture, component } = await setupTest(html, undefined, undefined, '/static/about');
+
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    expect(component.htmlContent.value).toContain('href="/testNamespace/static/about#mission-statement"');
+    expect(fixture.nativeElement.querySelector('a').href)
+      .toBe(`${window.location.origin}/testNamespace/static/about#mission-statement`);
+  });
+
+  it('should not duplicate the namespace in fragment links and should preserve the query', async () => {
+    const { component } = await setupTest(
+      '<a href="#metadata-policy">Metadata</a>',
+      undefined,
+      undefined,
+      '/testNamespace/static/about?lang=pl&source=menu#old-section'
+    );
+
+    await component.ngOnInit();
+
+    expect(component.htmlContent.value)
+      .toContain('href="/testNamespace/static/about?lang=pl&amp;source=menu#metadata-policy"');
+  });
+
   describe('contentState behavior', () => {
     it('should initialize contentState to "loading"', async () => {
       const { component } = await setupTest('<div>test</div>');
