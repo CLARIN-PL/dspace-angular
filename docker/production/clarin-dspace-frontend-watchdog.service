@@ -1,0 +1,17 @@
+[Unit]
+Description=Recover a persistently unhealthy CLARIN-PL DSpace frontend
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/clarin-dspace-frontend-watchdog
+TimeoutStartSec=45
+User=root
+UMask=0077
+StateDirectory=clarin-dspace-watchdog
+NoNewPrivileges=true
+ProtectHome=true
+ProtectSystem=strict
+PrivateTmp=true
+

@@ -10,7 +10,7 @@ import { RemoteData } from '../../../../../core/data/remote-data';
 import { followLink } from '../../../../../shared/utils/follow-link-config.model';
 import { fromEvent, merge, Observable, of, Subscription } from 'rxjs';
 import { FileService } from '../../../../../core/shared/file.service';
-import { distinctUntilChanged, switchMap, take } from 'rxjs/operators';
+import { distinctUntilChanged, shareReplay, switchMap, take } from 'rxjs/operators';
 import { FeatureID } from '../../../../../core/data/feature-authorization/feature-id';
 import { hasValue } from '../../../../../shared/empty.util';
 import { AuthorizationDataService } from '../../../../../core/data/feature-authorization/authorization-data.service';
@@ -69,12 +69,12 @@ export class FileDescriptionComponent implements OnInit, OnDestroy {
     this.content_url$ = this.bitstreamService.findById(this.fileInput.id, true, false, followLink('thumbnail'))
       .pipe(getFirstCompletedRemoteData(),
             switchMap((remoteData: RemoteData<Bitstream>) => {
-              if (remoteData.hasSucceeded) {
+              if (remoteData.hasSucceeded && remoteData.payload) {
                 if (remoteData.payload?.thumbnail){
                   this.thumbnail_url$ = remoteData.payload?.thumbnail.pipe(
                     switchMap((thumbnailRD: RemoteData<Bitstream>) => {
                       if (thumbnailRD.hasSucceeded) {
-                        return this.buildUrl(thumbnailRD.payload?._links.content.href);
+                        return this.buildUrl(thumbnailRD.payload?._links?.content?.href);
                       } else {
                         return of('');
                       }
@@ -83,10 +83,13 @@ export class FileDescriptionComponent implements OnInit, OnDestroy {
                 } else {
                   this.thumbnail_url$ = of('');
                 }
-                return of(remoteData.payload?._links.content.href);
+                return of(remoteData.payload._links?.content?.href || '');
               }
-            }
-      ));
+              this.thumbnail_url$ = of('');
+              return of('');
+            }),
+            shareReplay({ bufferSize: 1, refCount: true })
+      );
     this.content_url$.pipe(take(1)).subscribe((url) => {
       this.content_url = url;
     });

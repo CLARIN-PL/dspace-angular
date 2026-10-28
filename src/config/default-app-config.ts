@@ -85,10 +85,12 @@ export class DefaultAppConfig implements AppConfig {
       // Link header is used for signposting functionality
       headers: ['Link'],
       // Cache specific to known bots.  Allows you to serve cached contents to bots only.
-      // Defaults to caching 1,000 pages. Each page expires after 1 day
+      // Bound both the number of pages and their accounted memory footprint.
       botCache: {
         // Maximum number of pages (rendered via SSR) to cache. Setting max=0 disables the cache.
-        max: 1000,
+        max: 200,
+        maxSizeBytes: 64 * 1024 * 1024,
+        maxEntrySizeBytes: 4 * 1024 * 1024,
         // Amount of time after which cached pages are considered stale (in ms)
         timeToLive: 24 * 60 * 60 * 1000, // 1 day
         allowStale: true,
@@ -98,6 +100,8 @@ export class DefaultAppConfig implements AppConfig {
       anonymousCache: {
         // Maximum number of pages (rendered via SSR) to cache. Setting max=0 disables the cache.
         max: 0, // disabled by default
+        maxSizeBytes: 16 * 1024 * 1024,
+        maxEntrySizeBytes: 4 * 1024 * 1024,
         // Amount of time after which cached pages are considered stale (in ms)
         timeToLive: 10 * 1000, // 10 seconds
         allowStale: true,

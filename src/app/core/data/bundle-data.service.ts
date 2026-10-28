@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { hasValue } from '../../shared/empty.util';
 import { FollowLinkConfig } from '../../shared/utils/follow-link-config.model';
@@ -82,7 +82,9 @@ export class BundleDataService extends IdentifiableDataService<Bundle> implement
     //Since we filter by bundleName where the pagination options are not indicated we need to load all the possible bundles.
     // This is a workaround, in substitution of the previously recursive call with expand
     const paginationOptions = options ?? { elementsPerPage: 9999 };
-    return this.findAllByItem(item, paginationOptions, useCachedVersionIfAvailable, reRequestOnStale, ...linksToFollow).pipe(
+    // Select the bundle before resolving its files. Embedding here loads files
+    // from every bundle, including large preservation/backup bundles.
+    return this.findAllByItem(item, paginationOptions, useCachedVersionIfAvailable, reRequestOnStale).pipe(
       map((rd: RemoteData<PaginatedList<Bundle>>) => {
         if (hasValue(rd.payload) && hasValue(rd.payload.page)) {
           const matchingBundle = rd.payload.page.find((bundle: Bundle) =>
@@ -111,6 +113,12 @@ export class BundleDataService extends IdentifiableDataService<Bundle> implement
         } else {
           return rd as any;
         }
+      }),
+      switchMap((rd: RemoteData<Bundle>) => {
+        if (rd.hasSucceeded && rd.payload && linksToFollow.length > 0) {
+          return this.findById(rd.payload.uuid, useCachedVersionIfAvailable, reRequestOnStale, ...linksToFollow);
+        }
+        return of(rd);
       }),
     );
   }

@@ -1,4 +1,7 @@
 {
+  "item.files.load-error": "Nie udało się wczytać plików. Spróbuj ponownie.",
+  "item.files.loaded-count": "Wyświetlono {{loaded}} z {{total}} plików",
+  "item.files.load-more": "Wczytaj kolejne pliki",
   // "401.help": "You're not authorized to access this page. You can use the button below to get back to the home page.",
   "401.help": "Nie masz uprawnień do dostępu do tej strony. Możesz użyć przycisku poniżej, aby powrócić do strony głównej.",
 
@@ -9287,7 +9290,15 @@
   "submission.sections.clarin-license.head.license-not-offer-proceed-wait": "Zapisz niedokończone zgłoszenie i poczekaj. Dodamy licencję do listy wyboru i skontaktujemy się z Tobą.",
   "submission.sections.clarin-license.head.license-not-offer-proceeds": "Jeśli musisz użyć licencji, której obecnie nie oferujemy, wykonaj następujące czynności:",
   "submission.sections.clarin-license.head.license-not-supported-message": "Wybrana licencja nie jest obecnie obsługiwana. Postępuj zgodnie z procedurą opisaną w sekcji „Żadna z tych licencji nie odpowiada Twoim potrzebom”.",
-  "submission.sections.clarin-license.head.license-open-selector": "OTWÓRZ selektor licencji",
+  "submission.sections.clarin-license.head.license-open-selector": "Otwórz selektor licencji",
+
+  "submission.license.distribution.title": "Zapoznaj się z umową dotyczącą dystrybucji",
+  "submission.license.distribution.accept": "Akceptuję umowę licencyjną dotyczącą dystrybucji",
+  "submission.license.resource.guided": "Pomoc w wyborze licencji",
+  "submission.license.resource.manual": "Wybierz licencję z listy",
+  "submission.license.resource.search": "Szukaj licencji",
+  "submission.general.info.saving": "Zapisywanie…",
+  "submission.general.info.depositing": "Przekazywanie…",
   "submission.sections.clarin-license.head.license-question-help-desk": ["W razie pytań dotyczących licencji skontaktuj się z", "Help Deskiem"],
   "submission.sections.clarin-license.head.license-select-default-value": "Wybierz licencję…",
   "submission.sections.clarin-license.head.license-select-or": "— LUB —",

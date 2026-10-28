@@ -60,6 +60,7 @@
 }
 
 .clarin-top-header__account {
+  min-width: 0;
   padding-left: .8rem;
   border-left: 1px solid rgba(255,255,255,.18);
 }
@@ -76,8 +77,12 @@
 .clarin-user-links {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
   gap: .55rem;
 }
+
+.clarin-user-links a { min-width: 0; overflow-wrap: anywhere; }
 
 .hidden {
   display: none;

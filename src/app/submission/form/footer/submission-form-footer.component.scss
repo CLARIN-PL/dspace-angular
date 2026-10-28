@@ -1,0 +1,35 @@
+:host { display: block; }
+
+.submission-actionbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: .75rem 1.25rem;
+  padding: 1rem 1.25rem;
+  color: var(--clarin-pl-navy, #000027);
+}
+.submission-actionbar-status {
+  margin-left: auto;
+  color: #416653;
+  font-size: .875rem;
+  span, div { display: inline-flex; align-items: center; gap: .5rem; }
+}
+.submission-actionbar-actions { display: flex; flex-wrap: wrap; gap: .625rem; }
+.btn { min-height: 44px; border-radius: .5rem; font-size: .9rem; padding: .65rem 1rem; }
+.action-discard { border-color: transparent; color: #a23835; background: transparent; }
+.action-discard:hover { background: #fff2f0; border-color: #e7c3bf; }
+.action-secondary {
+  background: #fff !important;
+  border-color: #cbd7d1 !important;
+  color: var(--clarin-pl-navy, #000027) !important;
+}
+.action-secondary:hover { background: #f1f8f4 !important; border-color: #739983 !important; }
+.btn:focus-visible { outline: 3px solid #3d8063; outline-offset: 3px; }
+@media (max-width: 767.98px) {
+  .submission-actionbar { padding: .875rem; gap: .75rem; }
+  .submission-actionbar-discard { order: 1; }
+  .submission-actionbar-status { order: 2; }
+  .submission-actionbar-actions { order: 3; flex: 1 0 100%; }
+  .submission-actionbar-actions .btn { flex: 1 1 8rem; white-space: normal; }
+}
+@media (prefers-reduced-motion: reduce) { .fa-spin { animation: none; } }

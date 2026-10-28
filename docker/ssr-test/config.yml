@@ -1,0 +1,28 @@
+defaultLanguage: pl
+languages:
+  - {code: pl, label: Polski, active: true}
+  - {code: en, label: English, active: true}
+ui:
+  rateLimiter:
+    windowMs: 60000
+    max: 100000
+universal:
+  maxConcurrentRenders: 4
+  renderTimeoutMs: 10000
+cache:
+  serverSide:
+    botCache:
+      max: 200
+      maxSizeBytes: 67108864
+      maxEntrySizeBytes: 4194304
+      timeToLive: 30000
+      allowStale: true
+    anonymousCache:
+      max: 50
+      maxSizeBytes: 16777216
+      maxEntrySizeBytes: 4194304
+      timeToLive: 10000
+      allowStale: true
+matomo:
+  hostUrl: ''
+  siteId: ''

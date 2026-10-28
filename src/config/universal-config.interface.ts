@@ -10,6 +10,12 @@ export interface UniversalConfig extends Config {
   async: boolean;
   time: boolean;
 
+  /** Maximum outstanding SSR jobs, including jobs which exceeded their response deadline. */
+  maxConcurrentRenders?: number;
+
+  /** HTTP response deadline; timed-out work keeps its slot until the renderer completes. */
+  renderTimeoutMs?: number;
+
   /**
    * Whether to inline "critical" styles into the server-side rendered HTML.
    *

@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { Item } from '../../core/shared/item.model';
-import { getAllSucceededRemoteListPayload, getFirstSucceededRemoteDataPayload } from '../../core/shared/operators';
+import { getFirstSucceededRemoteDataPayload } from '../../core/shared/operators';
 import { getItemPageRoute } from '../item-page-routing-paths';
 import { MetadataBitstream } from '../../core/metadata/metadata-bitstream.model';
 import { RegistryService } from '../../core/registry/registry.service';
@@ -43,6 +43,7 @@ export class ClarinFilesSectionComponent implements OnInit, OnChanges, OnDestroy
    * determine to show download all zip button or not
    */
   canDownloadAllFiles = false;
+  totalFileCount = 0;
 
   /**
    * total size of list of files uploaded by users to this item
@@ -117,28 +118,11 @@ export class ClarinFilesSectionComponent implements OnInit, OnChanges, OnDestroy
   }
 
   generateCurlCommand() {
-    this.canShowCurlDownload = false;
-    const fileNames = this.listOfFiles.value.map((file: MetadataBitstream) => {
-      if (file.canPreview) {
-        this.canShowCurlDownload = true;
-      }
-
-      return file.name;
-    });
-
-    // Generate curl command with -o "filename" "url" pairs for each file.
-    // Each file needs its own -o + URL pair because curl URL globbing ({})
-    // does NOT support per-file -o flags (multiple -o with {} results in
-    // "Got more output options than URLs" and only the first file is saved).
-    // Using -o lets the shell pass the real filename (including UTF-8) directly.
-    const baseUrl = `${this.halService.getRootHref()}/core/bitstreams/handle/${this.itemHandle}`;
-    const parts = fileNames.map(name => {
-      const encodedName = encodeURIComponent(name)
-        .replace(/[()]/g, c => '%' + c.charCodeAt(0).toString(16).toUpperCase());
-      const safeName = name.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\$/g, '\\$').replace(/`/g, '\\`');
-      return `-o "${safeName}" "${baseUrl}/${encodedName}"`;
-    });
-    this.command = `curl ${parts.join(' ')}`;
+    this.canShowCurlDownload = this.totalFileCount > 0;
+    const handle = this.currentItemHandle;
+    const url = `${this.halService.getRootHref()}/core/items/${this.item.uuid}/allzip?handleId=${encodeURIComponent(handle)}`;
+    const quote = (value: string) => "'" + value.replace(/'/g, "'\\''") + "'";
+    this.command = `curl --fail --location --output ${quote(handle.replace('/', '-') + '.zip')} ${quote(url)}`;
   }
 
   loadDownloadZipConfigProperties() {
@@ -182,12 +166,15 @@ export class ClarinFilesSectionComponent implements OnInit, OnChanges, OnDestroy
     }
 
     this.currentItemHandle = handle;
+    this.totalFileCount = 0;
+    this.canShowCurlDownload = false;
     this.filesSubscription?.unsubscribe();
     this.filesSubscription = this.registryService
-      .getMetadataBitstream(handle, 'ORIGINAL')
-      .pipe(getAllSucceededRemoteListPayload())
-      .subscribe((data: MetadataBitstream[]) => {
-        this.listOfFiles.next(data);
+      .getMetadataBitstream(handle, 'ORIGINAL', { currentPage: 1, elementsPerPage: 1 })
+      .pipe(getFirstSucceededRemoteDataPayload())
+      .subscribe((data) => {
+        this.listOfFiles.next(data.page || []);
+        this.totalFileCount = data.totalElements;
         this.generateCurlCommand();
       });
   }

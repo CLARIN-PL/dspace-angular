@@ -1,0 +1,11 @@
+[Unit]
+Description=Check DSpace frontend recovery every 15 seconds
+
+[Timer]
+OnBootSec=90
+OnUnitActiveSec=15
+AccuracySec=1
+Unit=clarin-dspace-frontend-watchdog.service
+
+[Install]
+WantedBy=timers.target

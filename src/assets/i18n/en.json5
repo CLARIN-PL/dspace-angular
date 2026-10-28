@@ -1,4 +1,7 @@
 {
+  "item.files.load-error": "Files could not be loaded. Please try again.",
+  "item.files.loaded-count": "Showing {{loaded}} of {{total}} files",
+  "item.files.load-more": "Load more files",
   "401.help": "You're not authorized to access this page. You can use the button below to get back to the home page.",
 
   "401.link.home-page": "Take me to the home page",
@@ -6423,7 +6426,15 @@
 
   "submission.sections.clarin-license.head.license-select-providing": ["The License Selector will provide you visual assistance to select the most appropriate license for your data or software. For the list of all supported licenses and their details visit ", "License List Page", "."],
 
-  "submission.sections.clarin-license.head.license-open-selector": "OPEN License Selector",
+  "submission.sections.clarin-license.head.license-open-selector": "Open license selector",
+
+  "submission.license.distribution.title": "Review the distribution agreement",
+  "submission.license.distribution.accept": "I accept the Distribution License Agreement",
+  "submission.license.resource.guided": "Help choosing a license",
+  "submission.license.resource.manual": "Choose from the license list",
+  "submission.license.resource.search": "Search licenses",
+  "submission.general.info.saving": "Saving…",
+  "submission.general.info.depositing": "Submitting…",
 
   "submission.sections.clarin-license.head.license-select-or": "- OR -",
 

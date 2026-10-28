@@ -4,7 +4,7 @@
 # Test build:
 # docker build -f Dockerfile.dist -t dspace/dspace-angular:dspace-7_x-dist .
 
-ARG NODE_VERSION=22-alpine
+ARG NODE_VERSION=22.23.4-alpine
 ARG UI_NAMESPACE=/
 
 FROM docker.io/node:${NODE_VERSION} AS build

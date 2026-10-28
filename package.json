@@ -5,6 +5,7 @@
     "ng": "ng",
     "config:watch": "nodemon",
     "test:rest": "ts-node --project ./tsconfig.ts-node.json scripts/test-rest.ts",
+    "test:ssr": "cross-env TS_NODE_PROJECT=tests/server/tsconfig.json node -r ts-node/register/transpile-only --test tests/server/*.test.cjs",
     "start": "yarn run start:prod",
     "start:dev": "nodemon --exec \"cross-env NODE_ENV=development yarn run serve\"",
     "start:prod": "yarn run build:prod && cross-env NODE_ENV=production yarn run serve:ssr",

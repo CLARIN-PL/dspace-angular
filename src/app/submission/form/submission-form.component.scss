@@ -10,10 +10,12 @@
 }
 
 .submission-form-footer {
-  border-radius: var(--bs-card-border-radius);
-  bottom: 0;
-  background-color: var(--bs-gray-400);
-  padding: calc(var(--bs-spacer) / 2);
+  border-radius: .75rem;
+  border: 1px solid #d9e5de;
+  bottom: .75rem;
+  background: rgba(255, 255, 255, .98);
+  box-shadow: 0 -3px 24px rgba(0, 0, 39, .08);
+  padding: 0;
   z-index: var(--ds-submission-footer-z-index);
 }
 

@@ -5,7 +5,7 @@
     (panelChange)="sectionRef.sectionChange($event)" activeIds="{{ sectionData.id }}" [destroyOnHide]="false">
     <ngb-panel id="{{ sectionData.id }}" [type]="sectionRef.isInfo() ? 'info' : ''">
       <ng-template ngbPanelTitle>
-        <span [ngClass]="{ 'text-white' : sectionRef.isInfo()}" class="float-left section-title" tabindex="0">{{
+        <span [ngClass]="{ 'text-white' : sectionRef.isInfo()}" class="section-title">{{
           'submission.sections.'+sectionData.header | translate
           }}</span>
         <div class="d-inline-block float-right">
@@ -24,13 +24,12 @@
           <i *ngIf="sectionRef.isInfo()" class="fas fa-info-circle mr-3 text-white"
             title="{{'submission.sections.status.info.title' | translate}}" role="img"
             [attr.aria-label]="'submission.sections.status.info.aria' | translate"></i>
-          <a class="close" tabindex="0" role="button"
-            [attr.aria-label]="(sectionRef.isOpen() ? 'submission.sections.toggle.aria.close' : 'submission.sections.toggle.aria.open') | translate: {sectionHeader: ('submission.sections.'+sectionData.header | translate)}"
+          <span class="section-chevron" aria-hidden="true"
             [title]="(sectionRef.isOpen() ? 'submission.sections.toggle.close' : 'submission.sections.toggle.open') | translate">
             <span *ngIf="sectionRef.isOpen()" [ngClass]="{ 'text-white' : sectionRef.isInfo()}"
               class="fas fa-chevron-up fa-fw"></span>
             <span *ngIf="!sectionRef.isOpen()" class="fas fa-chevron-down fa-fw"></span>
-          </a>
+          </span>
           <a href="javascript:void(0);" class="close mr-3" *ngIf="!sectionRef.isMandatory()"
             (click)="removeSection($event)">
             <i class="fas fa-trash-o" aria-hidden="true" tabindex="0"></i>

@@ -8,14 +8,41 @@
   box-shadow: var(--bs-btn-focus-box-shadow);
 }
 
-// TODO to remove the following when upgrading @ng-bootstrap
-:host ::ng-deep .card:first-of-type {
-  border-bottom: var(--bs-card-border-width) solid var(--bs-card-border-color) !important;
-  border-bottom-left-radius: var(--bs-card-border-radius) !important;
-  border-bottom-right-radius: var(--bs-card-border-radius) !important;
-}
-
 :host ::ng-deep .card-header button {
   box-shadow: none !important;
   width: 100%;
+}
+
+:host { display: block; }
+:host ::ng-deep .card {
+  border: 1px solid #d8e4dc !important;
+  border-radius: .75rem !important;
+  box-shadow: 0 3px 12px rgba(0, 0, 39, .025);
+}
+:host ::ng-deep .card-header {
+  border-bottom: 1px solid #e0e9e3;
+  padding: 0;
+  border-radius: .75rem .75rem 0 0;
+}
+:host ::ng-deep .card-header:not(.bg-info) { background: #f7faf8; }
+:host ::ng-deep .card-header button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 64px;
+  padding: 1.125rem 1.5rem;
+  color: var(--clarin-pl-navy, #000027);
+  text-align: left;
+  text-decoration: none;
+  white-space: normal;
+}
+:host ::ng-deep .card-header button:focus-visible { outline: 3px solid #3d8063; outline-offset: -4px; }
+:host ::ng-deep .card-body { padding: 1.5rem; }
+.section-title { font-size: 1rem; font-weight: 650; line-height: 1.5; }
+.section-chevron { display: inline-block; color: #557060; font-size: .875rem; }
+.section-focus { box-shadow: 0 0 0 2px rgba(0, 127, 87, .2); border-radius: .75rem; }
+@media (max-width: 575.98px) {
+  :host ::ng-deep .card-header button { padding: 1rem; }
+  :host ::ng-deep .card-body { padding: 1rem; }
 }

@@ -1,28 +1,25 @@
-.container {
-  max-width: none;
+:host { display: block; }
+.license-title { font-size: 1.25rem; font-weight: 650; margin: 0 0 1rem; color: var(--clarin-pl-navy, #000027); }
+.agreement-link { display: inline-flex; max-width: 100%; align-items: baseline; gap: .625rem; margin-bottom: 1.5rem; font-weight: 600; }
+.agreement-link span { min-width: 0; }
+.agreement-link i { flex: 0 0 auto; }
+.agreement-link .fa-external-link-alt { font-size: .75rem; }
+.license-consent {
+  display: flex; align-items: flex-start; gap: 1rem;
+  padding: 1.25rem; margin: 0;
+  border: 1px solid #cbd9d0; border-radius: .75rem; background: #fafcfb;
+  cursor: pointer; transition: border-color .15s ease, background-color .15s ease;
 }
-
-.distribution_licnese_head {
-  font-size: 24px;
-  font-weight: 500;
-}
-
-.license-decision-message {
-  display: table-cell;
-  vertical-align: middle;
-  padding-left: 10px;
-  font-size: 14px;
-  font-weight: normal;
-  line-height: 1.4em;
-  color: #525558;
-}
-
-.ng-toggle-on {
-  background-color: green !important;
-}
-
-//.alert {
-//  color: #c09853;
-//  background-color: #fcf8e3;
-//  border: 1px solid #fbeed5;
-//}
+.license-consent:hover { border-color: #60836f; }
+.license-consent:focus-within { outline: 3px solid #3d8063; outline-offset: 3px; }
+.license-consent.is-accepted { border-color: #508468; background: #edf8f1; }
+.license-consent.is-readonly { cursor: default; }
+.license-consent input { flex: 0 0 1.25rem; width: 1.25rem; height: 1.25rem; margin-top: .2rem; accent-color: #00734e; }
+.license-consent-copy { display: flex; flex-direction: column; gap: .5rem; min-width: 0; }
+.license-consent-copy strong { color: var(--clarin-pl-navy, #000027); font-size: 1rem; }
+.license-consent-copy > span { color: #4f6059; font-size: .9rem; line-height: 1.65; max-width: 80ch; }
+.consent-status { color: #17633e; margin-top: .25rem; }
+.license-help { display: flex; align-items: baseline; gap: .625rem; color: #53665b; font-size: .875rem; margin: 1.25rem 0 0; }
+.license-help a { font-weight: 600; text-decoration: underline; }
+@media (max-width: 575.98px) { .license-consent { padding: 1rem; gap: .75rem; } .consent-status { display: none; } }
+@media (prefers-reduced-motion: reduce) { .license-consent { transition: none; } }

@@ -22,7 +22,7 @@
       <button type="button" *ngIf="
       (totalFileSizes | async) > (downloadZipMinFileSize | async) &&
       (totalFileSizes | async) < (downloadZipMaxFileSize | async) &&
-      (listOfFiles | async).length >= (downloadZipMinFileCount | async)"
+      totalFileCount >= (downloadZipMinFileCount | async)"
          class="btn btn-download" id="download-all-button" (click)="downloadFiles()">
         <span class="btn-download__icon" aria-hidden="true"><i class="fas fa-file-archive"></i></span>
         <span>

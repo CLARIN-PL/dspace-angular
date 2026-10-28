@@ -7,6 +7,8 @@ rest:
   nameSpace: /server
 
 universal:
+  maxConcurrentRenders: 4
+  renderTimeoutMs: 10000
   # Whether to tell Angular to inline "critical" styles into the server-side rendered HTML.
   # Determining which styles are critical is a relatively expensive operation; this option is
   # disabled (false) by default to boost server performance at the expense of loading smoothness.
@@ -19,7 +21,7 @@ universal:
       flag: "i"
     - pattern: "^/collections/[a-f0-9-]{36}/browse(/.*)?$"
       flag: "i"
-    - pattern: "^/browse/"
+    - pattern: "^/browse(?:/|$)"
     - pattern: "^/search$"
     - pattern: "^/community-list$"
     - pattern: "^/admin/"
@@ -69,7 +71,9 @@ cache:
       # Default is 1000, which means the 1000 most recently accessed public pages will be cached.
       # As all pages are cached in server memory, increasing this value will increase memory needs.
       # Individual cached pages are usually small (<100KB), so max=1000 should only require ~100MB of memory.
-      max: 2000
+      max: 200
+      maxSizeBytes: 67108864
+      maxEntrySizeBytes: 4194304
       # Amount of time after which cached pages are considered stale (in ms). After becoming stale, the cached
       # copy is automatically refreshed on the next request.
       # NOTE: For the bot cache, this setting may impact how quickly search engine bots will index new content on your site.

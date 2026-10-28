@@ -85,6 +85,17 @@ export class SubmissionSectionClarinLicenseDistributionComponent extends Submiss
    */
   isInit = false;
 
+  acceptanceReadOnly = false;
+
+  setAcceptance(accepted: boolean): void {
+    if (this.acceptanceReadOnly || !this.toggleAcceptation) {
+      return;
+    }
+    this.changeToNotInit();
+    this.toggleAcceptation.value = accepted;
+    this.onChange(accepted);
+  }
+
   onSectionInit(): void {
     this.isInit = true;
 
@@ -108,6 +119,7 @@ export class SubmissionSectionClarinLicenseDistributionComponent extends Submiss
         filter((isReadOnly) => isReadOnly))
         .subscribe(() => {
           model.disabled = true;
+          this.acceptanceReadOnly = true;
         }),
 
       this.sectionService.getSectionErrors(this.submissionId, this.sectionData.id).pipe(

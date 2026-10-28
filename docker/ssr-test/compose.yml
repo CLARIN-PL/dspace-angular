@@ -1,0 +1,120 @@
+name: clarin-ssr-test
+
+services:
+  dspacedb:
+    image: clarin-pl/dspace-postgres:local
+    environment:
+      PGDATA: /pgdata
+      POSTGRES_DB: dspace
+      POSTGRES_USER: dspace
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Use the local production env file only to access the cloned database}
+    volumes:
+      - pgdata:/pgdata
+    networks: [isolated]
+    mem_limit: 1g
+    healthcheck:
+      test: [CMD-SHELL, 'pg_isready -U dspace -d dspace']
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  dspacesolr:
+    image: clarin-pl/dspace-solr:local
+    environment:
+      SOLR_HEAP: 768m
+    volumes:
+      - solrdata:/var/solr/data
+    networks: [isolated]
+    mem_limit: 1536m
+    healthcheck:
+      test: [CMD-SHELL, "curl -fsS --max-time 3 'http://127.0.0.1:8983/solr/admin/cores?action=STATUS' >/dev/null"]
+      interval: 5s
+      timeout: 4s
+      retries: 30
+
+  dspace:
+    image: clarin-pl/dspace-backend:local
+    entrypoint: [/usr/local/bin/dspace-production-entrypoint]
+    command: [catalina.sh, run]
+    environment:
+      DSPACE_DATABASE_HOST: dspacedb
+      JAVA_OPTS: -Xms512m -Xmx3g
+      db__P__url: jdbc:postgresql://dspacedb:5432/dspace
+      db__P__username: dspace
+      db__P__password: ${POSTGRES_PASSWORD:?Set the local clone database password}
+      solr__P__server: http://dspacesolr:8983/solr
+      dspace__P__name: CLARIN-PL isolated SSR test
+      dspace__P__dir: /dspace
+      dspace__P__server__P__url: http://127.0.0.1:4400/server
+      dspace__P__server__P__ssr__P__url: http://dspace:8080/server
+      dspace__P__ui__P__url: http://127.0.0.1:4400/dspace
+      mail__P__server__P__disabled: 'true'
+      jwt__P__login__P__token__P__secret: local-ssr-test-only-not-a-production-secret-001
+      jwt__P__shortLived__P__token__P__secret: local-ssr-test-only-not-a-production-secret-002
+      clarin__P__token__P__encryption__P__secret: local-ssr-test-only-not-a-production-secret-003
+      assetstore__P__dir: /dspace/assetstore
+    volumes:
+      - empty_assets:/dspace/assetstore
+      - ../../../clarin-dspace/docker/production/local.cfg:/dspace/config/local.cfg:ro
+    networks: [isolated]
+    mem_limit: 4g
+    depends_on:
+      dspacedb: {condition: service_healthy}
+      dspacesolr: {condition: service_healthy}
+    healthcheck:
+      test: [CMD-SHELL, "curl -fsS --max-time 3 http://127.0.0.1:8080/server/actuator/health | grep -q '\"status\":\"UP\"'"]
+      interval: 10s
+      timeout: 4s
+      retries: 30
+      start_period: 45s
+
+  frontend:
+    image: clarin-pl/dspace-angular:ssr-candidate-20261027
+    environment:
+      NODE_ENV: production
+      NODE_OPTIONS: --max-old-space-size=2048 --enable-source-maps
+      DSPACE_APP_CONFIG_PATH: /app/config/ssr-test.yml
+      DSPACE_UI_SSL: 'false'
+      DSPACE_UI_HOST: 0.0.0.0
+      DSPACE_UI_PORT: '4000'
+      DSPACE_UI_NAMESPACE: /dspace
+      DSPACE_REST_SSL: 'false'
+      DSPACE_REST_HOST: 127.0.0.1
+      DSPACE_REST_PORT: '4400'
+      DSPACE_REST_NAMESPACE: /server
+      DSPACE_REST_SSRBASEURL: http://dspace:8080/server
+    volumes:
+      - ./config.yml:/app/config/ssr-test.yml:ro
+    networks: [isolated]
+    mem_limit: 3g
+    depends_on:
+      dspace: {condition: service_healthy}
+    healthcheck:
+      test: [CMD-SHELL, "wget -T 3 -qO- http://127.0.0.1:4000/app/live | grep -q '\"status\":\"UP\"'"]
+      interval: 10s
+      timeout: 4s
+      retries: 3
+
+  gateway:
+    image: nginx:1.30.5-alpine
+    ports: [127.0.0.1:4400:8080]
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    networks: [isolated, access]
+    depends_on:
+      frontend: {condition: service_started}
+    mem_limit: 128m
+
+networks:
+  isolated:
+    internal: true
+  access: {}
+
+volumes:
+  pgdata:
+    external: true
+    name: clarin-ssr-test-pg-20261027
+  solrdata:
+    external: true
+    name: clarin-ssr-test-solr-20261027
+  empty_assets: {}

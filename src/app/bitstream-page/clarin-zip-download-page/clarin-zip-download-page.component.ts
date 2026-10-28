@@ -59,7 +59,7 @@ export class ClarinZipDownloadPageComponent extends ClarinBitstreamDownloadPageC
     this.itemRD$.subscribe((itemRD: RemoteData<Item>)  => {
       this.bitstreamDataService.findAllByItemAndBundleName(itemRD?.payload, 'ORIGINAL', {
         currentPage: 1,
-        elementsPerPage: 9999
+        elementsPerPage: 1
       }).pipe(
         getFirstCompletedRemoteData(),
       ).subscribe((bitstreamsRD: RemoteData<PaginatedList<Bitstream>>) => {

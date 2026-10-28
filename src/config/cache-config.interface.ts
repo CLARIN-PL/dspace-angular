@@ -19,6 +19,8 @@ export interface CacheConfig extends Config {
     botCache: {
       // Maximum number of pages (rendered via SSR) to cache. Setting max=0 disables the cache.
       max: number;
+      maxSizeBytes?: number;
+      maxEntrySizeBytes?: number;
       // Amount of time after which cached pages are considered stale (in ms)
       timeToLive: number;
       // true = return page from cache after timeToLive expires. false = return a fresh page after timeToLive expires
@@ -28,6 +30,8 @@ export interface CacheConfig extends Config {
     anonymousCache: {
       // Maximum number of pages (rendered via SSR) to cache. Setting max=0 disables the cache.
       max: number;
+      maxSizeBytes?: number;
+      maxEntrySizeBytes?: number;
       // Amount of time after which cached pages are considered stale (in ms)
       timeToLive: number;
       // true = return page from cache after timeToLive expires. false = return a fresh page after timeToLive expires

@@ -3,7 +3,7 @@ import { BehaviorSubject, Subscription } from 'rxjs';
 import { MetadataBitstream } from 'src/app/core/metadata/metadata-bitstream.model';
 import { RegistryService } from 'src/app/core/registry/registry.service';
 import { Item } from 'src/app/core/shared/item.model';
-import { getAllSucceededRemoteListPayload } from 'src/app/core/shared/operators';
+import { getFirstCompletedRemoteData } from 'src/app/core/shared/operators';
 import { ConfigurationDataService } from '../../../../core/data/configuration-data.service';
 
 @Component({
@@ -17,6 +17,11 @@ export class PreviewSectionComponent implements OnInit, OnChanges, OnDestroy {
   listOfFiles: BehaviorSubject<MetadataBitstream[]> = new BehaviorSubject<MetadataBitstream[]>([] as any);
   emailToContact: string;
   hasNoFiles: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+  readonly pageSize = 10;
+  currentPage = 0;
+  totalFiles = 0;
+  loadingFiles = false;
+  filesError = false;
 
   private currentItemHandle: string;
   private filesSubscription?: Subscription;
@@ -53,13 +58,35 @@ export class PreviewSectionComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     this.currentItemHandle = handle;
+    this.currentPage = 0;
+    this.totalFiles = 0;
+    this.listOfFiles.next([]);
+    this.hasNoFiles.next(false);
+    this.loadMore();
+  }
+
+  loadMore(): void {
+    if (this.loadingFiles && this.currentPage > 0) {
+      return;
+    }
+    this.loadingFiles = true;
+    this.filesError = false;
     this.filesSubscription?.unsubscribe();
     this.filesSubscription = this.registryService
-      .getMetadataBitstream(handle, 'ORIGINAL')
-      .pipe(getAllSucceededRemoteListPayload())
-      .subscribe((data: MetadataBitstream[]) => {
-        this.listOfFiles.next(data);
-        this.hasNoFiles.next(!Array.isArray(data) || data.length === 0);
+      .getMetadataBitstream(this.currentItemHandle, 'ORIGINAL', {
+        currentPage: this.currentPage + 1, elementsPerPage: this.pageSize
+      })
+      .pipe(getFirstCompletedRemoteData())
+      .subscribe((data) => {
+        this.loadingFiles = false;
+        this.filesError = !data.hasSucceeded;
+        if (!data.hasSucceeded || !data.payload) {
+          return;
+        }
+        this.currentPage++;
+        this.totalFiles = data.payload.totalElements;
+        this.listOfFiles.next([...this.listOfFiles.value, ...(data.payload.page || [])]);
+        this.hasNoFiles.next(this.totalFiles === 0);
       });
   }
 }
